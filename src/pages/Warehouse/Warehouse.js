@@ -1,46 +1,19 @@
-import React, {Component} from 'react'
-import {Table, TableHead, TableBody, TableRow, TableCell, TableContainer, Paper} from '@material-ui/core'
+import React, { Component } from 'react'
 import classes from './Warehouse.module.scss'
+import AccountContracts from './AccountContracts/AccountContracts'
+import SearchField from './SearchField/SearchField'
 
 class Warehouse extends Component {
-
   render() {
     return (
-      <TableContainer component={Paper} className={classes.content}>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>Дата приёма</TableCell>
-              <TableCell>Номер договора</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            <TableRow>
-              <TableCell>19.04.16</TableCell>
-              <TableCell>56462</TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell>19.04.16</TableCell>
-              <TableCell>56462</TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell>19.04.16</TableCell>
-              <TableCell>56462</TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell>19.04.16</TableCell>
-              <TableCell>56462</TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell>19.04.16</TableCell>
-              <TableCell>56462</TableCell>
-            </TableRow>
-          </TableBody>
-        </Table>
-      </TableContainer>
+      <>
+        <div className={classes.search}>
+          <SearchField />
+        </div>
+        <AccountContracts />
+      </>
     )
   }
 }
-
 
 export default Warehouse

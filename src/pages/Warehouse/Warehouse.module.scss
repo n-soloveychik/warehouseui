@@ -1,8 +1,7 @@
-.content {
-  width: 90%;
+.search {
+  padding: 16px;
+  width: 100%;
   position: relative;
-  margin-top: 16px;
-  max-width: 800px;
-  left: 50%;
-  transform: translateX(-50%);
+  display: flex;
+  justify-content: flex-end;
 }
