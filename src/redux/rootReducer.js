@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux'
 
-import accountContracts from './reducers/accountContracts'
+import warehouse from './reducers/warehouse'
 
 export default combineReducers({
-  accountContracts,
+  warehouse,
 })

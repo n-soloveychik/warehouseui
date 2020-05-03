@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import classes from './Warehouse.module.scss'
-import AccountContracts from './AccountContracts/AccountContracts'
+import Lists from '@/components/Lists/Lists'
 import SearchField from './SearchField/SearchField'
 
 class Warehouse extends Component {
@@ -10,7 +10,7 @@ class Warehouse extends Component {
         <div className={classes.search}>
           <SearchField />
         </div>
-        <AccountContracts />
+        <Lists />
       </>
     )
   }
