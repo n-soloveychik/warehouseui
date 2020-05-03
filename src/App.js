@@ -1,10 +1,8 @@
-import React from 'react';
-import Routes from './Routes/Routes'
+import React from 'react'
+import Routes from '@/Routes/Routes'
 
 function App() {
-  return (
-    <Routes className="routes"/>
-  );
+  return <Routes className='routes' />
 }
 
-export default App;
+export default App
