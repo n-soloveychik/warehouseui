@@ -1,0 +1,21 @@
+.lists {
+  width: 90vw;
+  max-width: 500px;
+  min-width: 343px;
+  left: 50%;
+  display: block;
+  transform: translateX(-50%);
+  padding: 16px;
+  max-height: 600px;
+  position: relative;
+}
+
+.column {
+  position: relative;
+  max-height: 600px;
+  height: 600px;
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+  align-items: center;
+}

@@ -1,14 +1,10 @@
 import React, { Component } from 'react'
 import Lists from '@/components/Lists/Lists'
 
-class Warehouse extends Component {
-  componentDidMount() {
-    console.log(this.props)
-  }
-
+class SelectArticul extends Component {
   render() {
     return <Lists />
   }
 }
 
-export default Warehouse
+export default SelectArticul
