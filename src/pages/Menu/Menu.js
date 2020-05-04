@@ -3,10 +3,10 @@ import { NavLink } from 'react-router-dom'
 import { Button } from '@material-ui/core'
 import ArrowRightAltRoundedIcon from '@material-ui/icons/ArrowRightAltRounded'
 import SubdirectoryArrowRightRoundedIcon from '@material-ui/icons/SubdirectoryArrowRightRounded'
-import classes from './Home.module.scss'
-import styles from './Home.styles'
+import classes from './Menu.module.scss'
+import styles from './Menu.styles'
 
-class Home extends Component {
+class Menu extends Component {
   render() {
     const buttonStyle = {
       border: styles.button.border,
@@ -62,4 +62,4 @@ class Home extends Component {
   }
 }
 
-export default Home
+export default Menu

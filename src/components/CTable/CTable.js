@@ -11,19 +11,18 @@ import classes from './CTable.module.scss'
 
 class CTable extends Component {
   render() {
-    console.log(this.props)
-    const tableBody = this.props.data.map((str) => {
+    const tableBody = this.props.data.map((str, index) => {
       if (str.type) {
         return (
-          <TableRow>
-            <TableCell className={classes['single-cell']} colspan='9'>
+          <TableRow key={index}>
+            <TableCell className={classes['single-cell']} colSpan='9'>
               {str.type}
             </TableCell>
           </TableRow>
         )
       }
       return (
-        <TableRow>
+        <TableRow key={index}>
           <TableCell>{str.place}</TableCell>
           <TableCell>{str.articul}</TableCell>
           <TableCell>{str.image}</TableCell>

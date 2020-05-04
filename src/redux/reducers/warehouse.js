@@ -197,8 +197,6 @@ const initialState = {
       comment: '3000 Огненно-красный',
     },
   ],
-  currentAccountContract: null,
-  currentArticule: null,
 }
 
 const toggleAccountContract = (state, payload) => {

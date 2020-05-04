@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { List, ListItem, Paper } from '@material-ui/core'
+import { List, ListItem, Typography } from '@material-ui/core'
 import classes from './CList.module.scss'
 
 class CList extends Component {
@@ -20,7 +20,14 @@ class CList extends Component {
       )
     })
 
-    return <List className={classes.paper}>{items}</List>
+    return (
+      <>
+        <Typography variant='h5' style={{ marginBottom: 16 }}>
+          {this.props.title}
+        </Typography>
+        <List className={classes.paper}>{items}</List>
+      </>
+    )
   }
 }
 

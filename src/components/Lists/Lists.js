@@ -4,7 +4,6 @@ import classes from './Lists.module.scss'
 import CList from './CList/CList'
 import { Grid } from '@material-ui/core'
 import { toggleArticle, toggleAccountContract } from '@/redux/actions/actions'
-import CTable from './CTable/CTable'
 
 function mapStateToProps(state) {
   state = state.warehouse
@@ -27,25 +26,63 @@ function mapDispatchToProps(dispatch) {
 }
 
 class Lists extends Component {
+  state = {
+    currentAccountContract: -1,
+    currentArticule: -1,
+  }
+
+  selectAccountContract = (event, id) => {
+    this.setState({
+      currentAccountContract: id,
+    })
+    this.props.selectAccountContract(this.props.accountContracts[id])
+  }
+
+  selectArticule = (event, id) => {
+    this.setState({
+      selectArticule: id,
+    })
+    this.props.selectArticule(this.props.accountContracts[id])
+  }
+
   render() {
     return (
       <Grid container className={classes.lists} spacing={3}>
-        <Grid className={classes.column} item xs={1} sm={1} md={1} lg={1}>
+        <Grid className={classes.column} item xs={6}>
+          {/* <Tabs
+            orientation='vertical'
+            variant='scrollable'
+            value={this.state.currentAccountContract}
+            onChange={this.selectAccountContract}
+          >
+            {this.props.accountContracts.map((a, index) => (
+              <Tab key={index} label={a}></Tab>
+            ))}
+          </Tabs> */}
           <CList
+            title={'Счет - договор'}
             items={this.props.accountContracts}
             handleItemClick={this.props.selectAccountContract}
             currentItem={this.props.currentAccountContract}
           ></CList>
         </Grid>
-        <Grid className={classes.column} item xs={2} sm={2} md={2} lg={2}>
+        <Grid className={classes.column} item xs={6}>
+          {/* <Tabs
+            orientation='vertical'
+            variant='scrollable'
+            value={this.state.currentArticule}
+            onChange={this.selectArticule}
+          >
+            {this.props.accountContracts.map((a, index) => (
+              <Tab key={index} label={a}></Tab>
+            ))}
+          </Tabs> */}
           <CList
+            title='Артикул'
             items={this.props.articules}
             handleItemClick={this.props.selectArticule}
             currentItem={this.props.currentArticule}
           ></CList>
-        </Grid>
-        <Grid className={classes.column} item xs={8} sm={8} md={8} lg={8}>
-          <CTable data={this.props.products}></CTable>
         </Grid>
       </Grid>
     )
