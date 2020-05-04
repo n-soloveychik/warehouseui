@@ -1,7 +1,7 @@
 .lists {
   width: 90vw;
   max-width: 500px;
-  min-width: 343px;
+  min-width: 460px;
   left: 50%;
   display: block;
   transform: translateX(-50%);
@@ -12,8 +12,7 @@
 
 .column {
   position: relative;
-  max-height: 600px;
-  height: 600px;
+  height: calc(100vh - 40px);
   display: flex;
   flex-grow: 1;
   flex-direction: column;
