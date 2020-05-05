@@ -13,7 +13,7 @@ import DoneOutlineIcon from '@material-ui/icons/DoneOutline'
 import classes from './CTable.module.scss'
 
 const CTable = (props) => {
-  const tableBody = this.props.data.map((str, index) => {
+  const tableBody = props.data.map((str, index) => {
     if (str.type) {
       return (
         <TableRow style={{ position: 'sticky' }} key={index}>

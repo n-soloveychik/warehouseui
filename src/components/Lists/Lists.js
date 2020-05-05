@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 import classes from './Lists.module.scss'
 import CList from './CList/CList'
@@ -25,29 +25,25 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-class Lists extends Component {
-  render() {
-    return (
-      <Grid container className={classes.lists} spacing={3}>
-        <Grid className={classes.column} item xs={6}>
-          <CList
-            title={'Счет - договор'}
-            items={this.props.accountContracts}
-            handleItemClick={this.props.selectAccountContract}
-            currentItem={this.props.currentAccountContract}
-          ></CList>
-        </Grid>
-        <Grid className={classes.column} item xs={6}>
-          <CList
-            title='Артикул'
-            items={this.props.articules}
-            handleItemClick={this.props.selectArticule}
-            currentItem={this.props.currentArticule}
-          ></CList>
-        </Grid>
-      </Grid>
-    )
-  }
-}
+const Lists = (props) => (
+  <Grid container className={classes.lists} spacing={3}>
+    <Grid className={classes.column} item xs={6}>
+      <CList
+        title={'Счет - договор'}
+        items={props.accountContracts}
+        handleItemClick={props.selectAccountContract}
+        currentItem={props.currentAccountContract}
+      ></CList>
+    </Grid>
+    <Grid className={classes.column} item xs={6}>
+      <CList
+        title='Артикул'
+        items={props.articules}
+        handleItemClick={props.selectArticule}
+        currentItem={props.currentArticule}
+      ></CList>
+    </Grid>
+  </Grid>
+)
 
 export default connect(mapStateToProps, mapDispatchToProps)(Lists)
