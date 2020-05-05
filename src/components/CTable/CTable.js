@@ -54,7 +54,14 @@ const CTable = (props) => {
   return (
     <div style={{ height: 'calc(100vh - 80px)', overflow: 'auto' }}>
       <Table style={{ height: 'auto' }} size='small'>
-        <TableHead style={{ position: 'sticky', top: 0 }}>
+        <TableHead
+          style={{
+            position: 'sticky',
+            top: 0,
+            backgroundColor: 'white',
+            zIndex: 1,
+          }}
+        >
           <TableRow>
             <TableCell style={{ textAlign: 'center' }}>Место</TableCell>
             <TableCell style={{ textAlign: 'center' }}>Артикул</TableCell>
