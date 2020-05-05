@@ -200,7 +200,7 @@ class Items extends Component {
     sideOpened: false,
   }
 
-  toggleSidebar = () => {
+  selectSidebar = () => {
     this.setState({
       sideOpened: !this.state.sideOpened,
     })
@@ -214,14 +214,14 @@ class Items extends Component {
         <IconButton
           style={{ position: 'absolute' }}
           className={classes.IconButton}
-          onClick={this.toggleSidebar}
+          onClick={this.selectSidebar}
         >
           <ArrowForwardIosIcon />
         </IconButton>
         <Drawer className={classes.Side} open={this.state.sideOpened}>
           <Lists></Lists>
           <IconButton
-            onClick={this.toggleSidebar}
+            onClick={this.selectSidebar}
             style={{ position: 'absolute' }}
             className={classes['Side-IconButton']}
           >

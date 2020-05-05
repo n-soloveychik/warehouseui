@@ -1,6 +1,6 @@
 import {
-  TOGGLE_CURRENT_ACCOUNT_CONTRACT,
-  TOGGLE_CURRENT_ARTICLE,
+  SELECT_CURRENT_ACCOUNT_CONTRACT,
+  SELECT_CURRENT_ARTICLE,
 } from '@/redux/actions/actionNames'
 
 const makeList = () =>
@@ -197,38 +197,43 @@ const initialState = {
       comment: '3000 Огненно-красный',
     },
   ],
+  currentAccountContract: null,
+  currentArticule: null,
 }
 
-const toggleAccountContract = (state, payload) => {
-  if (!Object.keys(state.list).includes(payload))
+const selectAccountContract = (state, accontContract) => {
+  if (!Object.keys(state.list).includes(accontContract))
     return Object.assign({}, state)
   return Object.assign({}, state, {
-    currentAccountContract:
-      state.currentAccountContract === payload ? null : payload,
-    currentArticule: null,
+    currentAccountContract: accontContract,
+    currentArticule:
+      state.currentAccountContract === accontContract
+        ? state.currentArticule
+        : null,
   })
 }
 
-const toggleArticle = (state, payload) => {
+const selectArticule = (state, articule) => {
   if (
     !state.currentAccountContract ||
     !Object.keys(state.list).includes(state.currentAccountContract) ||
-    !payload ||
-    !Object.keys(state.list[state.currentAccountContract]).includes(payload)
-  )
+    !articule ||
+    !state.list[state.currentAccountContract].includes(articule)
+  ) {
     return Object.assign({}, state)
+  }
   return Object.assign({}, state, {
-    currentArticule: state.currentArticule === payload ? null : payload,
+    currentArticule: articule,
   })
 }
 
 export default function (state = initialState, action) {
   switch (action.type) {
-    case TOGGLE_CURRENT_ACCOUNT_CONTRACT: {
-      return toggleAccountContract(state, action.payload)
+    case SELECT_CURRENT_ACCOUNT_CONTRACT: {
+      return selectAccountContract(state, action.payload)
     }
-    case TOGGLE_CURRENT_ARTICLE: {
-      return toggleArticle(state, action.payload)
+    case SELECT_CURRENT_ARTICLE: {
+      return selectArticule(state, action.payload)
     }
     default: {
       return state

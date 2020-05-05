@@ -1,14 +1,14 @@
 import {
-  TOGGLE_CURRENT_ACCOUNT_CONTRACT,
-  TOGGLE_CURRENT_ARTICLE,
+  SELECT_CURRENT_ACCOUNT_CONTRACT,
+  SELECT_CURRENT_ARTICLE,
 } from './actionNames'
 
-export const toggleAccountContract = (id) => ({
-  type: TOGGLE_CURRENT_ACCOUNT_CONTRACT,
+export const selectAccountContract = (id) => ({
+  type: SELECT_CURRENT_ACCOUNT_CONTRACT,
   payload: id,
 })
 
-export const toggleArticle = (id) => ({
-  type: TOGGLE_CURRENT_ARTICLE,
+export const selectArticule = (id) => ({
+  type: SELECT_CURRENT_ARTICLE,
   payload: id,
 })
