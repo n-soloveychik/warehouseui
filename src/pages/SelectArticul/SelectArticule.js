@@ -30,11 +30,10 @@ class SelectArticule extends Component {
 
   redirectIfNeed() {
     let currentParams = new URLSearchParams(this.props.location.search)
-    let accountContractFromQueryParams = currentParams.get(
-      'currentAccountContract',
-    )
-    let articuleFromQueryParams = currentParams.get('currentArticule')
-    if (accountContractFromQueryParams && articuleFromQueryParams) {
+    if (
+      currentParams.has('currentAccountContract') &&
+      currentParams.has('currentArticule')
+    ) {
       this.props.history.push({
         pathname: '/items',
         search: currentParams.toString(),
@@ -74,7 +73,7 @@ class SelectArticule extends Component {
     ) {
       this.props.history.push({
         pathname: this.props.location.pathname,
-        search: newParams.toString() ? '?' + newParams.toString() : '',
+        search: newParams.toString(),
       })
     }
   }

@@ -3,7 +3,7 @@ import Lists from '@/components/Lists/Lists'
 import CTable from '@/components/CTable/CTable'
 import CHeader from '@/components/CHeader/CHeader'
 import classes from './Items.module.scss'
-import { IconButton, Drawer } from '@material-ui/core'
+import { IconButton, SwipeableDrawer } from '@material-ui/core'
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos'
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos'
 
@@ -200,9 +200,21 @@ class Items extends Component {
     sideOpened: false,
   }
 
-  selectSidebar = () => {
+  toggleSidebar = () => {
     this.setState({
       sideOpened: !this.state.sideOpened,
+    })
+  }
+
+  openSidebar = () => {
+    this.setState({
+      sideOpened: true,
+    })
+  }
+
+  closeSidebar = () => {
+    this.setState({
+      sideOpened: false,
     })
   }
 
@@ -214,20 +226,25 @@ class Items extends Component {
         <IconButton
           style={{ position: 'absolute' }}
           className={classes.IconButton}
-          onClick={this.selectSidebar}
+          onClick={this.toggleSidebar}
         >
           <ArrowForwardIosIcon />
         </IconButton>
-        <Drawer className={classes.Side} open={this.state.sideOpened}>
+        <SwipeableDrawer
+          onOpen={this.openSidebar}
+          onClose={this.closeSidebar}
+          className={classes.Side}
+          open={this.state.sideOpened}
+        >
           <Lists></Lists>
           <IconButton
-            onClick={this.selectSidebar}
+            onClick={this.toggleSidebar}
             style={{ position: 'absolute' }}
             className={classes['Side-IconButton']}
           >
             <ArrowBackIosIcon></ArrowBackIosIcon>
           </IconButton>
-        </Drawer>
+        </SwipeableDrawer>
       </div>
     )
   }
