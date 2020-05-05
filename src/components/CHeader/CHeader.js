@@ -1,12 +1,5 @@
 import React from 'react'
-import {
-  AppBar,
-  Toolbar,
-  Typography,
-  IconButton,
-  Button,
-} from '@material-ui/core'
-import MenuIcon from '@material-ui/icons/Menu'
+import { AppBar, Toolbar, Typography, Button } from '@material-ui/core'
 
 const CHeader = (props) => (
   <AppBar position='static'>
