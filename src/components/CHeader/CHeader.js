@@ -27,7 +27,9 @@ class CHeader extends Component {
             <MenuIcon />
           </IconButton>
           <Button style={{ color: 'white' }}>
-            <Typography variant='h6'>8863 / 4352.0000.0000</Typography>
+            <Typography onClick={this.props.onTextClick} variant='h6'>
+              8863 / 4352.0000.0000
+            </Typography>
           </Button>
         </Toolbar>
       </AppBar>

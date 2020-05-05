@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import Lists from '@/components/Lists/Lists'
 import CTable from '@/components/CTable/CTable'
 import CHeader from '@/components/CHeader/CHeader'
@@ -6,6 +7,7 @@ import classes from './Items.module.scss'
 import { IconButton, SwipeableDrawer } from '@material-ui/core'
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos'
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos'
+import { selectAccountContract, selectArticule } from '@/redux/actions/actions'
 
 const table = [
   { type: 'Фанера' },
@@ -200,6 +202,68 @@ class Items extends Component {
     sideOpened: false,
   }
 
+  componentDidMount() {
+    this.setStateFromQueryParams()
+    this.openDrawerOnStart()
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    this.setQueryParams()
+    if (
+      this.props.currentArticule &&
+      prevProps.currentArticule !== this.props.currentArticule
+    ) {
+      this.closeSidebar()
+    }
+  }
+
+  openDrawerOnStart() {
+    let currentParams = new URLSearchParams(this.props.location.search)
+    if (
+      !currentParams.has('currentAccountContract') ||
+      !currentParams.has('currentArticule')
+    ) {
+      this.setState({ sideOpened: true })
+    }
+  }
+
+  setStateFromQueryParams() {
+    let currentParams = new URLSearchParams(this.props.location.search)
+    let accountContractFromQueryParams = currentParams.get(
+      'currentAccountContract',
+    )
+    let articuleFromQueryParams = currentParams.get('currentArticule')
+    if (accountContractFromQueryParams) {
+      this.props.selectAccountContract(accountContractFromQueryParams)
+    }
+    if (articuleFromQueryParams) {
+      this.props.selectArticule(articuleFromQueryParams)
+    }
+  }
+
+  setQueryParams() {
+    let newParams = new URLSearchParams()
+    let currentParams = new URLSearchParams(this.props.location.search)
+    if (this.props.currentAccountContract) {
+      newParams.append(
+        'currentAccountContract',
+        this.props.currentAccountContract,
+      )
+    }
+    if (this.props.currentArticule) {
+      newParams.append('currentArticule', this.props.currentArticule)
+    }
+    if (
+      newParams.toString() &&
+      newParams.toString() !== currentParams.toString()
+    ) {
+      this.props.history.push({
+        pathname: this.props.location.pathname,
+        search: newParams.toString(),
+      })
+    }
+  }
+
   toggleSidebar = () => {
     this.setState({
       sideOpened: !this.state.sideOpened,
@@ -221,7 +285,7 @@ class Items extends Component {
   render() {
     return (
       <div className={classes.Items}>
-        <CHeader></CHeader>
+        <CHeader onTextClick={this.openSidebar}></CHeader>
         <CTable data={table}></CTable>
         <IconButton
           style={{ position: 'absolute' }}
@@ -250,4 +314,18 @@ class Items extends Component {
   }
 }
 
-export default Items
+function mapStateToProps(state) {
+  return {
+    currentAccountContract: state.warehouse.currentAccountContract,
+    currentArticule: state.warehouse.currentArticule,
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    selectAccountContract: (id) => dispatch(selectAccountContract(id)),
+    selectArticule: (id) => dispatch(selectArticule(id)),
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Items)
