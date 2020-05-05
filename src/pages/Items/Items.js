@@ -283,12 +283,12 @@ class Items extends Component {
   }
 
   render() {
+    const headerText = this.props.currentArticule
+      ? `${this.props.currentAccountContract} / ${this.props.currentArticule}`
+      : 'Открыть артикул'
     return (
       <div className={classes.Items}>
-        <CHeader
-          text={`${this.props.currentAccountContract} / ${this.props.currentArticule}`}
-          onTextClick={this.openSidebar}
-        ></CHeader>
+        <CHeader text={headerText} onTextClick={this.openSidebar}></CHeader>
         <CTable data={table}></CTable>
         <IconButton
           style={{ position: 'absolute' }}
