@@ -285,7 +285,10 @@ class Items extends Component {
   render() {
     return (
       <div className={classes.Items}>
-        <CHeader onTextClick={this.openSidebar}></CHeader>
+        <CHeader
+          text={`${this.props.currentAccountContract} / ${this.props.currentArticule}`}
+          onTextClick={this.openSidebar}
+        ></CHeader>
         <CTable data={table}></CTable>
         <IconButton
           style={{ position: 'absolute' }}
