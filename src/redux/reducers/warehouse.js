@@ -230,10 +230,10 @@ const selectArticule = (state, articule) => {
 export default function (state = initialState, action) {
   switch (action.type) {
     case SELECT_CURRENT_ACCOUNT_CONTRACT: {
-      return selectAccountContract(state, action.payload)
+      return selectAccountContract(state, action.accountContract)
     }
     case SELECT_CURRENT_ARTICLE: {
-      return selectArticule(state, action.payload)
+      return selectArticule(state, action.articule)
     }
     default: {
       return state
