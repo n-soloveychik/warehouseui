@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import classes from './Lists.module.scss'
 import CList from './CList/CList'
 import { Grid } from '@material-ui/core'
-import { toggleArticle, toggleAccountContract } from '@/redux/actions/actions'
+import { selectArticule, selectAccountContract } from '@/redux/actions/actions'
 
 function mapStateToProps(state) {
   state = state.warehouse
@@ -20,45 +20,16 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    selectAccountContract: (id) => dispatch(toggleAccountContract(id)),
-    selectArticule: (id) => dispatch(toggleArticle(id)),
+    selectAccountContract: (id) => dispatch(selectAccountContract(id)),
+    selectArticule: (id) => dispatch(selectArticule(id)),
   }
 }
 
 class Lists extends Component {
-  state = {
-    currentAccountContract: -1,
-    currentArticule: -1,
-  }
-
-  selectAccountContract = (event, id) => {
-    this.setState({
-      currentAccountContract: id,
-    })
-    this.props.selectAccountContract(this.props.accountContracts[id])
-  }
-
-  selectArticule = (event, id) => {
-    this.setState({
-      selectArticule: id,
-    })
-    this.props.selectArticule(this.props.accountContracts[id])
-  }
-
   render() {
     return (
       <Grid container className={classes.lists} spacing={3}>
         <Grid className={classes.column} item xs={6}>
-          {/* <Tabs
-            orientation='vertical'
-            variant='scrollable'
-            value={this.state.currentAccountContract}
-            onChange={this.selectAccountContract}
-          >
-            {this.props.accountContracts.map((a, index) => (
-              <Tab key={index} label={a}></Tab>
-            ))}
-          </Tabs> */}
           <CList
             title={'Счет - договор'}
             items={this.props.accountContracts}
@@ -67,16 +38,6 @@ class Lists extends Component {
           ></CList>
         </Grid>
         <Grid className={classes.column} item xs={6}>
-          {/* <Tabs
-            orientation='vertical'
-            variant='scrollable'
-            value={this.state.currentArticule}
-            onChange={this.selectArticule}
-          >
-            {this.props.accountContracts.map((a, index) => (
-              <Tab key={index} label={a}></Tab>
-            ))}
-          </Tabs> */}
           <CList
             title='Артикул'
             items={this.props.articules}
