@@ -1,6 +1,6 @@
 import {
   SELECT_CURRENT_ACCOUNT_CONTRACT,
-  SELECT_CURRENT_ARTICLE,
+  SELECT_CURRENT_VENDOR_CODE,
 } from '@/redux/actions/actionNames'
 
 const makeList = () =>
@@ -198,7 +198,7 @@ const initialState = {
     },
   ],
   currentAccountContract: null,
-  currentArticule: null,
+  currentVendorCode: null,
 }
 
 const selectAccountContract = (state, accontContract) => {
@@ -206,24 +206,24 @@ const selectAccountContract = (state, accontContract) => {
     return Object.assign({}, state)
   return Object.assign({}, state, {
     currentAccountContract: accontContract,
-    currentArticule:
+    currentVendorCode:
       state.currentAccountContract === accontContract
-        ? state.currentArticule
+        ? state.currentVendorCode
         : null,
   })
 }
 
-const selectArticule = (state, articule) => {
+const selectVendorCode = (state, vendorCode) => {
   if (
     !state.currentAccountContract ||
     !Object.keys(state.list).includes(state.currentAccountContract) ||
-    !articule ||
-    !state.list[state.currentAccountContract].includes(articule)
+    !vendorCode ||
+    !state.list[state.currentAccountContract].includes(vendorCode)
   ) {
     return Object.assign({}, state)
   }
   return Object.assign({}, state, {
-    currentArticule: articule,
+    currentVendorCode: vendorCode,
   })
 }
 
@@ -232,8 +232,8 @@ export default function (state = initialState, action) {
     case SELECT_CURRENT_ACCOUNT_CONTRACT: {
       return selectAccountContract(state, action.accountContract)
     }
-    case SELECT_CURRENT_ARTICLE: {
-      return selectArticule(state, action.articule)
+    case SELECT_CURRENT_VENDOR_CODE: {
+      return selectVendorCode(state, action.vendorCode)
     }
     default: {
       return state

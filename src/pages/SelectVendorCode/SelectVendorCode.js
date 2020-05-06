@@ -1,23 +1,26 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import Lists from '@/components/Lists/Lists'
-import { selectAccountContract, selectArticule } from '@/redux/actions/actions'
+import {
+  selectAccountContract,
+  selectVendorCode,
+} from '@/redux/actions/actions'
 
 function mapStateToProps(state) {
   return {
     currentAccountContract: state.warehouse.currentAccountContract,
-    currentArticule: state.warehouse.currentArticule,
+    currentVendorCode: state.warehouse.currentVendorCode,
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
     selectAccountContract: (id) => dispatch(selectAccountContract(id)),
-    selectArticule: (id) => dispatch(selectArticule(id)),
+    selectVendorCode: (id) => dispatch(selectVendorCode(id)),
   }
 }
 
-class SelectArticule extends Component {
+class SelectVendorCode extends Component {
   componentDidMount() {
     this.setStateFromQueryParams()
     this.redirectIfNeed()
@@ -32,7 +35,7 @@ class SelectArticule extends Component {
     let currentParams = new URLSearchParams(this.props.location.search)
     if (
       currentParams.has('currentAccountContract') &&
-      currentParams.has('currentArticule')
+      currentParams.has('currentVendorCode')
     ) {
       this.props.history.push({
         pathname: '/items',
@@ -46,12 +49,12 @@ class SelectArticule extends Component {
     let accountContractFromQueryParams = currentParams.get(
       'currentAccountContract',
     )
-    let articuleFromQueryParams = currentParams.get('currentArticule')
+    let vendorCodeFromQueryParams = currentParams.get('currentVendorCode')
     if (accountContractFromQueryParams) {
       this.props.selectAccountContract(accountContractFromQueryParams)
     }
-    if (articuleFromQueryParams) {
-      this.props.selectArticule(articuleFromQueryParams)
+    if (vendorCodeFromQueryParams) {
+      this.props.selectVendorCode(vendorCodeFromQueryParams)
     }
   }
 
@@ -64,8 +67,8 @@ class SelectArticule extends Component {
         this.props.currentAccountContract,
       )
     }
-    if (this.props.currentArticule) {
-      newParams.append('currentArticule', this.props.currentArticule)
+    if (this.props.currentVendorCode) {
+      newParams.append('currentVendorCode', this.props.currentVendorCode)
     }
     if (
       newParams.toString() &&
@@ -83,4 +86,4 @@ class SelectArticule extends Component {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SelectArticule)
+export default connect(mapStateToProps, mapDispatchToProps)(SelectVendorCode)

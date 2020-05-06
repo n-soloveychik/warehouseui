@@ -7,7 +7,10 @@ import classes from './Items.module.scss'
 import { IconButton, SwipeableDrawer } from '@material-ui/core'
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos'
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos'
-import { selectAccountContract, selectArticule } from '@/redux/actions/actions'
+import {
+  selectAccountContract,
+  selectVendorCode,
+} from '@/redux/actions/actions'
 
 const table = [
   { type: 'Фанера' },
@@ -210,8 +213,8 @@ class Items extends Component {
   componentDidUpdate(prevProps, prevState) {
     this.setQueryParams()
     if (
-      this.props.currentArticule &&
-      prevProps.currentArticule !== this.props.currentArticule
+      this.props.currentVendorCode &&
+      prevProps.currentVendorCode !== this.props.currentVendorCode
     ) {
       this.closeSidebar()
     }
@@ -221,7 +224,7 @@ class Items extends Component {
     let currentParams = new URLSearchParams(this.props.location.search)
     if (
       !currentParams.has('currentAccountContract') ||
-      !currentParams.has('currentArticule')
+      !currentParams.has('currentVendorCode')
     ) {
       this.setState({ sideOpened: true })
     }
@@ -232,12 +235,12 @@ class Items extends Component {
     let accountContractFromQueryParams = currentParams.get(
       'currentAccountContract',
     )
-    let articuleFromQueryParams = currentParams.get('currentArticule')
+    let vendorCodeFromQueryParams = currentParams.get('currentVendorCode')
     if (accountContractFromQueryParams) {
       this.props.selectAccountContract(accountContractFromQueryParams)
     }
-    if (articuleFromQueryParams) {
-      this.props.selectArticule(articuleFromQueryParams)
+    if (vendorCodeFromQueryParams) {
+      this.props.selectVendorCode(vendorCodeFromQueryParams)
     }
   }
 
@@ -250,8 +253,8 @@ class Items extends Component {
         this.props.currentAccountContract,
       )
     }
-    if (this.props.currentArticule) {
-      newParams.append('currentArticule', this.props.currentArticule)
+    if (this.props.currentVendorCode) {
+      newParams.append('currentVendorCode', this.props.currentVendorCode)
     }
     if (
       newParams.toString() &&
@@ -283,8 +286,8 @@ class Items extends Component {
   }
 
   render() {
-    const headerText = this.props.currentArticule
-      ? `${this.props.currentAccountContract} / ${this.props.currentArticule}`
+    const headerText = this.props.currentVendorCode
+      ? `${this.props.currentAccountContract} / ${this.props.currentVendorCode}`
       : 'Открыть артикул'
     return (
       <div className={classes.Items}>
@@ -320,14 +323,14 @@ class Items extends Component {
 function mapStateToProps(state) {
   return {
     currentAccountContract: state.warehouse.currentAccountContract,
-    currentArticule: state.warehouse.currentArticule,
+    currentVendorCode: state.warehouse.currentVendorCode,
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
     selectAccountContract: (id) => dispatch(selectAccountContract(id)),
-    selectArticule: (id) => dispatch(selectArticule(id)),
+    selectVendorCode: (id) => dispatch(selectVendorCode(id)),
   }
 }
 
