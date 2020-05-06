@@ -29,14 +29,14 @@ const CTable = (props) => {
     }
     return (
       <TableRow key={index}>
-        <TableCell style={{ textAlign: 'center' }}>{str.place}</TableCell>
-        <TableCell style={{ textAlign: 'center' }}>{str.articul}</TableCell>
+        <TableCell style={{ textAlign: 'center' }}>{str.lot}</TableCell>
+        <TableCell style={{ textAlign: 'center' }}>{str.vendor_code}</TableCell>
         <TableCell style={{ textAlign: 'center' }}>{str.image}</TableCell>
         <TableCell style={{ textAlign: 'center' }}>{str.size}</TableCell>
-        <TableCell style={{ textAlign: 'center' }}>{str.quantity}</TableCell>
-        <TableCell style={{ textAlign: 'center' }}>{str.mass}</TableCell>
+        <TableCell style={{ textAlign: 'center' }}>{str.count}</TableCell>
+        <TableCell style={{ textAlign: 'center' }}>{str.weight}</TableCell>
         <TableCell>
-          <Typography variant={'caption'}>{str.comment}</Typography>
+          <Typography variant={'caption'}>{str.description}</Typography>
         </TableCell>
         <TableCell style={{ paddingRight: 0 }}>
           <IconButton size={'small'}>

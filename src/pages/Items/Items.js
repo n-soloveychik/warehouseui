@@ -12,194 +12,6 @@ import {
   selectVendorCode,
 } from '@/redux/actions/actions'
 
-const table = [
-  { type: 'Фанера' },
-  {
-    place: '01-001',
-    articul: '0000.0000.6543',
-    image: '',
-    size: '723*720*21',
-    quantity: '1',
-    mass: '6.5',
-    comment: '3000 Огненно-красный',
-  },
-  {
-    place: '01-001',
-    articul: '0000.0000.6543',
-    image: '',
-    size: '723*720*21',
-    quantity: '1',
-    mass: '6.5',
-    comment: '3000 Огненно-красный',
-  },
-  {
-    place: '01-001',
-    articul: '0000.0000.6543',
-    image: '',
-    size: '723*720*21',
-    quantity: '1',
-    mass: '6.5',
-    comment: '3000 Огненно-красный',
-  },
-  {
-    place: '01-001',
-    articul: '0000.0000.6543',
-    image: '',
-    size: '723*720*21',
-    quantity: '1',
-    mass: '6.5',
-    comment: '3000 Огненно-красный',
-  },
-  { type: 'Фанера' },
-  {
-    place: '01-001',
-    articul: '0000.0000.6543',
-    image: '',
-    size: '723*720*21',
-    quantity: '1',
-    mass: '6.5',
-    comment: '3000 Огненно-красный',
-  },
-  {
-    place: '01-001',
-    articul: '0000.0000.6543',
-    image: '',
-    size: '723*720*21',
-    quantity: '1',
-    mass: '6.5',
-    comment: '3000 Огненно-красный',
-  },
-  {
-    place: '01-001',
-    articul: '0000.0000.6543',
-    image: '',
-    size: '723*720*21',
-    quantity: '1',
-    mass: '6.5',
-    comment: '3000 Огненно-красный',
-  },
-  {
-    place: '01-001',
-    articul: '0000.0000.6543',
-    image: '',
-    size: '723*720*21',
-    quantity: '1',
-    mass: '6.5',
-    comment: '3000 Огненно-красный',
-  },
-  { type: 'Фанера' },
-  {
-    place: '01-001',
-    articul: '0000.0000.6543',
-    image: '',
-    size: '723*720*21',
-    quantity: '1',
-    mass: '6.5',
-    comment: '3000 Огненно-красный',
-  },
-  {
-    place: '01-001',
-    articul: '0000.0000.6543',
-    image: '',
-    size: '723*720*21',
-    quantity: '1',
-    mass: '6.5',
-    comment: '3000 Огненно-красный',
-  },
-  {
-    place: '01-001',
-    articul: '0000.0000.6543',
-    image: '',
-    size: '723*720*21',
-    quantity: '1',
-    mass: '6.5',
-    comment: '3000 Огненно-красный',
-  },
-  {
-    place: '01-001',
-    articul: '0000.0000.6543',
-    image: '',
-    size: '723*720*21',
-    quantity: '1',
-    mass: '6.5',
-    comment: '3000 Огненно-красный',
-  },
-  { type: 'Фанера' },
-  {
-    place: '01-001',
-    articul: '0000.0000.6543',
-    image: '',
-    size: '723*720*21',
-    quantity: '1',
-    mass: '6.5',
-    comment: '3000 Огненно-красный',
-  },
-  {
-    place: '01-001',
-    articul: '0000.0000.6543',
-    image: '',
-    size: '723*720*21',
-    quantity: '1',
-    mass: '6.5',
-    comment: '3000 Огненно-красный',
-  },
-  {
-    place: '01-001',
-    articul: '0000.0000.6543',
-    image: '',
-    size: '723*720*21',
-    quantity: '1',
-    mass: '6.5',
-    comment: '3000 Огненно-красный',
-  },
-  {
-    place: '01-001',
-    articul: '0000.0000.6543',
-    image: '',
-    size: '723*720*21',
-    quantity: '1',
-    mass: '6.5',
-    comment: '3000 Огненно-красный',
-  },
-  { type: 'Фанера' },
-  {
-    place: '01-001',
-    articul: '0000.0000.6543',
-    image: '',
-    size: '723*720*21',
-    quantity: '1',
-    mass: '6.5',
-    comment: '3000 Огненно-красный',
-  },
-  {
-    place: '01-001',
-    articul: '0000.0000.6543',
-    image: '',
-    size: '723*720*21',
-    quantity: '1',
-    mass: '6.5',
-    comment: '3000 Огненно-красный',
-  },
-  {
-    place: '01-001',
-    articul: '0000.0000.6543',
-    image: '',
-    size: '723*720*21',
-    quantity: '1',
-    mass: '6.5',
-    comment: '3000 Огненно-красный',
-  },
-  {
-    place: '01-001',
-    articul: '0000.0000.6543',
-    image: '',
-    size: '723*720*21',
-    quantity: '1',
-    mass: '6.5',
-    comment: '3000 Огненно-красный',
-  },
-]
-
 class Items extends Component {
   state = {
     sideOpened: false,
@@ -292,7 +104,7 @@ class Items extends Component {
     return (
       <div className={classes.Items}>
         <CHeader text={headerText} onTextClick={this.openSidebar}></CHeader>
-        <CTable data={table}></CTable>
+        <CTable data={this.props.table}></CTable>
         <IconButton
           style={{ position: 'absolute' }}
           className={classes.IconButton}
@@ -324,6 +136,7 @@ function mapStateToProps(state) {
   return {
     currentAccountContract: state.warehouse.currentAccountContract,
     currentVendorCode: state.warehouse.currentVendorCode,
+    table: state.warehouse.table,
   }
 }
 
