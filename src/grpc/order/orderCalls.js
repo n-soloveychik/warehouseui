@@ -1,5 +1,5 @@
-export const getAccountContractsHandler = async (grpcProc) => {
+export const getOrdersHandler = async (grpcProc) => {
   const result = await grpcProc()
   if (result.status === 'fail') throw new Error(result.message)
-  return result.accountContracts
+  return result.orders
 }

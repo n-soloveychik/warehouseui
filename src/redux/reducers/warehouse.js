@@ -213,29 +213,27 @@ const initialState = {
       description: '3000 Огненно-красный',
     },
   ],
-  isCallingGetAccountContracts: false,
-  currentAccountContract: null,
+  isCallingGetOrders: false,
+  currentOrder: null,
   currentVendorCode: null,
 }
 
-const selectAccountContract = (state, accontContract) => {
+const selectOrder = (state, accontContract) => {
   if (!Object.keys(state.list).includes(accontContract))
     return Object.assign({}, state)
   return Object.assign({}, state, {
-    currentAccountContract: accontContract,
+    currentOrder: accontContract,
     currentVendorCode:
-      state.currentAccountContract === accontContract
-        ? state.currentVendorCode
-        : null,
+      state.currentOrder === accontContract ? state.currentVendorCode : null,
   })
 }
 
 const selectVendorCode = (state, vendorCode) => {
   if (
-    !state.currentAccountContract ||
-    !Object.keys(state.list).includes(state.currentAccountContract) ||
+    !state.currentOrder ||
+    !Object.keys(state.list).includes(state.currentOrder) ||
     !vendorCode ||
-    !state.list[state.currentAccountContract].includes(vendorCode)
+    !state.list[state.currentOrder].includes(vendorCode)
   ) {
     return Object.assign({}, state)
   }
@@ -247,24 +245,24 @@ const selectVendorCode = (state, vendorCode) => {
 export default function (state = initialState, action) {
   switch (action.type) {
     case SELECT_CURRENT_ACCOUNT_CONTRACT: {
-      return selectAccountContract(state, action.accountContract)
+      return selectOrder(state, action.order)
     }
     case SELECT_CURRENT_VENDOR_CODE: {
       return selectVendorCode(state, action.vendorCode)
     }
     case GRPC.ACCOUNT_CONTRACT.GET.CALL: {
       return Object.assign({}, state, {
-        isCallingGetAccountContracts: true,
+        isCallingGetOrders: true,
       })
     }
     case GRPC.ACCOUNT_CONTRACT.GET.FAILURE: {
       return Object.assign({}, state, {
-        isCallingGetAccountContracts: false,
+        isCallingGetOrders: false,
       })
     }
     case GRPC.ACCOUNT_CONTRACT.GET.SUCCESS: {
       return Object.assign({}, state, {
-        isCallingGetAccountContracts: false,
+        isCallingGetOrders: false,
         list: action.data,
       })
     }

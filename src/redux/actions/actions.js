@@ -3,12 +3,12 @@ import {
   SELECT_CURRENT_VENDOR_CODE,
   GRPC,
 } from './actionNames'
-import { getAccountContractsAction } from './grpcActions/accountContractActions'
+import { getOrdersAction } from './grpcActions/orderActions'
 import { grpc } from '@/grpc/index'
 
-export const selectAccountContract = (id) => ({
+export const selectOrder = (id) => ({
   type: SELECT_CURRENT_ACCOUNT_CONTRACT,
-  accountContract: id,
+  order: id,
 })
 
 export const selectVendorCode = (id) => ({
@@ -16,10 +16,6 @@ export const selectVendorCode = (id) => ({
   vendorCode: id,
 })
 
-export function getAccountContracts(dispatch) {
-  return getAccountContractsAction(
-    dispatch,
-    GRPC.ACCOUNT_CONTRACT.GET,
-    grpc.accountContracts.get,
-  )
+export function getOrders(dispatch) {
+  return getOrdersAction(dispatch, GRPC.ACCOUNT_CONTRACT.GET, grpc.orders.get)
 }

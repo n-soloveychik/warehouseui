@@ -1,21 +1,18 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import Lists from '@/components/Lists/Lists'
-import {
-  selectAccountContract,
-  selectVendorCode,
-} from '@/redux/actions/actions'
+import { selectOrder, selectVendorCode } from '@/redux/actions/actions'
 
 function mapStateToProps(state) {
   return {
-    currentAccountContract: state.warehouse.currentAccountContract,
+    currentOrder: state.warehouse.currentOrder,
     currentVendorCode: state.warehouse.currentVendorCode,
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    selectAccountContract: (id) => dispatch(selectAccountContract(id)),
+    selectOrder: (id) => dispatch(selectOrder(id)),
     selectVendorCode: (id) => dispatch(selectVendorCode(id)),
   }
 }
@@ -34,7 +31,7 @@ class SelectVendorCode extends Component {
   redirectIfNeed() {
     let currentParams = new URLSearchParams(this.props.location.search)
     if (
-      currentParams.has('currentAccountContract') &&
+      currentParams.has('currentOrder') &&
       currentParams.has('currentVendorCode')
     ) {
       this.props.history.push({
@@ -46,12 +43,10 @@ class SelectVendorCode extends Component {
 
   setStateFromQueryParams() {
     let currentParams = new URLSearchParams(this.props.location.search)
-    let accountContractFromQueryParams = currentParams.get(
-      'currentAccountContract',
-    )
+    let orderFromQueryParams = currentParams.get('currentOrder')
     let vendorCodeFromQueryParams = currentParams.get('currentVendorCode')
-    if (accountContractFromQueryParams) {
-      this.props.selectAccountContract(accountContractFromQueryParams)
+    if (orderFromQueryParams) {
+      this.props.selectOrder(orderFromQueryParams)
     }
     if (vendorCodeFromQueryParams) {
       this.props.selectVendorCode(vendorCodeFromQueryParams)
@@ -61,11 +56,8 @@ class SelectVendorCode extends Component {
   setQueryParams() {
     let newParams = new URLSearchParams()
     let currentParams = new URLSearchParams(this.props.location.search)
-    if (this.props.currentAccountContract) {
-      newParams.append(
-        'currentAccountContract',
-        this.props.currentAccountContract,
-      )
+    if (this.props.currentOrder) {
+      newParams.append('currentOrder', this.props.currentOrder)
     }
     if (this.props.currentVendorCode) {
       newParams.append('currentVendorCode', this.props.currentVendorCode)

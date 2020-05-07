@@ -1,4 +1,4 @@
-import { getAccountContractsHandler } from './accountContract/accountContractCalls'
+import { getOrdersHandler } from './order/orderCalls'
 
 const makeList = () =>
   JSON.parse(
@@ -9,21 +9,21 @@ function timeout(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms))
 }
 
-const getAccountContractsGenerator = async () => {
+const getOrdersGenerator = async () => {
   const fail = Math.random * 10 > 7.5
   let result = makeList()
   await timeout(5000)
   return fail
     ? { status: 'fail', message: 'random error' }
-    : { statul: 'success', accountContracts: result }
+    : { statul: 'success', orders: result }
 }
 
-function getAccountContracts() {
-  return getAccountContractsHandler(getAccountContractsGenerator)
+function getOrders() {
+  return getOrdersHandler(getOrdersGenerator)
 }
 
 export const grpc = {
-  accountContracts: {
-    get: getAccountContracts,
+  orders: {
+    get: getOrders,
   },
 }

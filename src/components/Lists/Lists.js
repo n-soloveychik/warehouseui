@@ -3,28 +3,23 @@ import { connect } from 'react-redux'
 import classes from './Lists.module.scss'
 import CList from './CList/CList'
 import { Grid } from '@material-ui/core'
-import {
-  selectVendorCode,
-  selectAccountContract,
-} from '@/redux/actions/actions'
+import { selectVendorCode, selectOrder } from '@/redux/actions/actions'
 
 function mapStateToProps(state) {
   state = state.warehouse
   return {
-    accountContracts: Object.keys(state.list),
-    vendorCodes: state.currentAccountContract
-      ? state.list[state.currentAccountContract]
-      : [],
+    orders: Object.keys(state.list),
+    vendorCodes: state.currentOrder ? state.list[state.currentOrder] : [],
     products: state.table,
-    currentAccountContract: state.currentAccountContract,
+    currentOrder: state.currentOrder,
     currentVendorCode: state.currentVendorCode,
-    loading: state.isCallingGetAccountContracts,
+    loading: state.isCallingGetOrders,
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    selectAccountContract: (id) => dispatch(selectAccountContract(id)),
+    selectOrder: (id) => dispatch(selectOrder(id)),
     selectVendorCode: (id) => dispatch(selectVendorCode(id)),
   }
 }
@@ -35,9 +30,9 @@ const Lists = (props) => (
       <CList
         title={'Счет - договор'}
         loading={props.loading}
-        items={props.accountContracts}
-        handleItemClick={props.selectAccountContract}
-        currentItem={props.currentAccountContract}
+        items={props.orders}
+        handleItemClick={props.selectOrder}
+        currentItem={props.currentOrder}
       ></CList>
     </Grid>
     <Grid className={classes.column} item xs={6}>
