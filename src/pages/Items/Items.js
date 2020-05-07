@@ -7,195 +7,10 @@ import classes from './Items.module.scss'
 import { IconButton, SwipeableDrawer } from '@material-ui/core'
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos'
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos'
-import { selectAccountContract, selectArticule } from '@/redux/actions/actions'
-
-const table = [
-  { type: 'Фанера' },
-  {
-    place: '01-001',
-    articul: '0000.0000.6543',
-    image: '',
-    size: '723*720*21',
-    quantity: '1',
-    mass: '6.5',
-    comment: '3000 Огненно-красный',
-  },
-  {
-    place: '01-001',
-    articul: '0000.0000.6543',
-    image: '',
-    size: '723*720*21',
-    quantity: '1',
-    mass: '6.5',
-    comment: '3000 Огненно-красный',
-  },
-  {
-    place: '01-001',
-    articul: '0000.0000.6543',
-    image: '',
-    size: '723*720*21',
-    quantity: '1',
-    mass: '6.5',
-    comment: '3000 Огненно-красный',
-  },
-  {
-    place: '01-001',
-    articul: '0000.0000.6543',
-    image: '',
-    size: '723*720*21',
-    quantity: '1',
-    mass: '6.5',
-    comment: '3000 Огненно-красный',
-  },
-  { type: 'Фанера' },
-  {
-    place: '01-001',
-    articul: '0000.0000.6543',
-    image: '',
-    size: '723*720*21',
-    quantity: '1',
-    mass: '6.5',
-    comment: '3000 Огненно-красный',
-  },
-  {
-    place: '01-001',
-    articul: '0000.0000.6543',
-    image: '',
-    size: '723*720*21',
-    quantity: '1',
-    mass: '6.5',
-    comment: '3000 Огненно-красный',
-  },
-  {
-    place: '01-001',
-    articul: '0000.0000.6543',
-    image: '',
-    size: '723*720*21',
-    quantity: '1',
-    mass: '6.5',
-    comment: '3000 Огненно-красный',
-  },
-  {
-    place: '01-001',
-    articul: '0000.0000.6543',
-    image: '',
-    size: '723*720*21',
-    quantity: '1',
-    mass: '6.5',
-    comment: '3000 Огненно-красный',
-  },
-  { type: 'Фанера' },
-  {
-    place: '01-001',
-    articul: '0000.0000.6543',
-    image: '',
-    size: '723*720*21',
-    quantity: '1',
-    mass: '6.5',
-    comment: '3000 Огненно-красный',
-  },
-  {
-    place: '01-001',
-    articul: '0000.0000.6543',
-    image: '',
-    size: '723*720*21',
-    quantity: '1',
-    mass: '6.5',
-    comment: '3000 Огненно-красный',
-  },
-  {
-    place: '01-001',
-    articul: '0000.0000.6543',
-    image: '',
-    size: '723*720*21',
-    quantity: '1',
-    mass: '6.5',
-    comment: '3000 Огненно-красный',
-  },
-  {
-    place: '01-001',
-    articul: '0000.0000.6543',
-    image: '',
-    size: '723*720*21',
-    quantity: '1',
-    mass: '6.5',
-    comment: '3000 Огненно-красный',
-  },
-  { type: 'Фанера' },
-  {
-    place: '01-001',
-    articul: '0000.0000.6543',
-    image: '',
-    size: '723*720*21',
-    quantity: '1',
-    mass: '6.5',
-    comment: '3000 Огненно-красный',
-  },
-  {
-    place: '01-001',
-    articul: '0000.0000.6543',
-    image: '',
-    size: '723*720*21',
-    quantity: '1',
-    mass: '6.5',
-    comment: '3000 Огненно-красный',
-  },
-  {
-    place: '01-001',
-    articul: '0000.0000.6543',
-    image: '',
-    size: '723*720*21',
-    quantity: '1',
-    mass: '6.5',
-    comment: '3000 Огненно-красный',
-  },
-  {
-    place: '01-001',
-    articul: '0000.0000.6543',
-    image: '',
-    size: '723*720*21',
-    quantity: '1',
-    mass: '6.5',
-    comment: '3000 Огненно-красный',
-  },
-  { type: 'Фанера' },
-  {
-    place: '01-001',
-    articul: '0000.0000.6543',
-    image: '',
-    size: '723*720*21',
-    quantity: '1',
-    mass: '6.5',
-    comment: '3000 Огненно-красный',
-  },
-  {
-    place: '01-001',
-    articul: '0000.0000.6543',
-    image: '',
-    size: '723*720*21',
-    quantity: '1',
-    mass: '6.5',
-    comment: '3000 Огненно-красный',
-  },
-  {
-    place: '01-001',
-    articul: '0000.0000.6543',
-    image: '',
-    size: '723*720*21',
-    quantity: '1',
-    mass: '6.5',
-    comment: '3000 Огненно-красный',
-  },
-  {
-    place: '01-001',
-    articul: '0000.0000.6543',
-    image: '',
-    size: '723*720*21',
-    quantity: '1',
-    mass: '6.5',
-    comment: '3000 Огненно-красный',
-  },
-]
+import {
+  selectAccountContract,
+  selectVendorCode,
+} from '@/redux/actions/actions'
 
 class Items extends Component {
   state = {
@@ -210,8 +25,8 @@ class Items extends Component {
   componentDidUpdate(prevProps, prevState) {
     this.setQueryParams()
     if (
-      this.props.currentArticule &&
-      prevProps.currentArticule !== this.props.currentArticule
+      this.props.currentVendorCode &&
+      prevProps.currentVendorCode !== this.props.currentVendorCode
     ) {
       this.closeSidebar()
     }
@@ -221,7 +36,7 @@ class Items extends Component {
     let currentParams = new URLSearchParams(this.props.location.search)
     if (
       !currentParams.has('currentAccountContract') ||
-      !currentParams.has('currentArticule')
+      !currentParams.has('currentVendorCode')
     ) {
       this.setState({ sideOpened: true })
     }
@@ -232,12 +47,12 @@ class Items extends Component {
     let accountContractFromQueryParams = currentParams.get(
       'currentAccountContract',
     )
-    let articuleFromQueryParams = currentParams.get('currentArticule')
+    let vendorCodeFromQueryParams = currentParams.get('currentVendorCode')
     if (accountContractFromQueryParams) {
       this.props.selectAccountContract(accountContractFromQueryParams)
     }
-    if (articuleFromQueryParams) {
-      this.props.selectArticule(articuleFromQueryParams)
+    if (vendorCodeFromQueryParams) {
+      this.props.selectVendorCode(vendorCodeFromQueryParams)
     }
   }
 
@@ -250,8 +65,8 @@ class Items extends Component {
         this.props.currentAccountContract,
       )
     }
-    if (this.props.currentArticule) {
-      newParams.append('currentArticule', this.props.currentArticule)
+    if (this.props.currentVendorCode) {
+      newParams.append('currentVendorCode', this.props.currentVendorCode)
     }
     if (
       newParams.toString() &&
@@ -283,10 +98,13 @@ class Items extends Component {
   }
 
   render() {
+    const headerText = this.props.currentVendorCode
+      ? `${this.props.currentAccountContract} / ${this.props.currentVendorCode}`
+      : 'Открыть артикул'
     return (
       <div className={classes.Items}>
-        <CHeader onTextClick={this.openSidebar}></CHeader>
-        <CTable data={table}></CTable>
+        <CHeader text={headerText} onTextClick={this.openSidebar}></CHeader>
+        <CTable data={this.props.table}></CTable>
         <IconButton
           style={{ position: 'absolute' }}
           className={classes.IconButton}
@@ -317,14 +135,15 @@ class Items extends Component {
 function mapStateToProps(state) {
   return {
     currentAccountContract: state.warehouse.currentAccountContract,
-    currentArticule: state.warehouse.currentArticule,
+    currentVendorCode: state.warehouse.currentVendorCode,
+    table: state.warehouse.table,
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
     selectAccountContract: (id) => dispatch(selectAccountContract(id)),
-    selectArticule: (id) => dispatch(selectArticule(id)),
+    selectVendorCode: (id) => dispatch(selectVendorCode(id)),
   }
 }
 

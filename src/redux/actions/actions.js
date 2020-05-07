@@ -1,6 +1,6 @@
 import {
   SELECT_CURRENT_ACCOUNT_CONTRACT,
-  SELECT_CURRENT_ARTICLE,
+  SELECT_CURRENT_VENDOR_CODE,
 } from './actionNames'
 
 export const selectAccountContract = (id) => ({
@@ -8,7 +8,7 @@ export const selectAccountContract = (id) => ({
   accountContract: id,
 })
 
-export const selectArticule = (id) => ({
-  type: SELECT_CURRENT_ARTICLE,
-  articule: id,
+export const selectVendorCode = (id) => ({
+  type: SELECT_CURRENT_VENDOR_CODE,
+  vendorCode: id,
 })

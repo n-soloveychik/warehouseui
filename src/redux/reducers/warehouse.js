@@ -1,6 +1,6 @@
 import {
   SELECT_CURRENT_ACCOUNT_CONTRACT,
-  SELECT_CURRENT_ARTICLE,
+  SELECT_CURRENT_VENDOR_CODE,
 } from '@/redux/actions/actionNames'
 
 const makeList = () =>
@@ -13,192 +13,192 @@ const initialState = {
   table: [
     { type: 'Фанера' },
     {
-      place: '01-001',
-      articul: '0000.0000.6543',
+      lot: '01-001',
+      vendor_code: '0000.0000.6543',
       image: '',
       size: '723*720*21',
-      quantity: '1',
-      mass: '6.5',
-      comment: '3000 Огненно-красный',
+      count: '1',
+      weight: '6.5',
+      description: '3000 Огненно-красный',
     },
     {
-      place: '01-001',
-      articul: '0000.0000.6543',
+      lot: '01-001',
+      vendor_code: '0000.0000.6543',
       image: '',
       size: '723*720*21',
-      quantity: '1',
-      mass: '6.5',
-      comment: '3000 Огненно-красный',
+      count: '1',
+      weight: '6.5',
+      description: '3000 Огненно-красный',
     },
     {
-      place: '01-001',
-      articul: '0000.0000.6543',
+      lot: '01-001',
+      vendor_code: '0000.0000.6543',
       image: '',
       size: '723*720*21',
-      quantity: '1',
-      mass: '6.5',
-      comment: '3000 Огненно-красный',
+      count: '1',
+      weight: '6.5',
+      description: '3000 Огненно-красный',
     },
     {
-      place: '01-001',
-      articul: '0000.0000.6543',
+      lot: '01-001',
+      vendor_code: '0000.0000.6543',
       image: '',
       size: '723*720*21',
-      quantity: '1',
-      mass: '6.5',
-      comment: '3000 Огненно-красный',
-    },
-    { type: 'Фанера' },
-    {
-      place: '01-001',
-      articul: '0000.0000.6543',
-      image: '',
-      size: '723*720*21',
-      quantity: '1',
-      mass: '6.5',
-      comment: '3000 Огненно-красный',
-    },
-    {
-      place: '01-001',
-      articul: '0000.0000.6543',
-      image: '',
-      size: '723*720*21',
-      quantity: '1',
-      mass: '6.5',
-      comment: '3000 Огненно-красный',
-    },
-    {
-      place: '01-001',
-      articul: '0000.0000.6543',
-      image: '',
-      size: '723*720*21',
-      quantity: '1',
-      mass: '6.5',
-      comment: '3000 Огненно-красный',
-    },
-    {
-      place: '01-001',
-      articul: '0000.0000.6543',
-      image: '',
-      size: '723*720*21',
-      quantity: '1',
-      mass: '6.5',
-      comment: '3000 Огненно-красный',
+      count: '1',
+      weight: '6.5',
+      description: '3000 Огненно-красный',
     },
     { type: 'Фанера' },
     {
-      place: '01-001',
-      articul: '0000.0000.6543',
+      lot: '01-001',
+      vendor_code: '0000.0000.6543',
       image: '',
       size: '723*720*21',
-      quantity: '1',
-      mass: '6.5',
-      comment: '3000 Огненно-красный',
+      count: '1',
+      weight: '6.5',
+      description: '3000 Огненно-красный',
     },
     {
-      place: '01-001',
-      articul: '0000.0000.6543',
+      lot: '01-001',
+      vendor_code: '0000.0000.6543',
       image: '',
       size: '723*720*21',
-      quantity: '1',
-      mass: '6.5',
-      comment: '3000 Огненно-красный',
+      count: '1',
+      weight: '6.5',
+      description: '3000 Огненно-красный',
     },
     {
-      place: '01-001',
-      articul: '0000.0000.6543',
+      lot: '01-001',
+      vendor_code: '0000.0000.6543',
       image: '',
       size: '723*720*21',
-      quantity: '1',
-      mass: '6.5',
-      comment: '3000 Огненно-красный',
+      count: '1',
+      weight: '6.5',
+      description: '3000 Огненно-красный',
     },
     {
-      place: '01-001',
-      articul: '0000.0000.6543',
+      lot: '01-001',
+      vendor_code: '0000.0000.6543',
       image: '',
       size: '723*720*21',
-      quantity: '1',
-      mass: '6.5',
-      comment: '3000 Огненно-красный',
-    },
-    { type: 'Фанера' },
-    {
-      place: '01-001',
-      articul: '0000.0000.6543',
-      image: '',
-      size: '723*720*21',
-      quantity: '1',
-      mass: '6.5',
-      comment: '3000 Огненно-красный',
-    },
-    {
-      place: '01-001',
-      articul: '0000.0000.6543',
-      image: '',
-      size: '723*720*21',
-      quantity: '1',
-      mass: '6.5',
-      comment: '3000 Огненно-красный',
-    },
-    {
-      place: '01-001',
-      articul: '0000.0000.6543',
-      image: '',
-      size: '723*720*21',
-      quantity: '1',
-      mass: '6.5',
-      comment: '3000 Огненно-красный',
-    },
-    {
-      place: '01-001',
-      articul: '0000.0000.6543',
-      image: '',
-      size: '723*720*21',
-      quantity: '1',
-      mass: '6.5',
-      comment: '3000 Огненно-красный',
+      count: '1',
+      weight: '6.5',
+      description: '3000 Огненно-красный',
     },
     { type: 'Фанера' },
     {
-      place: '01-001',
-      articul: '0000.0000.6543',
+      lot: '01-001',
+      vendor_code: '0000.0000.6543',
       image: '',
       size: '723*720*21',
-      quantity: '1',
-      mass: '6.5',
-      comment: '3000 Огненно-красный',
+      count: '1',
+      weight: '6.5',
+      description: '3000 Огненно-красный',
     },
     {
-      place: '01-001',
-      articul: '0000.0000.6543',
+      lot: '01-001',
+      vendor_code: '0000.0000.6543',
       image: '',
       size: '723*720*21',
-      quantity: '1',
-      mass: '6.5',
-      comment: '3000 Огненно-красный',
+      count: '1',
+      weight: '6.5',
+      description: '3000 Огненно-красный',
     },
     {
-      place: '01-001',
-      articul: '0000.0000.6543',
+      lot: '01-001',
+      vendor_code: '0000.0000.6543',
       image: '',
       size: '723*720*21',
-      quantity: '1',
-      mass: '6.5',
-      comment: '3000 Огненно-красный',
+      count: '1',
+      weight: '6.5',
+      description: '3000 Огненно-красный',
     },
     {
-      place: '01-001',
-      articul: '0000.0000.6543',
+      lot: '01-001',
+      vendor_code: '0000.0000.6543',
       image: '',
       size: '723*720*21',
-      quantity: '1',
-      mass: '6.5',
-      comment: '3000 Огненно-красный',
+      count: '1',
+      weight: '6.5',
+      description: '3000 Огненно-красный',
+    },
+    { type: 'Фанера' },
+    {
+      lot: '01-001',
+      vendor_code: '0000.0000.6543',
+      image: '',
+      size: '723*720*21',
+      count: '1',
+      weight: '6.5',
+      description: '3000 Огненно-красный',
+    },
+    {
+      lot: '01-001',
+      vendor_code: '0000.0000.6543',
+      image: '',
+      size: '723*720*21',
+      count: '1',
+      weight: '6.5',
+      description: '3000 Огненно-красный',
+    },
+    {
+      lot: '01-001',
+      vendor_code: '0000.0000.6543',
+      image: '',
+      size: '723*720*21',
+      count: '1',
+      weight: '6.5',
+      description: '3000 Огненно-красный',
+    },
+    {
+      lot: '01-001',
+      vendor_code: '0000.0000.6543',
+      image: '',
+      size: '723*720*21',
+      count: '1',
+      weight: '6.5',
+      description: '3000 Огненно-красный',
+    },
+    { type: 'Фанера' },
+    {
+      lot: '01-001',
+      vendor_code: '0000.0000.6543',
+      image: '',
+      size: '723*720*21',
+      count: '1',
+      weight: '6.5',
+      description: '3000 Огненно-красный',
+    },
+    {
+      lot: '01-001',
+      vendor_code: '0000.0000.6543',
+      image: '',
+      size: '723*720*21',
+      count: '1',
+      weight: '6.5',
+      description: '3000 Огненно-красный',
+    },
+    {
+      lot: '01-001',
+      vendor_code: '0000.0000.6543',
+      image: '',
+      size: '723*720*21',
+      count: '1',
+      weight: '6.5',
+      description: '3000 Огненно-красный',
+    },
+    {
+      lot: '01-001',
+      vendor_code: '0000.0000.6543',
+      image: '',
+      size: '723*720*21',
+      count: '1',
+      weight: '6.5',
+      description: '3000 Огненно-красный',
     },
   ],
   currentAccountContract: null,
-  currentArticule: null,
+  currentVendorCode: null,
 }
 
 const selectAccountContract = (state, accontContract) => {
@@ -206,24 +206,24 @@ const selectAccountContract = (state, accontContract) => {
     return Object.assign({}, state)
   return Object.assign({}, state, {
     currentAccountContract: accontContract,
-    currentArticule:
+    currentVendorCode:
       state.currentAccountContract === accontContract
-        ? state.currentArticule
+        ? state.currentVendorCode
         : null,
   })
 }
 
-const selectArticule = (state, articule) => {
+const selectVendorCode = (state, vendorCode) => {
   if (
     !state.currentAccountContract ||
     !Object.keys(state.list).includes(state.currentAccountContract) ||
-    !articule ||
-    !state.list[state.currentAccountContract].includes(articule)
+    !vendorCode ||
+    !state.list[state.currentAccountContract].includes(vendorCode)
   ) {
     return Object.assign({}, state)
   }
   return Object.assign({}, state, {
-    currentArticule: articule,
+    currentVendorCode: vendorCode,
   })
 }
 
@@ -232,8 +232,8 @@ export default function (state = initialState, action) {
     case SELECT_CURRENT_ACCOUNT_CONTRACT: {
       return selectAccountContract(state, action.accountContract)
     }
-    case SELECT_CURRENT_ARTICLE: {
-      return selectArticule(state, action.articule)
+    case SELECT_CURRENT_VENDOR_CODE: {
+      return selectVendorCode(state, action.vendorCode)
     }
     default: {
       return state
