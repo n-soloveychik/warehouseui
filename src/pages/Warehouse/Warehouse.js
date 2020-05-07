@@ -2,9 +2,7 @@ import React, { Component } from 'react'
 import Lists from '@/components/Lists/Lists'
 
 class Warehouse extends Component {
-  componentDidMount() {
-    console.log(this.props)
-  }
+  componentDidMount() {}
 
   render() {
     return <Lists />
