@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package items;
+
+option go_package="items;items";
+
+import "item_message.proto";
+
+service Items{
+    rpc getItemsByVendorCode (GetItemByVendorCodeRequest) returns (Items);
+}

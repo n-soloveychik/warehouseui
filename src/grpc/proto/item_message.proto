@@ -1,14 +1,17 @@
 syntax = "proto3";
 
 package items;
-option go_package="items;items";
 
-service Items{
-    rpc getItems (ItemRequest) returns (Item);
+message GetItemByVendorCodeRequest {
+    string vendor_code = 1;
 }
 
 message ItemRequest {
     uint64 count = 1;
+}
+
+message Items {
+    repeated Item items = 1;
 }
 
 message Item {
