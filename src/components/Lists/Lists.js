@@ -18,6 +18,7 @@ function mapStateToProps(state) {
     products: state.table,
     currentAccountContract: state.currentAccountContract,
     currentVendorCode: state.currentVendorCode,
+    loading: state.isCallingGetAccountContracts,
   }
 }
 
@@ -33,6 +34,7 @@ const Lists = (props) => (
     <Grid className={classes.column} item xs={6}>
       <CList
         title={'Счет - договор'}
+        loading={props.loading}
         items={props.accountContracts}
         handleItemClick={props.selectAccountContract}
         currentItem={props.currentAccountContract}
@@ -41,6 +43,7 @@ const Lists = (props) => (
     <Grid className={classes.column} item xs={6}>
       <CList
         title='Артикул'
+        loading={props.loading}
         items={props.vendorCodes}
         handleItemClick={props.selectVendorCode}
         currentItem={props.currentVendorCode}

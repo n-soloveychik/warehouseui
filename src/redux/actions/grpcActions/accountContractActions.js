@@ -1,10 +1,9 @@
 import { grpcCoreAction } from './grpcCoreAction'
-import grpc from '@/grpc/index'
 
-export const getAccountContractsAction = (
+export const getAccountContractsAction = async (
   dispatch,
   actionNameObj,
   requestFn,
 ) => {
-  grpcCoreAction(dispatch, actionNameObj, requestFn)
+  await grpcCoreAction(dispatch, actionNameObj, requestFn)
 }

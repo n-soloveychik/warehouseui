@@ -18,10 +18,10 @@ class Items extends Component {
     sideOpened: false,
   }
 
-  componentDidMount() {
-    this.setStateFromQueryParams()
-    this.openDrawerOnStart()
-    this.props.getAccountContracts()
+  async componentDidMount() {
+    await this.props.getAccountContracts()
+    await this.setStateFromQueryParams()
+    await this.openDrawerOnStart()
   }
 
   componentDidUpdate(prevProps, prevState) {

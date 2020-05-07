@@ -12,7 +12,7 @@ function timeout(ms) {
 const getAccountContractsGenerator = async () => {
   const fail = Math.random * 10 > 7.5
   let result = makeList()
-  await timeout(600)
+  await timeout(5000)
   return fail
     ? { status: 'fail', message: 'random error' }
     : { statul: 'success', accountContracts: result }
