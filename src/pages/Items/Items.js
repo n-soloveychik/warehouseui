@@ -10,6 +10,7 @@ import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos'
 import {
   selectAccountContract,
   selectVendorCode,
+  getAccountContracts,
 } from '@/redux/actions/actions'
 
 class Items extends Component {
@@ -20,6 +21,7 @@ class Items extends Component {
   componentDidMount() {
     this.setStateFromQueryParams()
     this.openDrawerOnStart()
+    this.props.getAccountContracts()
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -144,6 +146,7 @@ function mapDispatchToProps(dispatch) {
   return {
     selectAccountContract: (id) => dispatch(selectAccountContract(id)),
     selectVendorCode: (id) => dispatch(selectVendorCode(id)),
+    getAccountContracts: () => getAccountContracts(dispatch),
   }
 }
 

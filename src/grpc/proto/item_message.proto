@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package items;
+option go_package="items;items";
+
+service Items{
+    rpc getItems (ItemRequest) returns (Item);
+}
+
+message ItemRequest {
+    uint64 count = 1;
+}
+
+message Item {
+    string title = 1;
+    string category = 2;
+    string lot = 3;
+    string vendor_code = 4;
+    string image = 5;
+    string size = 6;
+    uint64 count = 7;
+    float weight = 8;
+    string description = 9;
+    //reserved 10 to 15;
+}
