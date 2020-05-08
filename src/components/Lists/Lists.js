@@ -21,8 +21,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    selectOrder: (id) => dispatch(selectOrder(id)),
-    selectVendorCode: (id) => dispatch(selectVendorCode(id)),
+    selectOrder: (id) => selectOrder(dispatch, id),
+    selectVendorCode: (id) => selectVendorCode(dispatch, id),
   }
 }
 

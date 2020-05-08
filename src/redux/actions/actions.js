@@ -9,16 +9,7 @@ import {
   updateItemStatusAction,
 } from './grpcActions/itemActions'
 import { grpc } from '@/grpc/index'
-
-export const selectOrder = (id) => ({
-  type: SELECT_CURRENT_ORDER,
-  order: id,
-})
-
-export const selectVendorCode = (id) => ({
-  type: SELECT_CURRENT_VENDOR_CODE,
-  vendorCode: id,
-})
+import { vendorCodesGetter } from '../getters/vendorCodes'
 
 export function getOrders(dispatch) {
   return getOrdersAction(dispatch, GRPC.ORDERS.GET, grpc.orders.get)
@@ -35,4 +26,19 @@ export function updateItemStatus(dispatch, { statusId, itemId }) {
     grpc.items.updateStatus,
     { itemId, statusId },
   )
+}
+
+export const selectVendorCode = (dispatch, vendorCode) => {
+  dispatch({
+    type: SELECT_CURRENT_VENDOR_CODE,
+    vendorCode,
+  })
+  getItemsByVendorCode(dispatch, vendorCode)
+}
+
+export const selectOrder = (dispatch, order) => {
+  dispatch({
+    type: SELECT_CURRENT_ORDER,
+    order,
+  })
 }

@@ -148,8 +148,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    selectOrder: (id) => dispatch(selectOrder(id)),
-    selectVendorCode: (id) => dispatch(selectVendorCode(id)),
+    selectOrder: (id) => selectOrder(dispatch, id),
+    selectVendorCode: (id) => selectVendorCode(dispatch, id),
     getOrders: () => getOrders(dispatch),
     getItemsByVendorCode: () => getItemsByVendorCode(dispatch, 1),
     updateItemStatus: ({ itemId, statusId }) =>
