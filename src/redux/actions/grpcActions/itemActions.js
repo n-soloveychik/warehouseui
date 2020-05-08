@@ -8,3 +8,12 @@ export const getItemsAction = async (
 ) => {
   await grpcCoreAction(dispatch, actionNameObj, requestFn, accountContract)
 }
+
+export const updateItemStatusAction = async (
+  dispatch,
+  actionNameObj,
+  requestFn,
+  { itemId, statusId },
+) => {
+  await grpcCoreAction(dispatch, actionNameObj, requestFn, { itemId, statusId })
+}

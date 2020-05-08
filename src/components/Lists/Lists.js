@@ -4,12 +4,14 @@ import classes from './Lists.module.scss'
 import CList from './CList/CList'
 import { Grid } from '@material-ui/core'
 import { selectVendorCode, selectOrder } from '@/redux/actions/actions'
+import { vendorCodesGetter } from '@/redux/getters/vendorCodes'
 
 function mapStateToProps(state) {
+  const list = vendorCodesGetter(state)
   state = state.warehouse
   return {
-    orders: Object.keys(state.list),
-    vendorCodes: state.currentOrder ? state.list[state.currentOrder] : [],
+    orders: Object.keys(list),
+    vendorCodes: state.currentOrder ? list[state.currentOrder] : [],
     products: state.table,
     currentOrder: state.currentOrder,
     currentVendorCode: state.currentVendorCode,

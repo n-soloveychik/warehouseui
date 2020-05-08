@@ -5,30 +5,32 @@ import {
 } from '@/redux/actions/actionNames'
 
 const initialState = {
-  list: {},
-  table: [],
+  vendorCodes: [],
+  items: [],
   isCallingGetOrders: false,
   isCallingGetItems: false,
   currentOrder: null,
   currentVendorCode: null,
 }
 
-const selectOrder = (state, accontContract) => {
-  if (!Object.keys(state.list).includes(accontContract))
+const selectOrder = (state, orderNum) => {
+  if (!state.vendorCodes.find((vendor) => vendor.orderNum === orderNum))
     return Object.assign({}, state)
   return Object.assign({}, state, {
-    currentOrder: accontContract,
+    currentOrder: orderNum,
     currentVendorCode:
-      state.currentOrder === accontContract ? state.currentVendorCode : null,
+      state.currentOrder === orderNum ? state.currentVendorCode : null,
   })
 }
 
 const selectVendorCode = (state, vendorCode) => {
   if (
     !state.currentOrder ||
-    !Object.keys(state.list).includes(state.currentOrder) ||
+    !state.vendorCodes.find(
+      (vendor) => vendor.orderNum === state.currentOrder,
+    ) ||
     !vendorCode ||
-    !state.list[state.currentOrder].includes(vendorCode)
+    !state.vendorCodes.find((vendor) => vendor.vendorCode === vendorCode)
   ) {
     return Object.assign({}, state)
   }
@@ -58,7 +60,7 @@ export default function (state = initialState, action) {
     case GRPC.ORDERS.GET.SUCCESS: {
       return Object.assign({}, state, {
         isCallingGetOrders: false,
-        list: action.data,
+        vendorCodes: action.data,
       })
     }
     case GRPC.ITEMS.GET.CALL: {
@@ -74,8 +76,19 @@ export default function (state = initialState, action) {
     case GRPC.ITEMS.GET.SUCCESS: {
       return Object.assign({}, state, {
         isCallingGetItems: false,
-        table: action.data,
+        items: action.data,
       })
+    }
+    case GRPC.ITEMS.UPDATE.CALL: {
+      return state
+    }
+    case GRPC.ITEMS.UPDATE.FAILURE: {
+      return state
+    }
+    case GRPC.ITEMS.UPDATE.SUCCESS: {
+      const newState = Object.assign({}, state)
+      const items = state.items
+      return state
     }
     default: {
       return state

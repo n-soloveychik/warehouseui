@@ -1,4 +1,5 @@
-export const converVendorCodes = (vendorCodes) => {
+export const vendorCodesGetter = (state) => {
+  const vendorCodes = state.warehouse.vendorCodes
   let result = {}
   vendorCodes.forEach((vendor) =>
     result[vendor.orderNum]

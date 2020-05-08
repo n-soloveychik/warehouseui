@@ -13,6 +13,7 @@ import {
   getOrders,
   getItemsByVendorCode,
 } from '@/redux/actions/actions'
+import { itemsGetter } from '@/redux/getters/items'
 
 class Items extends Component {
   state = {
@@ -135,7 +136,7 @@ function mapStateToProps(state) {
   return {
     currentOrder: state.warehouse.currentOrder,
     currentVendorCode: state.warehouse.currentVendorCode,
-    table: state.warehouse.table,
+    table: itemsGetter(state),
   }
 }
 

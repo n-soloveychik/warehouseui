@@ -1,4 +1,5 @@
-export const convertItems = (items) => {
+export const itemsGetter = (state) => {
+  const items = state.warehouse.items
   const groupedItems = items.reduce((acc, cur) => {
     const category = acc.find((obj) => obj.name === cur.category)
     if (category) {

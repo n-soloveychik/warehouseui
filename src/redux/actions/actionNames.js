@@ -13,5 +13,6 @@ export const GRPC = {
   },
   ITEMS: {
     GET: grpc('GET', 'ITEMS'),
+    UPDATE: grpc('UPDATE', 'ITEM'),
   },
 }
