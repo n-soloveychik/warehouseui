@@ -8,3 +8,17 @@ export const getItemsHandler = async (client, RequestClass, vendorCode) => {
   })
   return result.toObject().itemsList
 }
+
+export const updateItemStatusHandler = async (
+  client,
+  RequestClass,
+  { itemId, statusId },
+) => {
+  const request = new RequestClass()
+  request.setItemId(itemId)
+  request.setStatusId(statusId)
+  const result = await new Promise((resolve) => {
+    client.updateItemStatus(request, null, (err, response) => resolve(response))
+  })
+  return Object.assign(result.toObject(), { statusId })
+}

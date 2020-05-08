@@ -12,6 +12,7 @@ import {
   selectVendorCode,
   getOrders,
   getItemsByVendorCode,
+  updateItemStatus,
 } from '@/redux/actions/actions'
 import { itemsGetter } from '@/redux/getters/items'
 
@@ -104,7 +105,12 @@ class Items extends Component {
     return (
       <div className={classes.Items}>
         <CHeader text={headerText} onTextClick={this.openSidebar}></CHeader>
-        <CTable data={this.props.table}></CTable>
+        <CTable
+          updateStatus={({ itemId, statusId }) =>
+            this.props.updateItemStatus({ itemId, statusId })
+          }
+          data={this.props.table}
+        ></CTable>
         <IconButton
           style={{ position: 'absolute' }}
           className={classes.IconButton}
@@ -146,6 +152,8 @@ function mapDispatchToProps(dispatch) {
     selectVendorCode: (id) => dispatch(selectVendorCode(id)),
     getOrders: () => getOrders(dispatch),
     getItemsByVendorCode: () => getItemsByVendorCode(dispatch, 1),
+    updateItemStatus: ({ itemId, statusId }) =>
+      updateItemStatus(dispatch, { statusId, itemId }),
   }
 }
 

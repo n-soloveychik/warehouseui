@@ -13,4 +13,5 @@ service OrderService{
     rpc getItemsByVendorCode (GetItemsByVendorCodeRequest) returns (Items);
     rpc getStoredOrderCodes(GetStoredOrderCodesRequest) returns (OrderCodes);
     rpc getStoredVendorCodes(GetStoredVendorCodesRequest) returns (VendorCodes);
+    rpc updateItemStatus(UpdateItemStatusRequest) returns (UpdateItemStatusResponse);
 }

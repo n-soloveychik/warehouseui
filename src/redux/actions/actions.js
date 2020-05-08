@@ -4,7 +4,10 @@ import {
   GRPC,
 } from './actionNames'
 import { getOrdersAction } from './grpcActions/orderActions'
-import { getItemsAction } from './grpcActions/itemActions'
+import {
+  getItemsAction,
+  updateItemStatusAction,
+} from './grpcActions/itemActions'
 import { grpc } from '@/grpc/index'
 
 export const selectOrder = (id) => ({
@@ -23,4 +26,13 @@ export function getOrders(dispatch) {
 
 export function getItemsByVendorCode(dispatch, vendorCode) {
   return getItemsAction(dispatch, GRPC.ITEMS.GET, grpc.items.get, vendorCode)
+}
+
+export function updateItemStatus(dispatch, { statusId, itemId }) {
+  return updateItemStatusAction(
+    dispatch,
+    GRPC.ITEMS.UPDATE,
+    grpc.items.updateStatus,
+    { itemId, statusId },
+  )
 }

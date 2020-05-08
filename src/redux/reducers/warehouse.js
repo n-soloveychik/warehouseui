@@ -87,8 +87,11 @@ export default function (state = initialState, action) {
     }
     case GRPC.ITEMS.UPDATE.SUCCESS: {
       const newState = Object.assign({}, state)
-      const items = state.items
-      return state
+      const item = newState.items.find(
+        (item) => item.itemId === action.data.itemId,
+      )
+      item.statusId = action.data.statusId
+      return newState
     }
     default: {
       return state

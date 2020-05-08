@@ -317,4 +317,87 @@ proto.order.OrderServicePromiseClient.prototype.getStoredVendorCodes = function 
   )
 }
 
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
+ *   !proto.order.UpdateItemStatusRequest,
+ *   !proto.order.UpdateItemStatusResponse>}
+ */
+const methodDescriptor_OrderService_updateItemStatus = new grpc.web.MethodDescriptor(
+  '/order.OrderService/updateItemStatus',
+  grpc.web.MethodType.UNARY,
+  item_message_pb.UpdateItemStatusRequest,
+  item_message_pb.UpdateItemStatusResponse,
+  /**
+   * @param {!proto.order.UpdateItemStatusRequest} request
+   * @return {!Uint8Array}
+   */
+  function (request) {
+    return request.serializeBinary()
+  },
+  item_message_pb.UpdateItemStatusResponse.deserializeBinary,
+)
+
+/**
+ * @const
+ * @type {!grpc.web.AbstractClientBase.MethodInfo<
+ *   !proto.order.UpdateItemStatusRequest,
+ *   !proto.order.UpdateItemStatusResponse>}
+ */
+const methodInfo_OrderService_updateItemStatus = new grpc.web.AbstractClientBase.MethodInfo(
+  item_message_pb.UpdateItemStatusResponse,
+  /**
+   * @param {!proto.order.UpdateItemStatusRequest} request
+   * @return {!Uint8Array}
+   */
+  function (request) {
+    return request.serializeBinary()
+  },
+  item_message_pb.UpdateItemStatusResponse.deserializeBinary,
+)
+
+/**
+ * @param {!proto.order.UpdateItemStatusRequest} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @param {function(?grpc.web.Error, ?proto.order.UpdateItemStatusResponse)}
+ *     callback The callback function(error, response)
+ * @return {!grpc.web.ClientReadableStream<!proto.order.UpdateItemStatusResponse>|undefined}
+ *     The XHR Node Readable Stream
+ */
+proto.order.OrderServiceClient.prototype.updateItemStatus = function (
+  request,
+  metadata,
+  callback,
+) {
+  return this.client_.rpcCall(
+    this.hostname_ + '/order.OrderService/updateItemStatus',
+    request,
+    metadata || {},
+    methodDescriptor_OrderService_updateItemStatus,
+    callback,
+  )
+}
+
+/**
+ * @param {!proto.order.UpdateItemStatusRequest} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @return {!Promise<!proto.order.UpdateItemStatusResponse>}
+ *     A native promise that resolves to the response
+ */
+proto.order.OrderServicePromiseClient.prototype.updateItemStatus = function (
+  request,
+  metadata,
+) {
+  return this.client_.unaryCall(
+    this.hostname_ + '/order.OrderService/updateItemStatus',
+    request,
+    metadata || {},
+    methodDescriptor_OrderService_updateItemStatus,
+  )
+}
+
 module.exports = proto.order

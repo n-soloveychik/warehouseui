@@ -3,8 +3,25 @@ syntax = "proto3";
 package order;
 option go_package="order;order";
 
+enum ItemStatus{
+    UNDEFINED = 0;
+    IN_STOCK = 1;
+    AWAIT_DELIVERY = 2;
+    CLAIMS = 3;
+    SHIPPED = 4;
+}
+
 message GetItemsByVendorCodeRequest {
     string vendor_code = 1;
+}
+
+message UpdateItemStatusRequest{
+    uint64 item_id = 1;
+    uint32 status_id = 2;
+}
+
+message UpdateItemStatusResponse{
+    uint64 item_id = 1;
 }
 
 message Items {
@@ -12,14 +29,15 @@ message Items {
 }
 
 message Item {
-    string category = 1;
-    string lot = 2;
-    string vendor_code = 3;
-    string image = 4;
-    string size = 5;
-    uint64 count = 6;
-    float weight = 7;
-    string description = 8;
-    uint32 status_id = 9;
-    string status = 10;
+    uint64 item_id = 1;
+    string category = 2;
+    string lot = 3;
+    string vendor_code = 4;
+    string image = 5;
+    string size = 6;
+    uint64 count = 7;
+    float weight = 8;
+    string description = 9;
+    uint32 status_id = 10;
+    string status = 11;
 }
