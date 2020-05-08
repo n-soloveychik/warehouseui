@@ -1,219 +1,14 @@
 import {
-  SELECT_CURRENT_ACCOUNT_CONTRACT,
+  SELECT_CURRENT_ORDER,
   SELECT_CURRENT_VENDOR_CODE,
   GRPC,
 } from '@/redux/actions/actionNames'
 
 const initialState = {
   list: {},
-  table: [
-    { type: 'Фанера' },
-    {
-      lot: '01-001',
-      status: 0,
-      vendor_code: '0000.0000.6543',
-      image: '',
-      size: '723*720*21',
-      count: '1',
-      weight: '6.5',
-      description: '3000 Огненно-красный',
-    },
-    {
-      lot: '01-001',
-      status: 0,
-      vendor_code: '0000.0000.6543',
-      image: '',
-      size: '723*720*21',
-      count: '1',
-      weight: '6.5',
-      description: '3000 Огненно-красный',
-    },
-    {
-      lot: '01-001',
-      status: 0,
-      vendor_code: '0000.0000.6543',
-      image: '',
-      size: '723*720*21',
-      count: '1',
-      weight: '6.5',
-      description: '3000 Огненно-красный',
-    },
-    {
-      lot: '01-001',
-      status: 0,
-      vendor_code: '0000.0000.6543',
-      image: '',
-      size: '723*720*21',
-      count: '1',
-      weight: '6.5',
-      description: '3000 Огненно-красный',
-    },
-    { type: 'Фанера' },
-    {
-      lot: '01-001',
-      status: 0,
-      vendor_code: '0000.0000.6543',
-      image: '',
-      size: '723*720*21',
-      count: '1',
-      weight: '6.5',
-      description: '3000 Огненно-красный',
-    },
-    {
-      lot: '01-001',
-      status: 0,
-      vendor_code: '0000.0000.6543',
-      image: '',
-      size: '723*720*21',
-      count: '1',
-      weight: '6.5',
-      description: '3000 Огненно-красный',
-    },
-    {
-      lot: '01-001',
-      status: 0,
-      vendor_code: '0000.0000.6543',
-      image: '',
-      size: '723*720*21',
-      count: '1',
-      weight: '6.5',
-      description: '3000 Огненно-красный',
-    },
-    {
-      lot: '01-001',
-      status: 0,
-      vendor_code: '0000.0000.6543',
-      image: '',
-      size: '723*720*21',
-      count: '1',
-      weight: '6.5',
-      description: '3000 Огненно-красный',
-    },
-    { type: 'Фанера' },
-    {
-      lot: '01-001',
-      status: 0,
-      vendor_code: '0000.0000.6543',
-      image: '',
-      size: '723*720*21',
-      count: '1',
-      weight: '6.5',
-      description: '3000 Огненно-красный',
-    },
-    {
-      lot: '01-001',
-      status: 0,
-      vendor_code: '0000.0000.6543',
-      image: '',
-      size: '723*720*21',
-      count: '1',
-      weight: '6.5',
-      description: '3000 Огненно-красный',
-    },
-    {
-      lot: '01-001',
-      status: 0,
-      vendor_code: '0000.0000.6543',
-      image: '',
-      size: '723*720*21',
-      count: '1',
-      weight: '6.5',
-      description: '3000 Огненно-красный',
-    },
-    {
-      lot: '01-001',
-      status: 0,
-      vendor_code: '0000.0000.6543',
-      image: '',
-      size: '723*720*21',
-      count: '1',
-      weight: '6.5',
-      description: '3000 Огненно-красный',
-    },
-    { type: 'Фанера' },
-    {
-      lot: '01-001',
-      status: 0,
-      vendor_code: '0000.0000.6543',
-      image: '',
-      size: '723*720*21',
-      count: '1',
-      weight: '6.5',
-      description: '3000 Огненно-красный',
-    },
-    {
-      lot: '01-001',
-      status: 0,
-      vendor_code: '0000.0000.6543',
-      image: '',
-      size: '723*720*21',
-      count: '1',
-      weight: '6.5',
-      description: '3000 Огненно-красный',
-    },
-    {
-      lot: '01-001',
-      status: 0,
-      vendor_code: '0000.0000.6543',
-      image: '',
-      size: '723*720*21',
-      count: '1',
-      weight: '6.5',
-      description: '3000 Огненно-красный',
-    },
-    {
-      lot: '01-001',
-      status: 0,
-      vendor_code: '0000.0000.6543',
-      image: '',
-      size: '723*720*21',
-      count: '1',
-      weight: '6.5',
-      description: '3000 Огненно-красный',
-    },
-    { type: 'Фанера' },
-    {
-      lot: '01-001',
-      status: 0,
-      vendor_code: '0000.0000.6543',
-      image: '',
-      size: '723*720*21',
-      count: '1',
-      weight: '6.5',
-      description: '3000 Огненно-красный',
-    },
-    {
-      lot: '01-001',
-      status: 0,
-      vendor_code: '0000.0000.6543',
-      image: '',
-      size: '723*720*21',
-      count: '1',
-      weight: '6.5',
-      description: '3000 Огненно-красный',
-    },
-    {
-      lot: '01-001',
-      status: 0,
-      vendor_code: '0000.0000.6543',
-      image: '',
-      size: '723*720*21',
-      count: '1',
-      weight: '6.5',
-      description: '3000 Огненно-красный',
-    },
-    {
-      lot: '01-001',
-      status: 0,
-      vendor_code: '0000.0000.6543',
-      image: '',
-      size: '723*720*21',
-      count: '1',
-      weight: '6.5',
-      description: '3000 Огненно-красный',
-    },
-  ],
+  table: [],
   isCallingGetOrders: false,
+  isCallingGetItems: false,
   currentOrder: null,
   currentVendorCode: null,
 }
@@ -244,26 +39,42 @@ const selectVendorCode = (state, vendorCode) => {
 
 export default function (state = initialState, action) {
   switch (action.type) {
-    case SELECT_CURRENT_ACCOUNT_CONTRACT: {
+    case SELECT_CURRENT_ORDER: {
       return selectOrder(state, action.order)
     }
     case SELECT_CURRENT_VENDOR_CODE: {
       return selectVendorCode(state, action.vendorCode)
     }
-    case GRPC.ACCOUNT_CONTRACT.GET.CALL: {
+    case GRPC.ORDERS.GET.CALL: {
       return Object.assign({}, state, {
         isCallingGetOrders: true,
       })
     }
-    case GRPC.ACCOUNT_CONTRACT.GET.FAILURE: {
+    case GRPC.ORDERS.GET.FAILURE: {
       return Object.assign({}, state, {
         isCallingGetOrders: false,
       })
     }
-    case GRPC.ACCOUNT_CONTRACT.GET.SUCCESS: {
+    case GRPC.ORDERS.GET.SUCCESS: {
       return Object.assign({}, state, {
         isCallingGetOrders: false,
         list: action.data,
+      })
+    }
+    case GRPC.ITEMS.GET.CALL: {
+      return Object.assign({}, state, {
+        isCallingGetItems: true,
+      })
+    }
+    case GRPC.ITEMS.GET.FAILURE: {
+      return Object.assign({}, state, {
+        isCallingGetItems: false,
+      })
+    }
+    case GRPC.ITEMS.GET.SUCCESS: {
+      return Object.assign({}, state, {
+        isCallingGetItems: false,
+        table: action.data,
       })
     }
     default: {

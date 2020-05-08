@@ -11,6 +11,7 @@ import {
   selectOrder,
   selectVendorCode,
   getOrders,
+  getItemsByVendorCode,
 } from '@/redux/actions/actions'
 
 class Items extends Component {
@@ -20,6 +21,7 @@ class Items extends Component {
 
   async componentDidMount() {
     await this.props.getOrders()
+    await this.props.getItemsByVendorCode()
     await this.setStateFromQueryParams()
     await this.openDrawerOnStart()
   }
@@ -142,6 +144,7 @@ function mapDispatchToProps(dispatch) {
     selectOrder: (id) => dispatch(selectOrder(id)),
     selectVendorCode: (id) => dispatch(selectVendorCode(id)),
     getOrders: () => getOrders(dispatch),
+    getItemsByVendorCode: () => getItemsByVendorCode(dispatch, 1),
   }
 }
 

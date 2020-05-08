@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package order;
+
+option go_package="order;order";
+
+import "order_message.proto";
+import "vendor_message.proto";
+
+import "item_message.proto";
+
+service OrderService{
+    rpc getItemsByVendorCode (GetItemsByVendorCodeRequest) returns (Items);
+    rpc getStoredOrderCodes(GetStoredOrderCodesRequest) returns (OrderCodes);
+    rpc getStoredVendorCodes(GetStoredVendorCodesRequest) returns (VendorCodes);
+}

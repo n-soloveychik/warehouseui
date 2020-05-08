@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package order;
+
+option go_package="order;order";
+
+message GetStoredOrderCodesRequest{
+    string warehouse_id = 1;
+}
+
+message OrderCode{
+    string order_num = 1;
+}
+
+message OrderCodes{
+    repeated OrderCode order_codes = 1;
+}
+
+
+
