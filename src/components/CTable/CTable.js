@@ -11,6 +11,9 @@ import {
 import CancelIcon from '@material-ui/icons/Cancel'
 import DoneOutlineIcon from '@material-ui/icons/DoneOutline'
 import classes from './CTable.module.scss'
+import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank'
+import CheckBoxIcon from '@material-ui/icons/CheckBox'
+import ReportProblemIcon from '@material-ui/icons/ReportProblem'
 
 const styles = {
   1: {
@@ -43,7 +46,7 @@ const CTable = (props) => {
           {itemIndex === 0 && (
             <TableCell
               rowSpan={lot.items.length}
-              style={{ textAlign: 'center' }}
+              style={{ textAlign: 'center', background: 'white' }}
             >
               {lot.name}
             </TableCell>
@@ -58,24 +61,35 @@ const CTable = (props) => {
           <TableCell>
             <Typography variant={'caption'}>{item.description}</Typography>
           </TableCell>
-          <TableCell style={{ paddingRight: 0 }}>
-            <IconButton
-              onClick={() =>
-                props.updateStatus({ itemId: item.itemId, statusId: 1 })
-              }
-              size={'small'}
-            >
-              <DoneOutlineIcon></DoneOutlineIcon>
-            </IconButton>
+          <TableCell style={{ padding: '6px 0', maxWidth: 51 }}>
+            {item.statusId !== 1 ? (
+              <IconButton
+                onClick={() =>
+                  props.updateStatus({ itemId: item.itemId, statusId: 1 })
+                }
+                size={'small'}
+              >
+                <CheckBoxOutlineBlankIcon></CheckBoxOutlineBlankIcon>
+              </IconButton>
+            ) : (
+              <IconButton
+                onClick={() =>
+                  props.updateStatus({ itemId: item.itemId, statusId: 2 })
+                }
+                size={'small'}
+              >
+                <CheckBoxIcon></CheckBoxIcon>
+              </IconButton>
+            )}
           </TableCell>
-          <TableCell>
+          <TableCell style={{ padding: '6px 0', maxWidth: 51 }}>
             <IconButton
               onClick={() =>
                 props.updateStatus({ itemId: item.itemId, statusId: 3 })
               }
               size={'small'}
             >
-              <CancelIcon />
+              <ReportProblemIcon />
             </IconButton>
           </TableCell>
         </TableRow>

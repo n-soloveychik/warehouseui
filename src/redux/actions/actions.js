@@ -9,7 +9,6 @@ import {
   updateItemStatusAction,
 } from './grpcActions/itemActions'
 import { grpc } from '@/grpc/index'
-import { vendorCodesGetter } from '../getters/vendorCodes'
 
 export function getOrders(dispatch) {
   return getOrdersAction(dispatch, GRPC.ORDERS.GET, grpc.orders.get)
