@@ -11,7 +11,10 @@ import {
   selectOrder,
   selectVendorCode,
   getOrders,
+  getItemsByVendorCode,
+  updateItemStatus,
 } from '@/redux/actions/actions'
+import { itemsGetter } from '@/redux/getters/items'
 
 class Items extends Component {
   state = {
@@ -20,6 +23,7 @@ class Items extends Component {
 
   async componentDidMount() {
     await this.props.getOrders()
+    await this.props.getItemsByVendorCode()
     await this.setStateFromQueryParams()
     await this.openDrawerOnStart()
   }
@@ -101,7 +105,12 @@ class Items extends Component {
     return (
       <div className={classes.Items}>
         <CHeader text={headerText} onTextClick={this.openSidebar}></CHeader>
-        <CTable data={this.props.table}></CTable>
+        <CTable
+          updateStatus={({ itemId, statusId }) =>
+            this.props.updateItemStatus({ itemId, statusId })
+          }
+          data={this.props.table}
+        ></CTable>
         <IconButton
           style={{ position: 'absolute' }}
           className={classes.IconButton}
@@ -133,15 +142,18 @@ function mapStateToProps(state) {
   return {
     currentOrder: state.warehouse.currentOrder,
     currentVendorCode: state.warehouse.currentVendorCode,
-    table: state.warehouse.table,
+    table: itemsGetter(state),
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    selectOrder: (id) => dispatch(selectOrder(id)),
-    selectVendorCode: (id) => dispatch(selectVendorCode(id)),
+    selectOrder: (id) => selectOrder(dispatch, id),
+    selectVendorCode: (id) => selectVendorCode(dispatch, id),
     getOrders: () => getOrders(dispatch),
+    getItemsByVendorCode: () => getItemsByVendorCode(dispatch, 1),
+    updateItemStatus: ({ itemId, statusId }) =>
+      updateItemStatus(dispatch, { statusId, itemId }),
   }
 }
 

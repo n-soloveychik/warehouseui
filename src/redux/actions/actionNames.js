@@ -4,11 +4,15 @@ const grpc = (method, name) => ({
   SUCCESS: `GRPC_${method}_${name}_SUCCESS`,
 })
 
-export const SELECT_CURRENT_ACCOUNT_CONTRACT = 'SELECT_CURRENT_ACCOUNT_CONTRACT'
+export const SELECT_CURRENT_ORDER = 'SELECT_CURRENT_ORDER'
 export const SELECT_CURRENT_VENDOR_CODE = 'SELECT_CURRENT_VENDOR_CODE'
 
 export const GRPC = {
-  ACCOUNT_CONTRACT: {
-    GET: grpc('GET', 'ACCOUNT_CONTRACTS'),
+  ORDERS: {
+    GET: grpc('GET', 'ORDERS'),
+  },
+  ITEMS: {
+    GET: grpc('GET', 'ITEMS'),
+    UPDATE: grpc('UPDATE', 'ITEM'),
   },
 }

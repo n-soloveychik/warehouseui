@@ -1,18 +1,35 @@
 syntax = "proto3";
 
-package items;
-option go_package="items;items";
+package order;
+option go_package="order;order";
 
-service Items{
-    rpc getItems (ItemRequest) returns (Item);
+enum ItemStatus{
+    UNDEFINED = 0;
+    IN_STOCK = 1;
+    AWAIT_DELIVERY = 2;
+    CLAIMS = 3;
+    SHIPPED = 4;
 }
 
-message ItemRequest {
-    uint64 count = 1;
+message GetItemsByVendorCodeRequest {
+    string vendor_code = 1;
+}
+
+message UpdateItemStatusRequest{
+    uint64 item_id = 1;
+    uint32 status_id = 2;
+}
+
+message UpdateItemStatusResponse{
+    uint64 item_id = 1;
+}
+
+message Items {
+    repeated Item items = 1;
 }
 
 message Item {
-    string title = 1;
+    uint64 item_id = 1;
     string category = 2;
     string lot = 3;
     string vendor_code = 4;
@@ -21,5 +38,6 @@ message Item {
     uint64 count = 7;
     float weight = 8;
     string description = 9;
-    //reserved 10 to 15;
+    uint32 status_id = 10;
+    string status = 11;
 }

@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package order;
+
+option go_package="order;order";
+
+message GetStoredVendorCodesRequest{
+    string order_num = 1;
+}
+
+message VendorCode{
+    string vendor_code = 1;
+    string order_num = 2;
+}
+
+message VendorCodes{
+    repeated VendorCode vendor_codes = 1;
+}
+
