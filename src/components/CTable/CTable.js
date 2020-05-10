@@ -8,8 +8,6 @@ import {
   IconButton,
   Typography,
 } from '@material-ui/core'
-import CancelIcon from '@material-ui/icons/Cancel'
-import DoneOutlineIcon from '@material-ui/icons/DoneOutline'
 import classes from './CTable.module.scss'
 import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank'
 import CheckBoxIcon from '@material-ui/icons/CheckBox'
@@ -51,9 +49,7 @@ const CTable = (props) => {
               {lot.name}
             </TableCell>
           )}
-          <TableCell style={{ textAlign: 'center' }}>
-            {item.vendor_code}
-          </TableCell>
+          <TableCell style={{ textAlign: 'center' }}>{item.itemNum}</TableCell>
           <TableCell style={{ textAlign: 'center' }}>{item.image}</TableCell>
           <TableCell style={{ textAlign: 'center' }}>{item.size}</TableCell>
           <TableCell style={{ textAlign: 'center' }}>{item.count}</TableCell>

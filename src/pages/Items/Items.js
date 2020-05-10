@@ -19,17 +19,23 @@ import { itemsGetter } from '@/redux/getters/items'
 class Items extends Component {
   state = {
     sideOpened: false,
+    shouldUpdate: false,
   }
 
   async componentDidMount() {
     await this.props.getOrders()
     await this.props.getItemsByVendorCode()
-    await this.setStateFromQueryParams()
+    await this.setStateFromURLParams()
+    this.setState({ shouldUpdate: true })
     await this.openDrawerOnStart()
   }
 
+  shouldComponentUpdate(nextProps, nextState) {
+    return nextState.shouldUpdate
+  }
+
   componentDidUpdate(prevProps, prevState) {
-    this.setQueryParams()
+    this.setURLParams()
     if (
       this.props.currentVendorCode &&
       prevProps.currentVendorCode !== this.props.currentVendorCode
@@ -39,45 +45,41 @@ class Items extends Component {
   }
 
   openDrawerOnStart() {
-    let currentParams = new URLSearchParams(this.props.location.search)
-    if (
-      !currentParams.has('currentOrder') ||
-      !currentParams.has('currentVendorCode')
-    ) {
+    if (!this.props.match.params.order || !this.props.match.params.vendor) {
       this.setState({ sideOpened: true })
     }
   }
 
-  setStateFromQueryParams() {
-    let currentParams = new URLSearchParams(this.props.location.search)
-    let orderFromQueryParams = currentParams.get('currentOrder')
-    let vendorCodeFromQueryParams = currentParams.get('currentVendorCode')
-    if (orderFromQueryParams) {
-      this.props.selectOrder(orderFromQueryParams)
+  setStateFromURLParams() {
+    let order = this.props.match.params.order
+    let vendor = this.props.match.params.vendor
+    if (!order || !this.props.isOrder(order)) {
+      this.props.history.push('/')
+      return
     }
-    if (vendorCodeFromQueryParams) {
-      this.props.selectVendorCode(vendorCodeFromQueryParams)
+    this.props.selectOrder(order)
+    if (!vendor || !this.props.isVendor(vendor)) {
+      this.props.history.push(`/order/${order}`)
+      return
     }
+    this.props.selectVendorCode(vendor)
   }
 
-  setQueryParams() {
-    let newParams = new URLSearchParams()
-    let currentParams = new URLSearchParams(this.props.location.search)
-    if (this.props.currentOrder) {
-      newParams.append('currentOrder', this.props.currentOrder)
-    }
-    if (this.props.currentVendorCode) {
-      newParams.append('currentVendorCode', this.props.currentVendorCode)
-    }
+  setURLParams() {
     if (
-      newParams.toString() &&
-      newParams.toString() !== currentParams.toString()
+      this.props.match.params.order == this.props.currentOrder &&
+      this.props.match.params.vendor == this.props.currentVendorCode
     ) {
-      this.props.history.push({
-        pathname: this.props.location.pathname,
-        search: newParams.toString(),
-      })
+      return
     }
+    let path = this.props.currentOrder
+      ? `/order/${this.props.currentOrder}/`
+      : '/'
+    path +=
+      this.props.currentOrder && this.props.currentVendorCode
+        ? `vendor-code/${this.props.currentVendorCode}`
+        : ''
+    this.props.history.push(path)
   }
 
   toggleSidebar = () => {
@@ -143,6 +145,14 @@ function mapStateToProps(state) {
     currentOrder: state.warehouse.currentOrder,
     currentVendorCode: state.warehouse.currentVendorCode,
     table: itemsGetter(state),
+    isOrder: (orderNum) =>
+      !!state.warehouse.vendorCodes.find(
+        (vendor) => vendor.orderNum === orderNum,
+      ),
+    isVendor: (vendorCode) =>
+      !!state.warehouse.vendorCodes.find(
+        (vendor) => vendor.vendorCode === vendorCode,
+      ),
   }
 }
 
