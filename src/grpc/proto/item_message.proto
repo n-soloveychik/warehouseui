@@ -27,7 +27,7 @@ message UpdateItemStatusResponse{
 message SetItemStatusClaimRequest{
     uint64 item_id = 1;
     string claim_description = 2;
-    repeated Image images = 3;
+    repeated string images = 3;
 }
 
 message SetItemStatusClaimResponse{
@@ -60,9 +60,6 @@ message transferItemInVendorResponse{
     string vendor_code = 2;
 }
 
-message Image{
-    bytes Content = 1;
-}
 
 message Link{
     string link = 1;

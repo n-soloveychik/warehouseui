@@ -13,7 +13,7 @@ service OrderService{
     rpc getItemsByVendorCode (GetItemsByVendorCodeRequest) returns (Items);
     rpc getStoredOrderCodes(GetStoredOrderCodesRequest) returns (OrderCodes);
     rpc getStoredVendorCodes(GetStoredVendorCodesRequest) returns (VendorCodes);
-    rpc setItemStatusClaim(stream SetItemStatusClaimRequest) returns (SetItemStatusClaimResponse);
+    rpc setItemStatusClaim(SetItemStatusClaimRequest) returns (SetItemStatusClaimResponse);
     rpc setItemStatusInStock(SetItemStatusInStockRequest) returns (SetItemStatusInStockResponse);
     rpc setItemStatusAwaitDelivery(SetItemStatusAwaitDeliveryRequest) returns (SetItemStatusAwaitDeliveryResponse);
     rpc updateItemStatus(UpdateItemStatusRequest) returns (UpdateItemStatusResponse);

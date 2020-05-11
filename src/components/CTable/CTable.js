@@ -80,9 +80,7 @@ const CTable = (props) => {
           </TableCell>
           <TableCell style={{ padding: '6px 0', maxWidth: 51 }}>
             <IconButton
-              onClick={() =>
-                props.updateStatus({ itemId: item.itemId, statusId: 3 })
-              }
+              onClick={() => props.openClaims(item.itemNum)}
               size={'small'}
             >
               <ReportProblemIcon />
@@ -95,7 +93,7 @@ const CTable = (props) => {
     return res
   })
   return (
-    <div style={{ height: 'calc(100vh - 80px)', overflow: 'auto' }}>
+    <>
       <Table style={{ height: 'auto' }} size='small'>
         <TableHead
           style={{
@@ -119,7 +117,7 @@ const CTable = (props) => {
         </TableHead>
         <TableBody>{tableBody}</TableBody>
       </Table>
-    </div>
+    </>
   )
 }
 

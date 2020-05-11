@@ -100,21 +100,28 @@ class Items extends Component {
     })
   }
 
+  openClaims = (itemNum) => {
+    this.props.history.push(
+      `${this.props.location.pathname}/item/${itemNum}/claims`,
+    )
+  }
+
   render() {
     const headerText = this.props.currentVendorCode
       ? `${this.props.currentOrder} / ${this.props.currentVendorCode}`
       : 'Открыть артикул'
     return (
-      <div className={classes.Items}>
+      <div className='page'>
         <CHeader text={headerText} onTextClick={this.openSidebar}></CHeader>
         <CTable
+          openClaims={this.openClaims}
           updateStatus={({ itemId, statusId }) =>
             this.props.updateItemStatus({ itemId, statusId })
           }
           data={this.props.table}
         ></CTable>
         <IconButton
-          style={{ position: 'absolute' }}
+          style={{ position: 'fixed' }}
           className={classes.IconButton}
           onClick={this.toggleSidebar}
         >
