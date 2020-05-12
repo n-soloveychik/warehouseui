@@ -20,10 +20,6 @@ class UploadButton extends Component {
     this.props.takePhotos(photos)
   }
 
-  onAccept = (...args) => {
-    console.log(args)
-  }
-
   render() {
     return (
       <div className={this.props.className}>
@@ -37,7 +33,8 @@ class UploadButton extends Component {
         />
         <Button
           onClick={this.handleButtonClick}
-          variant='contained'
+          variant={this.props.variant}
+          color={this.props.color}
           endIcon={<PhotoCamera />}
         >
           {this.props.buttonText}

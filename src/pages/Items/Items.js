@@ -67,7 +67,9 @@ class Items extends Component {
 
   setURLParams() {
     if (
+      // eslint-disable-next-line
       this.props.match.params.order == this.props.currentOrder &&
+      // eslint-disable-next-line
       this.props.match.params.vendor == this.props.currentVendorCode
     ) {
       return
@@ -100,9 +102,9 @@ class Items extends Component {
     })
   }
 
-  openClaims = (itemNum) => {
+  openClaims = (itemId) => {
     this.props.history.push(
-      `${this.props.location.pathname}/item/${itemNum}/claims`,
+      `${this.props.location.pathname}/item/${itemId}/new-claim`,
     )
   }
 

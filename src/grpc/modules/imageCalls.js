@@ -1,5 +1,4 @@
 export const uploadImageHandler = async (client, RequestClass, { image }) => {
-  console.log(image)
   const request = new RequestClass()
   request.setContent(image)
   const result = await new Promise((resolve, reject) =>

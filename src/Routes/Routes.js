@@ -1,7 +1,7 @@
 import React from 'react'
 import { Route, Switch } from 'react-router-dom'
 import Items from '@/pages/Items/Items'
-import Claims from '@/pages/Claims/Claims'
+import CreateClaim from '@/pages/CreateClaim/CreateClaim'
 
 export default function () {
   return (
@@ -13,8 +13,8 @@ export default function () {
       <Route exact path='/order/:order/vendor-code/:vendor' component={Items} />
       <Route
         exact
-        path='/order/:order/vendor-code/:vendor/item/:item/claims'
-        component={Claims}
+        path='/order/:order/vendor-code/:vendor/item/:item/new-claim'
+        component={CreateClaim}
       />
       <Route component={Items} />
     </Switch>

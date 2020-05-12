@@ -60,6 +60,11 @@ message transferItemInVendorResponse{
     string vendor_code = 2;
 }
 
+message ItemClaim{
+    uint64 item_id = 1;
+    string description = 2;
+    repeated Link links = 3;
+}
 
 message Link{
     string link = 1;
@@ -82,4 +87,5 @@ message Item {
     string description = 10;
     uint32 status_id = 11;
     string status = 12;
+    repeated ItemClaim itemClaims = 13;
 }

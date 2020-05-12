@@ -7,6 +7,7 @@ import {
   TableRow,
   IconButton,
   Typography,
+  Badge,
 } from '@material-ui/core'
 import classes from './CTable.module.scss'
 import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank'
@@ -80,10 +81,12 @@ const CTable = (props) => {
           </TableCell>
           <TableCell style={{ padding: '6px 0', maxWidth: 51 }}>
             <IconButton
-              onClick={() => props.openClaims(item.itemNum)}
+              onClick={() => props.openClaims(item.itemId)}
               size={'small'}
             >
-              <ReportProblemIcon />
+              <Badge badgeContent={item.itemclaimsList.length} color='error'>
+                <ReportProblemIcon />
+              </Badge>
             </IconButton>
           </TableCell>
         </TableRow>
