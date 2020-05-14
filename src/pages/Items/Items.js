@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import Lists from '@/components/Lists/Lists'
-import CTable from '@/components/CTable/CTable'
+import CTable from '@/pages/Items/CTable/CTable'
 import CHeader from '@/components/CHeader/CHeader'
 import classes from './Items.module.scss'
 import { IconButton, SwipeableDrawer } from '@material-ui/core'
@@ -15,11 +15,14 @@ import {
   updateItemStatus,
 } from '@/redux/actions/actions'
 import { itemsGetter } from '@/redux/getters/items'
+import ContextMenu from './ContextMenu/ContextMenu'
 
 class Items extends Component {
   state = {
     sideOpened: false,
     shouldUpdate: false,
+    menuAnchorEl: null,
+    menuItem: null,
   }
 
   async componentDidMount() {
@@ -102,10 +105,29 @@ class Items extends Component {
     })
   }
 
-  openClaims = (itemId) => {
+  openContextMenu = (item, element) => {
+    this.setState({
+      menuAnchorEl: element,
+      menuItem: item,
+    })
+  }
+
+  openCreateClaim = (itemId) => {
     this.props.history.push(
       `${this.props.location.pathname}/item/${itemId}/new-claim`,
     )
+  }
+
+  openClaims = (itemId) => {
+    this.props.history.push(
+      `${this.props.location.pathname}/item/${itemId}/claims`,
+    )
+  }
+
+  closeContextMenu = () => {
+    this.setState({
+      menuAnchorEl: null,
+    })
   }
 
   render() {
@@ -116,7 +138,7 @@ class Items extends Component {
       <div className='page'>
         <CHeader text={headerText} onTextClick={this.openSidebar}></CHeader>
         <CTable
-          openClaims={this.openClaims}
+          contextMenuButtonClick={this.openContextMenu}
           updateStatus={({ itemId, statusId }) =>
             this.props.updateItemStatus({ itemId, statusId })
           }
@@ -144,6 +166,14 @@ class Items extends Component {
             <ArrowBackIosIcon></ArrowBackIosIcon>
           </IconButton>
         </SwipeableDrawer>
+        <ContextMenu
+          open={!!this.state.menuAnchorEl}
+          anchorEl={this.state.menuAnchorEl}
+          item={this.state.menuItem}
+          handleClose={this.closeContextMenu}
+          createClaim={this.openCreateClaim}
+          openClaims={this.openClaims}
+        />
       </div>
     )
   }

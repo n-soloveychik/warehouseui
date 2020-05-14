@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import CHeader from '@/components/CHeader/CHeader'
-import UploadButton from '@/components/UploadButton/UploadButton'
+import UploadButton from '@/pages/CreateClaim/UploadButton/UploadButton'
 import {
   Typography,
   TextField,

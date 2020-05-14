@@ -81,7 +81,7 @@ const CTable = (props) => {
           </TableCell>
           <TableCell style={{ padding: '6px 0', maxWidth: 51 }}>
             <IconButton
-              onClick={() => props.openClaims(item.itemId)}
+              onClick={(e) => props.contextMenuButtonClick(item, e.target)}
               size={'small'}
             >
               <Badge badgeContent={item.itemclaimsList.length} color='error'>
