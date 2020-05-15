@@ -18,13 +18,13 @@ const composeEnhancers =
 const store = createStore(rootReducer, composeEnhancers(applyMiddleware()))
 
 ReactDOM.render(
-  <React.StrictMode>
-    <BrowserRouter>
-      <Provider store={store}>
-        <App />
-      </Provider>
-    </BrowserRouter>
-  </React.StrictMode>,
+  // <React.StrictMode>
+  <BrowserRouter>
+    <Provider store={store}>
+      <App />
+    </Provider>
+  </BrowserRouter>,
+  // </React.StrictMode>,
   document.getElementById('root'),
 )
 
