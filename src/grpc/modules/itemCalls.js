@@ -1,6 +1,7 @@
 export const getItemsHandler = async (client, RequestClass, vendorCode) => {
   const request = new RequestClass()
   request.setVendorCode(vendorCode)
+  console.log()
   const result = await new Promise((resolve) => {
     client.getItemsByVendorCode(request, null, (err, response) => {
       resolve(response)
