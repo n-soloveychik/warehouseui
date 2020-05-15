@@ -316,6 +316,86 @@ proto.order.OrderServicePromiseClient.prototype.getStoredVendorCodes =
 /**
  * @const
  * @type {!grpc.web.MethodDescriptor<
+ *   !proto.order.SetItemStatusClaimRequest,
+ *   !proto.order.SetItemStatusClaimResponse>}
+ */
+const methodDescriptor_OrderService_setItemStatusClaim = new grpc.web.MethodDescriptor(
+  '/order.OrderService/setItemStatusClaim',
+  grpc.web.MethodType.UNARY,
+  item_message_pb.SetItemStatusClaimRequest,
+  item_message_pb.SetItemStatusClaimResponse,
+  /**
+   * @param {!proto.order.SetItemStatusClaimRequest} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  item_message_pb.SetItemStatusClaimResponse.deserializeBinary
+);
+
+
+/**
+ * @const
+ * @type {!grpc.web.AbstractClientBase.MethodInfo<
+ *   !proto.order.SetItemStatusClaimRequest,
+ *   !proto.order.SetItemStatusClaimResponse>}
+ */
+const methodInfo_OrderService_setItemStatusClaim = new grpc.web.AbstractClientBase.MethodInfo(
+  item_message_pb.SetItemStatusClaimResponse,
+  /**
+   * @param {!proto.order.SetItemStatusClaimRequest} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  item_message_pb.SetItemStatusClaimResponse.deserializeBinary
+);
+
+
+/**
+ * @param {!proto.order.SetItemStatusClaimRequest} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @param {function(?grpc.web.Error, ?proto.order.SetItemStatusClaimResponse)}
+ *     callback The callback function(error, response)
+ * @return {!grpc.web.ClientReadableStream<!proto.order.SetItemStatusClaimResponse>|undefined}
+ *     The XHR Node Readable Stream
+ */
+proto.order.OrderServiceClient.prototype.setItemStatusClaim =
+    function(request, metadata, callback) {
+  return this.client_.rpcCall(this.hostname_ +
+      '/order.OrderService/setItemStatusClaim',
+      request,
+      metadata || {},
+      methodDescriptor_OrderService_setItemStatusClaim,
+      callback);
+};
+
+
+/**
+ * @param {!proto.order.SetItemStatusClaimRequest} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @return {!Promise<!proto.order.SetItemStatusClaimResponse>}
+ *     A native promise that resolves to the response
+ */
+proto.order.OrderServicePromiseClient.prototype.setItemStatusClaim =
+    function(request, metadata) {
+  return this.client_.unaryCall(this.hostname_ +
+      '/order.OrderService/setItemStatusClaim',
+      request,
+      metadata || {},
+      methodDescriptor_OrderService_setItemStatusClaim);
+};
+
+
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
  *   !proto.order.SetItemStatusInStockRequest,
  *   !proto.order.SetItemStatusInStockResponse>}
  */

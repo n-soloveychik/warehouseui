@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package image;
+option go_package="image;image";
+
+import "image_message.proto";
+
+service ImageService{
+    rpc uploadImage(Image) returns(UploadImageResponse);
+}
+
