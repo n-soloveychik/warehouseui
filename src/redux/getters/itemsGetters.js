@@ -1,12 +1,11 @@
-export const itemsGetter = (state) => {
-  const items = state.warehouse.items
+export const checkItemsGetter = (items) => {
   const groupedItems = items.reduce((acc, cur) => {
-    const category = acc.find((obj) => obj.name === cur.category)
+    const category = acc.find((obj) => obj.category === cur.category)
     if (category) {
       category.lots.push(cur)
       return acc
     }
-    acc.push({ name: cur.category, lots: [cur] })
+    acc.push({ category: cur.category, lots: [cur] })
     return acc
   }, [])
   Object.keys(groupedItems).forEach(
@@ -21,5 +20,18 @@ export const itemsGetter = (state) => {
         return acc
       }, [])),
   )
+  return groupedItems
+}
+
+export const editItemsGetter = (items) => {
+  const groupedItems = items.reduce((acc, cur) => {
+    const category = acc.find((obj) => obj.category === cur.category)
+    if (category) {
+      category.items.push(cur)
+      return acc
+    }
+    acc.push({ category: cur.category, items: [cur] })
+    return acc
+  }, [])
   return groupedItems
 }

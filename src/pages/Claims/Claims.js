@@ -1,11 +1,10 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import CHeader from '@/components/CHeader/CHeader'
-import { Grid, Container } from '@material-ui/core'
+import { Container } from '@material-ui/core'
 import CardClaim from './CardClaim/CardClaim'
 import { getItemsByVendorCode } from '@/redux/actions/actions'
 
-const claim = {}
 class Claims extends Component {
   constructor(props) {
     super(props)

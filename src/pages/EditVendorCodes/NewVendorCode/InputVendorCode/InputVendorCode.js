@@ -31,7 +31,7 @@ class InputVendorCode extends Component {
         onChange={this.onChange}
         value={this.state.value}
       >
-        <TextField />
+        <TextField inputProps={{ style: { textAlign: 'center' } }} />
       </InputMask>
     )
   }

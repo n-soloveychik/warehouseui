@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import Lists from '@/components/Lists/Lists'
-import CTable from '@/pages/Items/CTable/CTable'
+import CheckItemsTable from '@/pages/Items/CheckItemsTable/CheckItemsTable'
 import CHeader from '@/components/CHeader/CHeader'
 import classes from './Items.module.scss'
 import { IconButton, SwipeableDrawer } from '@material-ui/core'
@@ -14,7 +14,7 @@ import {
   getItemsByVendorCode,
   updateItemStatus,
 } from '@/redux/actions/actions'
-import { itemsGetter } from '@/redux/getters/items'
+import { checkItemsGetter } from '@/redux/getters/itemsGetters'
 import ContextMenu from './ContextMenu/ContextMenu'
 
 class Items extends Component {
@@ -137,13 +137,13 @@ class Items extends Component {
     return (
       <div className='page'>
         <CHeader text={headerText} onTextClick={this.openSidebar}></CHeader>
-        <CTable
+        <CheckItemsTable
           contextMenuButtonClick={this.openContextMenu}
           updateStatus={({ itemId, statusId }) =>
             this.props.updateItemStatus({ itemId, statusId })
           }
           data={this.props.table}
-        ></CTable>
+        ></CheckItemsTable>
         <IconButton
           style={{ position: 'fixed' }}
           className={classes.IconButton}
@@ -183,7 +183,7 @@ function mapStateToProps(state) {
   return {
     currentOrder: state.warehouse.currentOrder,
     currentVendorCode: state.warehouse.currentVendorCode,
-    table: itemsGetter(state),
+    table: checkItemsGetter(state.warehouse.items),
     isOrder: (orderNum) =>
       !!state.warehouse.vendorCodes.find(
         (vendor) => vendor.orderNum === orderNum,

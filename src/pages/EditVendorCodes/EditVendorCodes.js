@@ -4,6 +4,12 @@ import VendorList from './VendorList/VendorList'
 import NewVendorCode from './NewVendorCode/NewVendorCode'
 
 class EditVendorCodes extends Component {
+  openVendorCodeEditItems = (vendorCode) => {
+    this.props.history.push(
+      `${this.props.location.pathname}/${vendorCode}/edit-items`,
+    )
+  }
+
   render() {
     return (
       <>
@@ -15,7 +21,7 @@ class EditVendorCodes extends Component {
           style={{ height: '100vh', overflow: 'hidden' }}
         >
           <NewVendorCode />
-          <VendorList></VendorList>
+          <VendorList openItems={this.openVendorCodeEditItems}></VendorList>
         </Container>
       </>
     )

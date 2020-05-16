@@ -4,7 +4,7 @@ import classes from './Lists.module.scss'
 import CList from './CList/CList'
 import { Grid } from '@material-ui/core'
 import { selectVendorCode, selectOrder } from '@/redux/actions/actions'
-import { vendorCodesGetter } from '@/redux/getters/vendorCodes'
+import { vendorCodesGetter } from '@/redux/getters/vendorCodesGetters'
 
 function mapStateToProps(state) {
   const list = vendorCodesGetter(state)
