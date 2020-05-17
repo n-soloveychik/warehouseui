@@ -1,6 +1,6 @@
 import React from 'react'
 import { TableRow, TableCell, Typography } from '@material-ui/core'
-import NewItemRows from './NewItemRows/NewItemRows'
+import NewItemRows from './AddItemRows/AddItemRows'
 
 const CategoryRows = ({ cells, category }) => {
   return (

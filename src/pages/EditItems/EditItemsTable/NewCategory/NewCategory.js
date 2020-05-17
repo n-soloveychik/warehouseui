@@ -20,7 +20,7 @@ const categories = [
 class NewCategory extends Component {
   state = {
     selecting: false,
-    creating: true,
+    creating: false,
   }
 
   setSelecting = (bool) => {
