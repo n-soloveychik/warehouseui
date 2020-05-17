@@ -13,6 +13,9 @@ import { grpc } from '@/grpc/index'
 import {
   getVendorTemplatesAction,
   createVendorTemplateAction,
+  getItemsByVendorAction,
+  getCategoriesAction,
+  createCategoryAction,
 } from './grpcActions/templateAction'
 
 export function getOrders(dispatch) {
@@ -59,9 +62,37 @@ export const templateActions = {
     hideCreateVendor: (dispatch) =>
       dispatch({ type: TEMPLATES.VENDOR_PAGE_HIDE_ADD_VENDOR }),
   },
+  items: {
+    getByVendor: (dispatch, vendorId) =>
+      getItemsByVendorAction(dispatch, vendorId),
+  },
   itemPage: {
     setCurrentVendor: (dispatch, vendorId) => {
       dispatch({ type: TEMPLATES.ITEM_PAGE_SET_CURRENT_VENDOR, vendorId })
+    },
+    showCategoryCreate: (dispatch) => {
+      dispatch({ type: TEMPLATES.ITEM_PAGE_SHOW_CATEGORY_CREATE })
+    },
+    hideCategoryCreate: (dispatch) => {
+      dispatch({ type: TEMPLATES.ITEM_PAGE_HIDE_CATEGORY_CREATE })
+    },
+    showCategorySelect: (dispatch) => {
+      dispatch({ type: TEMPLATES.ITEM_PAGE_SHOW_CATEGORY_SELECT })
+    },
+    hideCategorySelect: (dispatch) => {
+      dispatch({ type: TEMPLATES.ITEM_PAGE_HIDE_CATEGORY_SELECT })
+    },
+  },
+  categories: {
+    get: (dispatch) => getCategoriesAction(dispatch),
+    create: (dispatch, categoryName) =>
+      createCategoryAction(dispatch, categoryName),
+  },
+  newCategory: {
+    add: (dispatch, category) => {
+      dispatch({ type: TEMPLATES.ITEM_PAGE_ADD_NEW_CATEGORY, category })
+      dispatch({ type: TEMPLATES.ITEM_PAGE_HIDE_CATEGORY_SELECT })
+      dispatch({ type: TEMPLATES.ITEM_PAGE_HIDE_CATEGORY_CREATE })
     },
   },
 }

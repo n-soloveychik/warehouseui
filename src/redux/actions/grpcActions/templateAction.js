@@ -24,4 +24,28 @@ export const createVendorTemplateAction = async (dispatch, vendorCode) => {
   )
 }
 
-export const 
+export const getItemsByVendorAction = async (dispatch, vendorId) => {
+  await grpcCoreAction(
+    dispatch,
+    GRPC.TEMPLATES.ITEMS.GET_BY_VENDOR,
+    grpc.template.item.getByVendor,
+    vendorId,
+  )
+}
+
+export const getCategoriesAction = async (dispatch) => {
+  await grpcCoreAction(
+    dispatch,
+    GRPC.TEMPLATES.CATEGORIES.GET,
+    grpc.template.category.get,
+  )
+}
+
+export const createCategoryAction = async (dispatch, categoryName) => {
+  await grpcCoreAction(
+    dispatch,
+    GRPC.TEMPLATES.CATEGORIES.CREATE,
+    grpc.template.category.create,
+    categoryName,
+  )
+}

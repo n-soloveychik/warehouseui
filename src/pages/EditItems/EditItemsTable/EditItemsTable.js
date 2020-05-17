@@ -4,6 +4,7 @@ import { Table, TableBody } from '@material-ui/core'
 import HeadRow from './HeadRow/HeadRow'
 import CategoryRows from './CategoryRows/CategoryRows'
 import NewCategory from './NewCategory/NewCategory'
+import { editItemsGetter } from '@/redux/getters/itemsGetters'
 
 const cells = [
   {
@@ -104,25 +105,17 @@ class EditItemsTable extends Component {
         <TableBody>
           {this.props.groupedItems.map((category, index) => (
             <CategoryRows
-              showCreateItem={this.props.showCreateItem}
-              showSelectItem={this.props.showSelectItem}
-              setShowCreateItem={this.props.setShowCreateItem}
-              setShowSelectItem={this.props.setShowSelectItem}
               create={this.createItem}
               key={index}
               cells={cells}
               category={category}
             />
           ))}
-          {this.state.newCategory ? (
+          {!!this.props.newCategory?.category ? (
             <CategoryRows
-              showCreateItem={this.props.showCreateItem}
-              showSelectItem={this.props.showSelectItem}
-              setShowCreateItem={this.props.setShowCreateItem}
-              setShowSelectItem={this.props.setShowSelectItem}
               create={this.createItem}
               cells={cells}
-              category={this.state.newCategory}
+              category={this.props.newCategory}
             />
           ) : (
             <NewCategory
@@ -139,10 +132,16 @@ class EditItemsTable extends Component {
 
 function mapStateToProps(state) {
   return {
-    groupedItems: state.tempates.itemsOfCurrentVendor,
+    groupedItems: editItemsGetter(
+      state.templates.itemsOfCurrentVendor,
+      state.templates.categories,
+    ),
+    newCategory: state.templates.newCategory,
   }
 }
 
-function mapDispatchToProps() {}
+function mapDispatchToProps() {
+  return {}
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditItemsTable)

@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import CreateItem from './CreateItem/CreateItem'
 import Buttons from './Buttons/Buttons'
 import SelectItem from './SelectItem/SelectItem'
+import { templateActions } from '@/redux/actions/actions'
 
 const itemsTemplate = [
   {
@@ -79,31 +81,34 @@ const itemsTemplate = [
 ]
 
 class NewItemRows extends Component {
-  createNewItem = (item) => {
-    this.props.create(item)
+  state = {
+    showCreate: false,
+    showSelect: false,
   }
+
+  createNewItem = (item) => {}
 
   render() {
     return (
       <>
-        {(this.props.showCreateItem && (
+        {(this.state.showCreate && (
           <CreateItem
             cells={this.props.cells}
-            handleCancel={() => this.props.setShowCreateItem(false)}
+            handleCancel={() => this.setState({ showCreate: false })}
             handleOk={this.createNewItem}
           />
         )) ||
-          (this.props.showSelectItem && (
+          (this.state.showSelect && (
             <SelectItem
               items={itemsTemplate}
               itemNums={itemsTemplate.map((item) => item.itemNum)}
               cells={this.props.cells}
-              handleCancel={() => this.props.setShowSelectItem(false)}
+              handleCancel={() => this.setState({ showSelect: false })}
             />
           )) || (
             <Buttons
-              showCreating={() => this.props.setShowCreateItem(true)}
-              showSelecting={() => this.props.setShowSelectItem(true)}
+              showCreating={() => this.setState({ showCreate: true })}
+              showSelecting={() => this.setState({ showSelect: true })}
               cells={this.props.cells}
             />
           )}
@@ -112,4 +117,11 @@ class NewItemRows extends Component {
   }
 }
 
-export default NewItemRows
+function mapDispatchToProps(dispatch) {
+  return {
+    createCategory: (categoryName) =>
+      templateActions.categories.create(dispatch, categoryName),
+  }
+}
+
+export default connect(null, mapDispatchToProps)(NewItemRows)

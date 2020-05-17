@@ -2,15 +2,7 @@ import React from 'react'
 import { TableRow, TableCell, Typography } from '@material-ui/core'
 import AddItemRows from './AddItemRows/AddItemRows'
 
-const CategoryRows = ({
-  cells,
-  category,
-  create,
-  showCreateItem,
-  showSelectItem,
-  setShowCreateItem,
-  setShowSelectItem,
-}) => {
+const CategoryRows = ({ cells, category, create }) => {
   const addCategoryToItem = (item) => ({
     ...item,
     categoryId: category.categoryId,
@@ -44,10 +36,7 @@ const CategoryRows = ({
           </TableRow>
         ))}
       <AddItemRows
-        showCreateItem={showCreateItem}
-        showSelectItem={showSelectItem}
-        setShowCreateItem={setShowCreateItem}
-        setShowSelectItem={setShowSelectItem}
+        categoryId={category.categoryId}
         create={createItem}
         cells={cells}
       />
