@@ -29,6 +29,8 @@ service OrderService{
     rpc getVendorTemplates(getVendorTemplatesRequest) returns (getVendorTemplatesResponse);
     rpc createItemTemplate(createItemTemplateRequest) returns (createItemTemplateResponse);
     rpc getItemTemplates(getItemTemplatesRequest) returns (getItemTemplatesResponse);
-
+    rpc getItemTemplatesByCategory(getItemTemplatesByCategoryRequest) returns (getItemTemplatesByCategoryResponse);
+    rpc getItemTemplatesByVendorId(getItemTemplatesByVendorIdRequest) returns (getItemTemplatesByVendorIdResponse);
+    rpc addItemTemplateToVendorTemplate(addItemTemplateToVendorTemplateRequest) returns (addItemTemplateToVendorTemplateResponse);
 
 }

@@ -1273,5 +1273,245 @@ proto.order.OrderServicePromiseClient.prototype.getItemTemplates =
 };
 
 
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
+ *   !proto.order.getItemTemplatesByCategoryRequest,
+ *   !proto.order.getItemTemplatesByCategoryResponse>}
+ */
+const methodDescriptor_OrderService_getItemTemplatesByCategory = new grpc.web.MethodDescriptor(
+  '/order.OrderService/getItemTemplatesByCategory',
+  grpc.web.MethodType.UNARY,
+  item_message_pb.getItemTemplatesByCategoryRequest,
+  item_message_pb.getItemTemplatesByCategoryResponse,
+  /**
+   * @param {!proto.order.getItemTemplatesByCategoryRequest} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  item_message_pb.getItemTemplatesByCategoryResponse.deserializeBinary
+);
+
+
+/**
+ * @const
+ * @type {!grpc.web.AbstractClientBase.MethodInfo<
+ *   !proto.order.getItemTemplatesByCategoryRequest,
+ *   !proto.order.getItemTemplatesByCategoryResponse>}
+ */
+const methodInfo_OrderService_getItemTemplatesByCategory = new grpc.web.AbstractClientBase.MethodInfo(
+  item_message_pb.getItemTemplatesByCategoryResponse,
+  /**
+   * @param {!proto.order.getItemTemplatesByCategoryRequest} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  item_message_pb.getItemTemplatesByCategoryResponse.deserializeBinary
+);
+
+
+/**
+ * @param {!proto.order.getItemTemplatesByCategoryRequest} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @param {function(?grpc.web.Error, ?proto.order.getItemTemplatesByCategoryResponse)}
+ *     callback The callback function(error, response)
+ * @return {!grpc.web.ClientReadableStream<!proto.order.getItemTemplatesByCategoryResponse>|undefined}
+ *     The XHR Node Readable Stream
+ */
+proto.order.OrderServiceClient.prototype.getItemTemplatesByCategory =
+    function(request, metadata, callback) {
+  return this.client_.rpcCall(this.hostname_ +
+      '/order.OrderService/getItemTemplatesByCategory',
+      request,
+      metadata || {},
+      methodDescriptor_OrderService_getItemTemplatesByCategory,
+      callback);
+};
+
+
+/**
+ * @param {!proto.order.getItemTemplatesByCategoryRequest} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @return {!Promise<!proto.order.getItemTemplatesByCategoryResponse>}
+ *     A native promise that resolves to the response
+ */
+proto.order.OrderServicePromiseClient.prototype.getItemTemplatesByCategory =
+    function(request, metadata) {
+  return this.client_.unaryCall(this.hostname_ +
+      '/order.OrderService/getItemTemplatesByCategory',
+      request,
+      metadata || {},
+      methodDescriptor_OrderService_getItemTemplatesByCategory);
+};
+
+
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
+ *   !proto.order.getItemTemplatesByVendorIdRequest,
+ *   !proto.order.getItemTemplatesByVendorIdResponse>}
+ */
+const methodDescriptor_OrderService_getItemTemplatesByVendorId = new grpc.web.MethodDescriptor(
+  '/order.OrderService/getItemTemplatesByVendorId',
+  grpc.web.MethodType.UNARY,
+  item_message_pb.getItemTemplatesByVendorIdRequest,
+  item_message_pb.getItemTemplatesByVendorIdResponse,
+  /**
+   * @param {!proto.order.getItemTemplatesByVendorIdRequest} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  item_message_pb.getItemTemplatesByVendorIdResponse.deserializeBinary
+);
+
+
+/**
+ * @const
+ * @type {!grpc.web.AbstractClientBase.MethodInfo<
+ *   !proto.order.getItemTemplatesByVendorIdRequest,
+ *   !proto.order.getItemTemplatesByVendorIdResponse>}
+ */
+const methodInfo_OrderService_getItemTemplatesByVendorId = new grpc.web.AbstractClientBase.MethodInfo(
+  item_message_pb.getItemTemplatesByVendorIdResponse,
+  /**
+   * @param {!proto.order.getItemTemplatesByVendorIdRequest} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  item_message_pb.getItemTemplatesByVendorIdResponse.deserializeBinary
+);
+
+
+/**
+ * @param {!proto.order.getItemTemplatesByVendorIdRequest} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @param {function(?grpc.web.Error, ?proto.order.getItemTemplatesByVendorIdResponse)}
+ *     callback The callback function(error, response)
+ * @return {!grpc.web.ClientReadableStream<!proto.order.getItemTemplatesByVendorIdResponse>|undefined}
+ *     The XHR Node Readable Stream
+ */
+proto.order.OrderServiceClient.prototype.getItemTemplatesByVendorId =
+    function(request, metadata, callback) {
+  return this.client_.rpcCall(this.hostname_ +
+      '/order.OrderService/getItemTemplatesByVendorId',
+      request,
+      metadata || {},
+      methodDescriptor_OrderService_getItemTemplatesByVendorId,
+      callback);
+};
+
+
+/**
+ * @param {!proto.order.getItemTemplatesByVendorIdRequest} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @return {!Promise<!proto.order.getItemTemplatesByVendorIdResponse>}
+ *     A native promise that resolves to the response
+ */
+proto.order.OrderServicePromiseClient.prototype.getItemTemplatesByVendorId =
+    function(request, metadata) {
+  return this.client_.unaryCall(this.hostname_ +
+      '/order.OrderService/getItemTemplatesByVendorId',
+      request,
+      metadata || {},
+      methodDescriptor_OrderService_getItemTemplatesByVendorId);
+};
+
+
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
+ *   !proto.order.addItemTemplateToVendorTemplateRequest,
+ *   !proto.order.addItemTemplateToVendorTemplateResponse>}
+ */
+const methodDescriptor_OrderService_addItemTemplateToVendorTemplate = new grpc.web.MethodDescriptor(
+  '/order.OrderService/addItemTemplateToVendorTemplate',
+  grpc.web.MethodType.UNARY,
+  item_message_pb.addItemTemplateToVendorTemplateRequest,
+  item_message_pb.addItemTemplateToVendorTemplateResponse,
+  /**
+   * @param {!proto.order.addItemTemplateToVendorTemplateRequest} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  item_message_pb.addItemTemplateToVendorTemplateResponse.deserializeBinary
+);
+
+
+/**
+ * @const
+ * @type {!grpc.web.AbstractClientBase.MethodInfo<
+ *   !proto.order.addItemTemplateToVendorTemplateRequest,
+ *   !proto.order.addItemTemplateToVendorTemplateResponse>}
+ */
+const methodInfo_OrderService_addItemTemplateToVendorTemplate = new grpc.web.AbstractClientBase.MethodInfo(
+  item_message_pb.addItemTemplateToVendorTemplateResponse,
+  /**
+   * @param {!proto.order.addItemTemplateToVendorTemplateRequest} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  item_message_pb.addItemTemplateToVendorTemplateResponse.deserializeBinary
+);
+
+
+/**
+ * @param {!proto.order.addItemTemplateToVendorTemplateRequest} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @param {function(?grpc.web.Error, ?proto.order.addItemTemplateToVendorTemplateResponse)}
+ *     callback The callback function(error, response)
+ * @return {!grpc.web.ClientReadableStream<!proto.order.addItemTemplateToVendorTemplateResponse>|undefined}
+ *     The XHR Node Readable Stream
+ */
+proto.order.OrderServiceClient.prototype.addItemTemplateToVendorTemplate =
+    function(request, metadata, callback) {
+  return this.client_.rpcCall(this.hostname_ +
+      '/order.OrderService/addItemTemplateToVendorTemplate',
+      request,
+      metadata || {},
+      methodDescriptor_OrderService_addItemTemplateToVendorTemplate,
+      callback);
+};
+
+
+/**
+ * @param {!proto.order.addItemTemplateToVendorTemplateRequest} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @return {!Promise<!proto.order.addItemTemplateToVendorTemplateResponse>}
+ *     A native promise that resolves to the response
+ */
+proto.order.OrderServicePromiseClient.prototype.addItemTemplateToVendorTemplate =
+    function(request, metadata) {
+  return this.client_.unaryCall(this.hostname_ +
+      '/order.OrderService/addItemTemplateToVendorTemplate',
+      request,
+      metadata || {},
+      methodDescriptor_OrderService_addItemTemplateToVendorTemplate);
+};
+
+
 module.exports = proto.order;
 

@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { Button, TableRow, TableCell } from '@material-ui/core'
 import CreateItem from './CreateItem/CreateItem'
 import Buttons from './Buttons/Buttons'
 import SelectItem from './SelectItem/SelectItem'
@@ -80,55 +79,31 @@ const itemsTemplate = [
 ]
 
 class NewItemRows extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      creating: false,
-      selecting: false,
-    }
-  }
-
-  showCreating = () => {
-    this.setState({
-      creating: true,
-      selecting: false,
-    })
-  }
-
-  showSelecting = () => {
-    this.setState({
-      creating: false,
-      selecting: true,
-    })
-  }
-
-  showButtons = () => {
-    this.setState({
-      creating: false,
-      selecting: false,
-    })
+  createNewItem = (item) => {
+    this.props.create(item)
   }
 
   render() {
     return (
       <>
-        {(this.state.creating && (
+        {(this.props.showCreateItem && (
           <CreateItem
             cells={this.props.cells}
-            handleCancel={this.showButtons}
+            handleCancel={() => this.props.setShowCreateItem(false)}
+            handleOk={this.createNewItem}
           />
         )) ||
-          (this.state.selecting && (
+          (this.props.showSelectItem && (
             <SelectItem
               items={itemsTemplate}
               itemNums={itemsTemplate.map((item) => item.itemNum)}
               cells={this.props.cells}
-              handleCancel={this.showButtons}
+              handleCancel={() => this.props.setShowSelectItem(false)}
             />
           )) || (
             <Buttons
-              showCreating={this.showCreating}
-              showSelecting={this.showSelecting}
+              showCreating={() => this.props.setShowCreateItem(true)}
+              showSelecting={() => this.props.setShowSelectItem(true)}
               cells={this.props.cells}
             />
           )}

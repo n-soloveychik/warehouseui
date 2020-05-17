@@ -61,7 +61,7 @@ message transferItemInVendorResponse{
 }
 
 message createVendorTemplateRequest{
-    VendorTemplate vendor_template = 1;
+    string vendor_code = 1;
 }
 
 message createVendorTemplateResponse{
@@ -69,15 +69,14 @@ message createVendorTemplateResponse{
 }
 
 message createItemTemplateRequest{
-    uint64 vendor_id = 1;
-    string category = 2;
-    string lot = 3;
-    string image = 5;
-    string size = 6;
-    uint64 count = 7;
-    string item_num = 8;
-    float weight = 9;
-    string description = 10;
+    uint64 category_id = 1;
+    string lot = 2;
+    string image = 3;
+    string size = 4;
+    uint64 count = 5;
+    string item_num = 6;
+    float weight = 7;
+    string description = 8;
 }
 
 message createItemTemplateResponse{
@@ -121,21 +120,44 @@ message getItemCategoriesResponse{
     repeated ItemCategory item_categories = 1;
 }
 
+message addItemTemplateToVendorTemplateRequest{
+    uint64 item_id = 1;
+    uint64 vendor_id = 2;
+}
+
+message addItemTemplateToVendorTemplateResponse{}
+
+message getItemTemplatesByCategoryRequest{
+    uint64 category_id = 1;
+}
+
+message getItemTemplatesByCategoryResponse{
+    repeated ItemTemplate items = 1;
+}
+
+message getItemTemplatesByVendorIdRequest{
+    uint64 vendor_id = 1;
+}
+
+message getItemTemplatesByVendorIdResponse{
+    repeated ItemTemplate items = 1;
+}
+
 message VendorTemplate{
-    string vendor_code = 1;
+    uint64 vendor_id = 1;
+    string vendor_code = 2;
 }
 
 message ItemTemplate{
     uint64 item_id = 1;
-    string category = 2;
+    uint64 category_id = 2;
     string lot = 3;
-    string vendor_code = 4;
-    string image = 5;
-    string size = 6;
-    uint64 count = 7;
-    string item_num = 8;
-    float weight = 9;
-    string description = 10;
+    string image = 4;
+    string size = 5;
+    uint64 count = 6;
+    string item_num = 7;
+    float weight = 8;
+    string description = 9;
 }
 
 message ItemClaim{

@@ -2,6 +2,7 @@ import {
   SELECT_CURRENT_ORDER,
   SELECT_CURRENT_VENDOR_CODE,
   GRPC,
+  TEMPLATES,
 } from './actionNames'
 import { getOrdersAction } from './grpcActions/orderActions'
 import {
@@ -9,6 +10,10 @@ import {
   updateItemStatusAction,
 } from './grpcActions/itemActions'
 import { grpc } from '@/grpc/index'
+import {
+  getVendorTemplatesAction,
+  createVendorTemplateAction,
+} from './grpcActions/templateAction'
 
 export function getOrders(dispatch) {
   return getOrdersAction(dispatch, GRPC.ORDERS.GET, grpc.orders.get)
@@ -40,4 +45,23 @@ export const selectOrder = (dispatch, order) => {
     type: SELECT_CURRENT_ORDER,
     order,
   })
+}
+
+export const templateActions = {
+  vendor: {
+    get: (dispatch) => getVendorTemplatesAction(dispatch),
+    create: (dispatch, vendorCode) =>
+      createVendorTemplateAction(dispatch, vendorCode),
+  },
+  vendorPage: {
+    showCreateVendor: (dispatch) =>
+      dispatch({ type: TEMPLATES.VENDOR_PAGE_SHOW_ADD_VENDOR }),
+    hideCreateVendor: (dispatch) =>
+      dispatch({ type: TEMPLATES.VENDOR_PAGE_HIDE_ADD_VENDOR }),
+  },
+  itemPage: {
+    setCurrentVendor: (dispatch, vendorId) => {
+      dispatch({ type: TEMPLATES.ITEM_PAGE_SET_CURRENT_VENDOR, vendorId })
+    },
+  },
 }

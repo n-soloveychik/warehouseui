@@ -59,6 +59,14 @@ class CreateItem extends Component {
     )
   }
 
+  handleOk = () => {
+    const item = {}
+    this.props.cells.forEach(
+      (cell) => (item[cell.name] = this.state[cell.name]),
+    )
+    this.props.handleOk(item)
+  }
+
   render() {
     return (
       <>
@@ -83,6 +91,7 @@ class CreateItem extends Component {
               disabled={this.isSaveDisabled()}
               variant='contained'
               color='primary'
+              onClick={this.handleOk}
             >
               Сохранить товар
             </Button>

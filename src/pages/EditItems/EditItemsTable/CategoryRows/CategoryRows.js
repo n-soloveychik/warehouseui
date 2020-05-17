@@ -1,8 +1,24 @@
 import React from 'react'
 import { TableRow, TableCell, Typography } from '@material-ui/core'
-import NewItemRows from './AddItemRows/AddItemRows'
+import AddItemRows from './AddItemRows/AddItemRows'
 
-const CategoryRows = ({ cells, category }) => {
+const CategoryRows = ({
+  cells,
+  category,
+  create,
+  showCreateItem,
+  showSelectItem,
+  setShowCreateItem,
+  setShowSelectItem,
+}) => {
+  const addCategoryToItem = (item) => ({
+    ...item,
+    categoryId: category.categoryId,
+    category: category.category,
+  })
+
+  const createItem = (item) => create(addCategoryToItem(item))
+
   return (
     <>
       <TableRow>
@@ -27,7 +43,14 @@ const CategoryRows = ({ cells, category }) => {
             ))}
           </TableRow>
         ))}
-      <NewItemRows cells={cells} />
+      <AddItemRows
+        showCreateItem={showCreateItem}
+        showSelectItem={showSelectItem}
+        setShowCreateItem={setShowCreateItem}
+        setShowSelectItem={setShowSelectItem}
+        create={createItem}
+        cells={cells}
+      />
     </>
   )
 }

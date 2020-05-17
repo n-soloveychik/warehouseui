@@ -25,12 +25,16 @@ export const checkItemsGetter = (items) => {
 
 export const editItemsGetter = (items) => {
   const groupedItems = items.reduce((acc, cur) => {
-    const category = acc.find((obj) => obj.category === cur.category)
+    const category = acc.find((obj) => obj.categoryId === cur.categoryId)
     if (category) {
       category.items.push(cur)
       return acc
     }
-    acc.push({ category: cur.category, items: [cur] })
+    acc.push({
+      category: cur.category,
+      categoryId: cur.categoryId,
+      items: [cur],
+    })
     return acc
   }, [])
   return groupedItems

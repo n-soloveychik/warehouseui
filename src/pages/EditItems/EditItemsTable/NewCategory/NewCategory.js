@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
-import { TableRow, TableCell, Button } from '@material-ui/core'
+import { TableRow, TableCell } from '@material-ui/core'
 import SelectCategory from './SelectCategory/SelectCategory'
 import CreateCategory from './CreateCategory/CreateCategory'
-import classes from './NewCategory.module.scss'
 import Buttons from './Buttons/Buttons'
 
 const categories = [
@@ -59,12 +58,13 @@ class NewCategory extends Component {
           {(this.state.selecting && (
             <SelectCategory
               handleOk={this.addCategory}
-              categories={categories}
+              categories={this.props.categories}
               handleCancel={() => this.setSelecting(false)}
             />
           )) ||
             (this.state.creating && (
               <CreateCategory
+                categories={this.props.categories}
                 handleOk={this.addNewCategory}
                 handleCancel={() => this.setCreating(false)}
               />
