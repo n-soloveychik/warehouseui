@@ -3,7 +3,7 @@ import { TextField } from '@material-ui/core'
 
 const handleChange = (setValue, value, { ready, notReady, min, max }) => {
   if (value === '') {
-    setValue('0')
+    setValue('' + min)
     return
   }
   value = parseFloat(value)

@@ -86,7 +86,7 @@ export default (state = initialState, action) => {
       return { ...state, categories: action.data }
     }
     case GRPC.TEMPLATES.CATEGORIES.CREATE.SUCCESS: {
-      return { ...state, newCategory: action.data }
+      return { ...state, newCategory: action.data || {} }
     }
     case GRPC.TEMPLATES.ITEMS.GET_BY_VENDOR.SUCCESS: {
       const newCategory = !!action.data.find(
@@ -96,7 +96,11 @@ export default (state = initialState, action) => {
       )
         ? {}
         : state.newCategory.categoryId
-      return { ...state, itemsOfCurrentVendor: action.data, newCategory }
+      return {
+        ...state,
+        itemsOfCurrentVendor: action.data,
+        newCategory: newCategory || {},
+      }
     }
     case GRPC.TEMPLATES.ITEMS.GET_BY_CATEGORY.SUCCESS: {
       return state
@@ -114,7 +118,15 @@ export default (state = initialState, action) => {
       return { ...state, vendorPageShowAddVendor: false }
     }
     case TEMPLATES.ITEM_PAGE_SET_CURRENT_VENDOR: {
-      return { ...state, currentVendorId: +action.vendorId }
+      const itemsOfCurrentVendor =
+        +action.vendorId === state.currentVendorId
+          ? state.itemsOfCurrentVendor
+          : []
+      return {
+        ...state,
+        currentVendorId: +action.vendorId,
+        itemsOfCurrentVendor,
+      }
     }
     case TEMPLATES.ITEM_PAGE_SHOW_CATEGORY_CREATE: {
       return { ...state, itemPageShowCategoryCreate: true }
@@ -129,7 +141,10 @@ export default (state = initialState, action) => {
       return { ...state, itemPageShowCategorySelect: false }
     }
     case TEMPLATES.ITEM_PAGE_ADD_NEW_CATEGORY: {
-      return { ...state, newCategory: action.category }
+      return { ...state, newCategory: action.category || {} }
+    }
+    case TEMPLATES.VENDOR_PAGE_CLEAR_ITEMS: {
+      return { ...state, itemsOfCurrentVendor: [] }
     }
     default: {
       return state

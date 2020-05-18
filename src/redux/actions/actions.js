@@ -70,6 +70,7 @@ export const templateActions = {
     getByVendor: (dispatch, vendorId) =>
       getItemsByVendorAction(dispatch, vendorId),
     create: (dispatch, item) => createItemAction(dispatch, item),
+    clear: (dispatch) => dispatch({ type: TEMPLATES.VENDOR_PAGE_CLEAR_ITEMS }),
   },
   itemPage: {
     setCurrentVendor: (dispatch, vendorId) => {
