@@ -44,8 +44,8 @@ function mapStateToProps(state) {
     (acc, cur) => {
       if (!acc.find((item) => item.categoryId === cur.categoryId)) {
         acc.push({ categoryId: cur.categoryId })
-        return acc
       }
+      return acc
     },
     [],
   )

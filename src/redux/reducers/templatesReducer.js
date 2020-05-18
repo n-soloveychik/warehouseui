@@ -89,7 +89,14 @@ export default (state = initialState, action) => {
       return { ...state, newCategory: action.data }
     }
     case GRPC.TEMPLATES.ITEMS.GET_BY_VENDOR.SUCCESS: {
-      return { ...state, itemsOfCurrentVendor: action.data }
+      const newCategory = !!action.data.find(
+        (item) =>
+          item.category === state.newCategory.category ||
+          item.categoryId === state.newCategory.categoryId,
+      )
+        ? {}
+        : state.newCategory.categoryId
+      return { ...state, itemsOfCurrentVendor: action.data, newCategory }
     }
     case GRPC.TEMPLATES.ITEMS.GET_BY_CATEGORY.SUCCESS: {
       return state

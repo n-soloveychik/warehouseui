@@ -99,6 +99,7 @@ class NewItemRows extends Component {
       ...item,
       categoryId,
     }
+    console.log(item)
     const newItem = await grpc.template.item.create(item)
     if (!newItem) return
     const newItemId = newItem.itemId
@@ -110,7 +111,8 @@ class NewItemRows extends Component {
       showCreate: false,
       showSelect: false,
     })
-    this.props.update(this.props.currentVendorId)
+    await this.props.updateCategories()
+    this.props.updateItems(this.props.currentVendorId)
   }
 
   render() {
@@ -150,7 +152,9 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    update: (vendorId) => templateActions.items.getByVendor(dispatch, vendorId),
+    updateItems: (vendorId) =>
+      templateActions.items.getByVendor(dispatch, vendorId),
+    updateCategories: () => templateActions.categories.get(dispatch),
   }
 }
 

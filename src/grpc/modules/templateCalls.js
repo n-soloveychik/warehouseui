@@ -103,7 +103,6 @@ export const addItemToVendorHandler = async (
   RequestClass,
   { itemId, vendorId },
 ) => {
-  console.log('itemId, vendorId', itemId, vendorId)
   const request = new RequestClass()
   request.setItemId(itemId)
   request.setVendorId(vendorId)
@@ -113,5 +112,5 @@ export const addItemToVendorHandler = async (
     ),
   )
 
-  console.log('result', result)
+  return result
 }
