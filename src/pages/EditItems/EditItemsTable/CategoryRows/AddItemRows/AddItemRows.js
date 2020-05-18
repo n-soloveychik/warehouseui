@@ -99,7 +99,6 @@ class NewItemRows extends Component {
       ...item,
       categoryId,
     }
-    console.log(item)
     const newItem = await grpc.template.item.create(item)
     if (!newItem) return
     const newItemId = newItem.itemId
@@ -127,9 +126,9 @@ class NewItemRows extends Component {
         )) ||
           (this.state.showSelect && (
             <SelectItem
-              items={itemsTemplate}
-              itemNums={itemsTemplate.map((item) => item.itemNum)}
+              categoryId={this.props.category.categoryId}
               cells={this.props.cells}
+              handleOk={this.createItem}
               handleCancel={() => this.setState({ showSelect: false })}
             />
           )) || (

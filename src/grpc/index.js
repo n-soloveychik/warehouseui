@@ -11,6 +11,7 @@ import {
   getItemCategoriesRequest,
   createItemTemplateRequest,
   addItemTemplateToVendorTemplateRequest,
+  getItemTemplatesByCategoryRequest,
 } from './generated/item_message_pb'
 import { GetStoredVendorCodesRequest } from './generated/vendor_message_pb'
 import { getVendorCodesHandler } from './modules/vendorCodesCalls'
@@ -26,6 +27,7 @@ import {
   getCategoriesHandler,
   createItemHandler,
   addItemToVendorHandler,
+  getItemTemplatesByCategoryIdHandler,
 } from './modules/templateCalls'
 
 const client = new OrderServiceClient('http://iopk.in:8080', null, null)
@@ -76,6 +78,12 @@ export const grpc = {
           client,
           getItemTemplatesByVendorIdRequest,
           vendorId,
+        ),
+      getByCategory: (categoryId) =>
+        getItemTemplatesByCategoryIdHandler(
+          client,
+          getItemTemplatesByCategoryRequest,
+          categoryId,
         ),
       create: (item) =>
         createItemHandler(client, createItemTemplateRequest, item),

@@ -1,17 +1,32 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import { TableRow, TableCell, Button, TextField } from '@material-ui/core'
 import Autocomplete from '@material-ui/lab/Autocomplete'
+import { grpc } from '@/grpc'
 
 class SelectItem extends Component {
   state = {
     currentItem: {},
+    options: [],
   }
 
-  setCurrentItem = (itemNum) => {
+  componentDidMount = async () => {
+    if (!this.props.categoryId) {
+      return
+    }
+    let options = await grpc.template.item.getByCategory(this.props.categoryId)
+    options = options.filter(
+      (item) =>
+        !this.props.items.find(
+          (i) => i.itemNum === item.itemNum || i.itemId === item.itemId,
+        ),
+    )
+    this.setState({ options })
+  }
+
+  setCurrentItem = (item) => {
     this.setState({
-      currentItem: itemNum
-        ? this.props.items.find((item) => item.itemNum === itemNum)
-        : {},
+      currentItem: item || {},
     })
   }
 
@@ -24,8 +39,8 @@ class SelectItem extends Component {
               {cell.name === 'itemNum' ? (
                 <Autocomplete
                   onChange={(event, newValue) => this.setCurrentItem(newValue)}
-                  options={this.props.itemNums}
-                  getOptionLabel={(option) => option}
+                  options={this.state.options}
+                  getOptionLabel={(option) => option.itemNum}
                   renderInput={(params) => (
                     <TextField
                       {...params}
@@ -46,7 +61,8 @@ class SelectItem extends Component {
             style={{ textAlign: 'center' }}
           >
             <Button
-              onClick={this.props.handleOk}
+              disabled={!this.state.currentItem.itemId}
+              onClick={() => this.props.handleOk(this.state.currentItem)}
               color='primary'
               variant='contained'
               style={{ marginRight: 30 }}
@@ -67,4 +83,10 @@ class SelectItem extends Component {
   }
 }
 
-export default SelectItem
+function mapStateToProps(state) {
+  return {
+    items: state.templates.itemsOfCurrentVendor,
+  }
+}
+
+export default connect(mapStateToProps)(SelectItem)

@@ -114,3 +114,18 @@ export const addItemToVendorHandler = async (
 
   return result
 }
+
+export const getItemTemplatesByCategoryIdHandler = async (
+  client,
+  RequestClass,
+  categoryId,
+) => {
+  const request = new RequestClass()
+  request.setCategoryId(categoryId)
+  const result = await new Promise((resolve) =>
+    client.getItemTemplatesByCategory(request, null, (err, response) =>
+      resolve(response),
+    ),
+  )
+  return result?.toObject().itemsList
+}
