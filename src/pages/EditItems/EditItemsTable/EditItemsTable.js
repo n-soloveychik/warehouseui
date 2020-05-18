@@ -47,7 +47,7 @@ const cells = [
     type: 'float',
     required: true,
     default: 0,
-    min: 0,
+    min: 0.001,
     max: 10000,
   },
   {
