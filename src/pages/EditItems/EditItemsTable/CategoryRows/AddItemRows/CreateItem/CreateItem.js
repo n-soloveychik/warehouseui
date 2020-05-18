@@ -88,7 +88,7 @@ class CreateItem extends Component {
             colSpan={this.props.cells.length}
           >
             <Button
-              disabled={this.isSaveDisabled()}
+              // disabled={this.isSaveDisabled()}
               variant='contained'
               color='primary'
               onClick={this.handleOk}

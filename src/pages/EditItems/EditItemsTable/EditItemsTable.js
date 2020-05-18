@@ -8,28 +8,19 @@ import { editItemsGetter } from '@/redux/getters/itemsGetters'
 
 const cells = [
   {
-    title: 'Место',
-    name: 'lot',
-    type: 'string',
-    required: true,
-    default: '',
-    minLength: 0,
-    maxLength: 10,
-  },
-  {
     title: 'Артикул',
     name: 'itemNum',
     type: 'string',
     required: true,
     default: '',
     minLength: 0,
-    maxLength: 10,
+    maxLength: 1000,
   },
   {
     title: 'Изображение',
     name: 'image',
     type: 'image',
-    required: true,
+    required: false,
     default: '',
   },
   {
@@ -39,7 +30,7 @@ const cells = [
     required: true,
     default: '',
     minLength: 0,
-    maxLength: 10,
+    maxLength: 1000,
   },
   {
     title: 'Кол-во',
@@ -56,7 +47,7 @@ const cells = [
     type: 'float',
     required: true,
     default: 0,
-    min: 0.001,
+    min: 0,
     max: 10000,
   },
   {
@@ -66,7 +57,7 @@ const cells = [
     required: false,
     default: '',
     minLength: 0,
-    maxLength: 10,
+    maxLength: 1000,
   },
 ]
 
