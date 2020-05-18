@@ -49,6 +49,16 @@ class SelectItem extends Component {
                     />
                   )}
                 />
+              ) : cell.name === 'image' && this.state.currentItem[cell.name] ? (
+                <img
+                  style={{
+                    width: 100,
+                    height: 100,
+                    objectFit: 'contain',
+                  }}
+                  src={'http://iopk.in/' + this.state.currentItem[cell.name]}
+                  alt='Изображение'
+                />
               ) : (
                 this.state.currentItem[cell.name]
               )}
