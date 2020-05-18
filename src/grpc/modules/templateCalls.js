@@ -20,7 +20,6 @@ export const createVendorTemplateHandler = async (
       resolve(response),
     ),
   )
-  console.log(result)
   return result.toObject()
 }
 

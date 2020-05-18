@@ -55,7 +55,13 @@ const CTable = (props) => {
             <TableCell style={{ textAlign: 'center' }}>
               {item.itemNum}
             </TableCell>
-            <TableCell style={{ textAlign: 'center' }}>{item.image}</TableCell>
+            <TableCell style={{ textAlign: 'center' }}>
+              <img
+                style={{ width: 100, height: 100, objectFit: 'contain' }}
+                alt='продукт'
+                src={'http://iopk.in' + item.image}
+              />
+            </TableCell>
             <TableCell style={{ textAlign: 'center' }}>{item.size}</TableCell>
             <TableCell style={{ textAlign: 'center' }}>{item.count}</TableCell>
             <TableCell style={{ textAlign: 'center' }}>{item.weight}</TableCell>
