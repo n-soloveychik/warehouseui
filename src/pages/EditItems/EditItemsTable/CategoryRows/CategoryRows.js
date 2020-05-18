@@ -36,7 +36,10 @@ const CategoryRows = ({ cells, category, create }) => {
           </TableRow>
         ))}
       <AddItemRows
-        categoryId={category.categoryId}
+        category={{
+          categoryId: category.categoryId,
+          category: category.category,
+        }}
         create={createItem}
         cells={cells}
       />

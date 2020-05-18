@@ -4,6 +4,7 @@ import CreateItem from './CreateItem/CreateItem'
 import Buttons from './Buttons/Buttons'
 import SelectItem from './SelectItem/SelectItem'
 import { templateActions } from '@/redux/actions/actions'
+import { grpc } from '@/grpc'
 
 const itemsTemplate = [
   {
@@ -86,7 +87,31 @@ class NewItemRows extends Component {
     showSelect: false,
   }
 
-  createNewItem = (item) => {}
+  createItem = async (item) => {
+    let categoryId = this.props.category.categoryId
+    if (!categoryId) {
+      const category = await grpc.template.category.create(
+        this.props.category.category,
+      )
+      categoryId = category.categoryId
+    }
+    item = {
+      ...item,
+      categoryId,
+    }
+    const newItem = await grpc.template.item.create(item)
+    if (!newItem) return
+    const newItemId = newItem.itemId
+    await grpc.template.vendor.addItem({
+      itemId: newItemId,
+      vendorId: this.props.currentVendorId,
+    })
+    this.setState({
+      showCreate: false,
+      showSelect: false,
+    })
+    this.props.update(this.props.currentVendorId)
+  }
 
   render() {
     return (
@@ -95,7 +120,7 @@ class NewItemRows extends Component {
           <CreateItem
             cells={this.props.cells}
             handleCancel={() => this.setState({ showCreate: false })}
-            handleOk={this.createNewItem}
+            handleOk={this.createItem}
           />
         )) ||
           (this.state.showSelect && (
@@ -117,11 +142,16 @@ class NewItemRows extends Component {
   }
 }
 
-function mapDispatchToProps(dispatch) {
+function mapStateToProps(state) {
   return {
-    createCategory: (categoryName) =>
-      templateActions.categories.create(dispatch, categoryName),
+    currentVendorId: state.templates.currentVendorId,
   }
 }
 
-export default connect(null, mapDispatchToProps)(NewItemRows)
+function mapDispatchToProps(dispatch) {
+  return {
+    update: (vendorId) => templateActions.items.getByVendor(dispatch, vendorId),
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(NewItemRows)

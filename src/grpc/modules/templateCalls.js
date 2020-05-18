@@ -90,21 +90,28 @@ export const createItemHandler = async (
   request.setSize(size)
   request.setWeight(weight)
 
-  // const result = await new Promise((resolve) =>
-  //   client.createItemTemplate(request, null, (err, response) =>
-  //     resolve(response),
-  //   ),
-  // )
-  // return result.toObject()
-  return {
-    categoryId,
-    lot,
-    image,
-    size,
-    count,
-    itemNum,
-    weight,
-    description,
-    category,
-  }
+  const result = await new Promise((resolve) =>
+    client.createItemTemplate(request, null, (err, response) =>
+      resolve(response),
+    ),
+  )
+  return result?.toObject()?.item
+}
+
+export const addItemToVendorHandler = async (
+  client,
+  RequestClass,
+  { itemId, vendorId },
+) => {
+  console.log('itemId, vendorId', itemId, vendorId)
+  const request = new RequestClass()
+  request.setItemId(itemId)
+  request.setVendorId(vendorId)
+  const result = await new Promise((resolve) =>
+    client.addItemTemplateToVendorTemplate(request, null, (err, response) =>
+      resolve(response),
+    ),
+  )
+
+  console.log('result', result)
 }

@@ -19,6 +19,7 @@ export const GRPC = {
     VENDORS: {
       GET: grpc('GET', 'VENDOR_TEMPLATES'),
       CREATE: grpc('CREATE', 'VENDOR_TEMPLATES'),
+      ADD_ITEM: grpc('ADD_ITEM', 'VENDOR_TEMPLATES'),
     },
     CATEGORIES: {
       GET: grpc('GET', 'CATEGORIES_TEMPLATES'),
@@ -28,7 +29,6 @@ export const GRPC = {
       GET_BY_VENDOR: grpc('GET_BY_VENDOR', 'ITEM_TEMPLATES'),
       GET_BY_CATEGORY: grpc('GET_BY_CATEGORY', 'ITEM_TEMPLATES'),
       CREATE: grpc('CREATE', 'ITEM_TEMPLATE'),
-      ADD_TO_VENDOR: grpc('ADD_TO_VENDOR', 'ITEM_TEMPLATE'),
     },
   },
 }

@@ -49,3 +49,21 @@ export const createCategoryAction = async (dispatch, categoryName) => {
     categoryName,
   )
 }
+
+export const createItemAction = async (dispatch, item) => {
+  await grpcCoreAction(
+    dispatch,
+    GRPC.TEMPLATES.ITEMS.CREATE,
+    grpc.template.item.create,
+    item,
+  )
+}
+
+export const addItemToVendorAction = async (dispatch, { itemId, vendorId }) => {
+  await grpcCoreAction(
+    dispatch,
+    GRPC.TEMPLATES.VENDORS.ADD_ITEM,
+    grpc.template.vendor.addItem,
+    { itemId, vendorId },
+  )
+}

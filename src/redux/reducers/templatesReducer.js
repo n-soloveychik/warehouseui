@@ -107,7 +107,7 @@ export default (state = initialState, action) => {
       return { ...state, vendorPageShowAddVendor: false }
     }
     case TEMPLATES.ITEM_PAGE_SET_CURRENT_VENDOR: {
-      return { ...state, currentVendor: +action.vendorId }
+      return { ...state, currentVendorId: +action.vendorId }
     }
     case TEMPLATES.ITEM_PAGE_SHOW_CATEGORY_CREATE: {
       return { ...state, itemPageShowCategoryCreate: true }

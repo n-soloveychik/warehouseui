@@ -16,6 +16,8 @@ import {
   getItemsByVendorAction,
   getCategoriesAction,
   createCategoryAction,
+  createItemAction,
+  addItemToVendorAction,
 } from './grpcActions/templateAction'
 
 export function getOrders(dispatch) {
@@ -55,6 +57,8 @@ export const templateActions = {
     get: (dispatch) => getVendorTemplatesAction(dispatch),
     create: (dispatch, vendorCode) =>
       createVendorTemplateAction(dispatch, vendorCode),
+    addItem: (dispatch, itemId, vendorId) =>
+      addItemToVendorAction(dispatch, { itemId, vendorId }),
   },
   vendorPage: {
     showCreateVendor: (dispatch) =>
@@ -65,6 +69,7 @@ export const templateActions = {
   items: {
     getByVendor: (dispatch, vendorId) =>
       getItemsByVendorAction(dispatch, vendorId),
+    create: (dispatch, item) => createItemAction(dispatch, item),
   },
   itemPage: {
     setCurrentVendor: (dispatch, vendorId) => {
