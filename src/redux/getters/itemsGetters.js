@@ -1,12 +1,11 @@
 export const checkItemsGetter = (items) => {
   const groupedItems = items.reduce((acc, cur) => {
-    const category = acc.find((obj) => obj.categoryId === cur.categoryId)
+    const category = acc.find((obj) => obj.category === cur.category)
     if (category) {
       category.lots.push(cur)
       return acc
     }
     acc.push({
-      categoryId: cur.categoryId,
       category: cur.category,
       lots: [cur],
     })
