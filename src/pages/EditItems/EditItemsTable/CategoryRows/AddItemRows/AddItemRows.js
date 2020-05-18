@@ -95,11 +95,13 @@ class NewItemRows extends Component {
       )
       categoryId = category.categoryId
     }
-    item = {
-      ...item,
-      categoryId,
-    }
-    const newItem = await grpc.template.item.create(item)
+    item = item.categoryId
+      ? item
+      : {
+          ...item,
+          categoryId,
+        }
+    const newItem = item.itemId ? item : await grpc.template.item.create(item)
     if (!newItem) return
     const newItemId = newItem.itemId
     await grpc.template.vendor.addItem({

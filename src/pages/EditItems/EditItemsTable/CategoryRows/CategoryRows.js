@@ -1,6 +1,7 @@
 import React from 'react'
 import { TableRow, TableCell, Typography } from '@material-ui/core'
 import AddItemRows from './AddItemRows/AddItemRows'
+import classes from './CategoryRows.module.scss'
 
 const CategoryRows = ({ cells, category, create }) => {
   const addCategoryToItem = (item) => ({
@@ -30,7 +31,15 @@ const CategoryRows = ({ cells, category, create }) => {
           <TableRow key={itemIndex}>
             {cells.map((cell, cellIndex) => (
               <TableCell key={`${itemIndex}-${cellIndex}`}>
-                {item[cell.name]}
+                {cell.name === 'image' ? (
+                  <img
+                    className={classes.image}
+                    src={'http://iopk.in/' + item[cell.name]}
+                    alt={item.itemNum}
+                  />
+                ) : (
+                  item[cell.name]
+                )}
               </TableCell>
             ))}
           </TableRow>
