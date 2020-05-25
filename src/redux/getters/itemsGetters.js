@@ -5,7 +5,10 @@ export const checkItemsGetter = (items) => {
       category.lots.push(cur)
       return acc
     }
-    acc.push({ category: cur.category, lots: [cur] })
+    acc.push({
+      category: cur.category,
+      lots: [cur],
+    })
     return acc
   }, [])
   Object.keys(groupedItems).forEach(
@@ -23,15 +26,25 @@ export const checkItemsGetter = (items) => {
   return groupedItems
 }
 
-export const editItemsGetter = (items) => {
+export const editItemsGetter = (items, categories) => {
   const groupedItems = items.reduce((acc, cur) => {
-    const category = acc.find((obj) => obj.category === cur.category)
+    const category = acc.find((obj) => obj.categoryId === cur.categoryId)
     if (category) {
       category.items.push(cur)
       return acc
     }
-    acc.push({ category: cur.category, items: [cur] })
+    acc.push({
+      category: cur.category,
+      categoryId: cur.categoryId,
+      items: [cur],
+    })
     return acc
   }, [])
+  groupedItems.forEach(
+    (category) =>
+      (category.category = categories.find(
+        (c) => c.categoryId === category.categoryId,
+      )?.category),
+  )
   return groupedItems
 }

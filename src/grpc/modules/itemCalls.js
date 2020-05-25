@@ -7,6 +7,7 @@ export const getItemsHandler = async (client, RequestClass, vendorCode) => {
       resolve(response)
     })
   })
+  console.log(result.toObject())
   return result.toObject().itemsList
 }
 

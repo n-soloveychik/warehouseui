@@ -1,19 +1,12 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import { Table, TableBody } from '@material-ui/core'
 import HeadRow from './HeadRow/HeadRow'
 import CategoryRows from './CategoryRows/CategoryRows'
 import NewCategory from './NewCategory/NewCategory'
+import { editItemsGetter } from '@/redux/getters/itemsGetters'
 
 const cells = [
-  {
-    title: 'Место',
-    name: 'lot',
-    type: 'string',
-    required: true,
-    default: '',
-    minLength: 0,
-    maxLength: 10,
-  },
   {
     title: 'Артикул',
     name: 'itemNum',
@@ -21,13 +14,13 @@ const cells = [
     required: true,
     default: '',
     minLength: 0,
-    maxLength: 10,
+    maxLength: 1000,
   },
   {
     title: 'Изображение',
     name: 'image',
     type: 'image',
-    required: true,
+    required: false,
     default: '',
   },
   {
@@ -37,7 +30,7 @@ const cells = [
     required: true,
     default: '',
     minLength: 0,
-    maxLength: 10,
+    maxLength: 1000,
   },
   {
     title: 'Кол-во',
@@ -64,7 +57,7 @@ const cells = [
     required: false,
     default: '',
     minLength: 0,
-    maxLength: 10,
+    maxLength: 1000,
   },
 ]
 
@@ -73,12 +66,26 @@ class EditItemsTable extends Component {
     newCategory: null,
   }
 
+  componentDidUpdate = () => {
+    if (
+      this.state.newCategory &&
+      this.props.groupedItems.find(
+        (category) => category.categoryId === this.state.newCategory.categoryId,
+      )
+    ) {
+      this.setState({ newCategory: null })
+    }
+  }
+
   setNewCategory = (newCategory) => {
     this.setState({ newCategory: { ...newCategory, items: [] } })
   }
 
+  createItem = (item) => {
+    this.props.createItem(item)
+  }
+
   render() {
-    // console.log(this.props.groupedItems)
     return (
       <Table size='small'>
         <HeadRow
@@ -87,13 +94,26 @@ class EditItemsTable extends Component {
           }
         />
         <TableBody>
-          {this.props.groupedItems.map((item, index) => (
-            <CategoryRows key={index} cells={cells} category={item} />
+          {this.props.groupedItems.map((category, index) => (
+            <CategoryRows
+              create={this.createItem}
+              key={index}
+              cells={cells}
+              category={category}
+            />
           ))}
-          {this.state.newCategory ? (
-            <CategoryRows cells={cells} category={this.state.newCategory} />
+          {!!this.props.newCategory?.category ? (
+            <CategoryRows
+              create={this.createItem}
+              cells={cells}
+              category={this.props.newCategory}
+            />
           ) : (
-            <NewCategory getCategory={this.setNewCategory} cells={cells} />
+            <NewCategory
+              categories={this.props.categories}
+              getCategory={this.setNewCategory}
+              cells={cells}
+            />
           )}
         </TableBody>
       </Table>
@@ -101,4 +121,18 @@ class EditItemsTable extends Component {
   }
 }
 
-export default EditItemsTable
+function mapStateToProps(state) {
+  return {
+    groupedItems: editItemsGetter(
+      state.templates.itemsOfCurrentVendor,
+      state.templates.categories,
+    ),
+    newCategory: state.templates.newCategory,
+  }
+}
+
+function mapDispatchToProps() {
+  return {}
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(EditItemsTable)

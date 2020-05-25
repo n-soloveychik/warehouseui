@@ -60,10 +60,115 @@ message transferItemInVendorResponse{
     string vendor_code = 2;
 }
 
+message createVendorTemplateRequest{
+    string vendor_code = 1;
+}
+
+message createVendorTemplateResponse{
+    VendorTemplate vendor_template = 1;
+}
+
+message createItemTemplateRequest{
+    uint64 category_id = 1;
+    string lot = 2;
+    string image = 3;
+    string size = 4;
+    uint64 count = 5;
+    string item_num = 6;
+    float weight = 7;
+    string description = 8;
+}
+
+message createItemTemplateResponse{
+    ItemTemplate item = 1;
+}
+
+message createUnknownItemRequest{
+    string image = 2;
+    string description = 3;
+}
+
+message createUnknownItemResponse{
+    uint64 u_item_id = 1;
+    string image = 3;
+    string description = 4;
+}
+
+message getVendorTemplatesRequest{}
+
+message getVendorTemplatesResponse{
+    repeated VendorTemplate vendor_templates = 1;
+}
+
+message getItemTemplatesRequest{}
+
+message createItemCategoryRequest{
+    string category_name = 1;
+}
+
+message createItemCategoryResponse{
+    ItemCategory category = 1;
+}
+
+message getItemTemplatesResponse{
+    repeated ItemTemplate item_templates = 1;
+}
+
+message getItemCategoriesRequest{}
+
+message getItemCategoriesResponse{
+    repeated ItemCategory item_categories = 1;
+}
+
+message addItemTemplateToVendorTemplateRequest{
+    uint64 item_id = 1;
+    uint64 vendor_id = 2;
+}
+
+message addItemTemplateToVendorTemplateResponse{}
+
+message getItemTemplatesByCategoryRequest{
+    uint64 category_id = 1;
+}
+
+message getItemTemplatesByCategoryResponse{
+    repeated ItemTemplate items = 1;
+}
+
+message getItemTemplatesByVendorIdRequest{
+    uint64 vendor_id = 1;
+}
+
+message getItemTemplatesByVendorIdResponse{
+    repeated ItemTemplate items = 1;
+}
+
+message VendorTemplate{
+    uint64 vendor_id = 1;
+    string vendor_code = 2;
+}
+
+message ItemTemplate{
+    uint64 item_id = 1;
+    uint64 category_id = 2;
+    string lot = 3;
+    string image = 4;
+    string size = 5;
+    uint64 count = 6;
+    string item_num = 7;
+    float weight = 8;
+    string description = 9;
+}
+
 message ItemClaim{
     uint64 item_id = 1;
     string description = 2;
     repeated Link links = 3;
+}
+
+message ItemCategory{
+    uint64 category_id = 1;
+    string category = 2;
 }
 
 message Link{

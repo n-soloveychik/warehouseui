@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
-import { TableRow, TableCell, Button } from '@material-ui/core'
+import { connect } from 'react-redux'
+import { TableRow, TableCell } from '@material-ui/core'
 import SelectCategory from './SelectCategory/SelectCategory'
 import CreateCategory from './CreateCategory/CreateCategory'
-import classes from './NewCategory.module.scss'
 import Buttons from './Buttons/Buttons'
 
 const categories = [
@@ -20,7 +20,7 @@ const categories = [
 class NewCategory extends Component {
   state = {
     selecting: false,
-    creating: true,
+    creating: false,
   }
 
   setSelecting = (bool) => {
@@ -56,28 +56,31 @@ class NewCategory extends Component {
           style={{ textAlign: 'center' }}
           colSpan={this.props.cells.length}
         >
-          {(this.state.selecting && (
+          {(this.props.showSelect && (
             <SelectCategory
               handleOk={this.addCategory}
-              categories={categories}
+              categories={this.props.categories}
               handleCancel={() => this.setSelecting(false)}
             />
           )) ||
-            (this.state.creating && (
+            (this.props.showCreate && (
               <CreateCategory
+                categories={this.props.categories}
                 handleOk={this.addNewCategory}
                 handleCancel={() => this.setCreating(false)}
               />
-            )) || (
-              <Buttons
-                handleSelect={() => this.setSelecting(true)}
-                handleCreate={() => this.setCreating(true)}
-              />
-            )}
+            )) || <Buttons />}
         </TableCell>
       </TableRow>
     )
   }
 }
 
-export default NewCategory
+function mapStateToProps(state) {
+  return {
+    showCreate: state.templates.itemPageShowCategoryCreate,
+    showSelect: state.templates.itemPageShowCategorySelect,
+  }
+}
+
+export default connect(mapStateToProps)(NewCategory)

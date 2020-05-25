@@ -3,10 +3,10 @@ import { TextField } from '@material-ui/core'
 
 const handleChange = (setValue, value, { ready, notReady, min, max }) => {
   if (value === '') {
-    setValue('0')
+    setValue('' + min)
     return
   }
-  value = parseInt(value, 10)
+  value = parseFloat(value)
   if (!value) return
   if (value > max) {
     value = max
@@ -15,16 +15,16 @@ const handleChange = (setValue, value, { ready, notReady, min, max }) => {
   value < min ? notReady() : ready(value)
 }
 
-const InputNumber = (props) => {
+const InputFloat = (props) => {
   const [value, setValue] = useState('')
   return (
     <TextField
-      type='number'
       label={props.label}
+      type='number'
       value={value}
       onChange={(e) => handleChange(setValue, e.target.value, props)}
     />
   )
 }
 
-export default InputNumber
+export default InputFloat

@@ -1,20 +1,35 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import { Button } from '@material-ui/core'
 import AddIcon from '@material-ui/icons/Add'
 import DoneIcon from '@material-ui/icons/Done'
 import { IconButton } from '@material-ui/core'
 import classes from './NewVendorCode.module.scss'
 import InputVendorCode from './InputVendorCode/InputVendorCode'
+import { templateActions } from '@/redux/actions/actions'
 
 class NewVendorCode extends Component {
   state = {
-    showTextField: false,
     sendDisabled: true,
+    newName: '',
   }
 
-  showTextField = () => {
+  static getDerivedStateFromProps(props, state) {
+    let newState = state
+    if (!props.showAddNewCode) {
+      newState = {
+        sendDisabled: true,
+        newName: '',
+      }
+    }
+    return newState
+  }
+
+  hideTextField = () => {
     this.setState({
-      showTextField: true,
+      showTextField: false,
+      sendDisabled: true,
+      newName: '',
     })
   }
 
@@ -26,22 +41,30 @@ class NewVendorCode extends Component {
     this.setState({ sendDisabled: true, newName: value })
   }
 
+  setNewVendorTemplate = () => {
+    this.props.createVendor(this.state.newName)
+  }
+
   render() {
     return (
       <div className={classes.container}>
-        {this.state.showTextField ? (
+        {this.props.showAddNewCode ? (
           <>
             <InputVendorCode
               typeSuccess={this.nameSuccess}
               typeContinue={this.nameFail}
             />
-            <IconButton color='primary' disabled={this.state.sendDisabled}>
+            <IconButton
+              onClick={this.setNewVendorTemplate}
+              color='primary'
+              disabled={this.state.sendDisabled}
+            >
               <DoneIcon />
             </IconButton>
           </>
         ) : (
           <Button
-            onClick={this.showTextField}
+            onClick={this.props.showAdd}
             variant='outlined'
             startIcon={<AddIcon />}
           >
@@ -53,4 +76,18 @@ class NewVendorCode extends Component {
   }
 }
 
-export default NewVendorCode
+function mapStateToProps(state) {
+  return {
+    showAddNewCode: state.templates.vendorPageShowAddVendor,
+  }
+}
+function mapDispatchToProps(dispatch) {
+  return {
+    showAdd: () => templateActions.vendorPage.showCreateVendor(dispatch),
+    hideAdd: () => templateActions.vendorPage.hideCreateVendor(dispatch),
+    createVendor: (vendorCode) =>
+      templateActions.vendor.create(dispatch, vendorCode),
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(NewVendorCode)

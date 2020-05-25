@@ -4,6 +4,14 @@ import {
   GetItemsByVendorCodeRequest,
   UpdateItemStatusRequest,
   SetItemStatusClaimRequest,
+  getVendorTemplatesRequest,
+  createVendorTemplateRequest,
+  getItemTemplatesByVendorIdRequest,
+  createItemCategoryRequest,
+  getItemCategoriesRequest,
+  createItemTemplateRequest,
+  addItemTemplateToVendorTemplateRequest,
+  getItemTemplatesByCategoryRequest,
 } from './generated/item_message_pb'
 import { GetStoredVendorCodesRequest } from './generated/vendor_message_pb'
 import { getVendorCodesHandler } from './modules/vendorCodesCalls'
@@ -11,6 +19,16 @@ import { Image } from './generated/image_message_pb'
 import { getItemsHandler, updateItemStatusHandler } from './modules/itemCalls'
 import { uploadImageHandler } from './modules/imageCalls'
 import { createClaim } from './modules/claimCalls'
+import {
+  getVendorTemplatesHandler,
+  createVendorTemplateHandler,
+  getItemTemplatesByVendorCodeHandler,
+  createCategoryHandler,
+  getCategoriesHandler,
+  createItemHandler,
+  addItemToVendorHandler,
+  getItemTemplatesByCategoryIdHandler,
+} from './modules/templateCalls'
 
 const client = new OrderServiceClient('http://iopk.in:8080', null, null)
 const clientImage = new ImageServiceClient('http://iopk.in:8080', null, null)
@@ -38,5 +56,42 @@ export const grpc = {
         description,
         images,
       }),
+  },
+  template: {
+    vendor: {
+      get: () => getVendorTemplatesHandler(client, getVendorTemplatesRequest),
+      create: (vendorCode) =>
+        createVendorTemplateHandler(
+          client,
+          createVendorTemplateRequest,
+          vendorCode,
+        ),
+      addItem: ({ itemId, vendorId }) =>
+        addItemToVendorHandler(client, addItemTemplateToVendorTemplateRequest, {
+          itemId,
+          vendorId,
+        }),
+    },
+    item: {
+      getByVendor: (vendorId) =>
+        getItemTemplatesByVendorCodeHandler(
+          client,
+          getItemTemplatesByVendorIdRequest,
+          vendorId,
+        ),
+      getByCategory: (categoryId) =>
+        getItemTemplatesByCategoryIdHandler(
+          client,
+          getItemTemplatesByCategoryRequest,
+          categoryId,
+        ),
+      create: (item) =>
+        createItemHandler(client, createItemTemplateRequest, item),
+    },
+    category: {
+      create: (categoryName) =>
+        createCategoryHandler(client, createItemCategoryRequest, categoryName),
+      get: () => getCategoriesHandler(client, getItemCategoriesRequest),
+    },
   },
 }
