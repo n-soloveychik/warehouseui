@@ -3,16 +3,6 @@ import { GRPC, TEMPLATES } from '../actions/actionNames'
 const initialState = {
   cells: [
     {
-      title: 'Место',
-      name: 'lot',
-      type: 'string',
-      required: true,
-      default: '',
-      minLength: 0,
-      maxLength: 100,
-      style: {},
-    },
-    {
       title: 'Артикул',
       name: 'itemNum',
       type: 'string',
