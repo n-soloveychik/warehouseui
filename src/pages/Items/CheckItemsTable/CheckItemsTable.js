@@ -70,7 +70,7 @@ const CTable = (props) => {
             <TableCell>
               <Typography variant={'caption'}>{item.description}</Typography>
             </TableCell>
-            <TableCell style={{ padding: '6px 0', maxWidth: 51 }}>
+            <TableCell style={{ padding: '6px 6px', maxWidth: 51 }}>
               {item.statusId !== 1 ? (
                 <IconButton
                   onClick={() =>
@@ -91,7 +91,7 @@ const CTable = (props) => {
                 </IconButton>
               )}
             </TableCell>
-            <TableCell style={{ padding: '6px 0', maxWidth: 51 }}>
+            <TableCell style={{ padding: '6px 6px', maxWidth: 51 }}>
               <IconButton
                 onClick={(e) => props.contextMenuButtonClick(item, e.target)}
                 size={'small'}

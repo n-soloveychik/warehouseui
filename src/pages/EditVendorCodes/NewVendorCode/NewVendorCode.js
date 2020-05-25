@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Button } from '@material-ui/core'
+import { Button, ClickAwayListener } from '@material-ui/core'
 import AddIcon from '@material-ui/icons/Add'
 import DoneIcon from '@material-ui/icons/Done'
 import { IconButton } from '@material-ui/core'
@@ -49,20 +49,21 @@ class NewVendorCode extends Component {
     return (
       <div className={classes.container}>
         {this.props.showAddNewCode ? (
-          <>
-            <InputVendorCode
-              onBlur={this.props.hideAdd}
-              typeSuccess={this.nameSuccess}
-              typeContinue={this.nameFail}
-            />
-            <IconButton
-              onClick={this.setNewVendorTemplate}
-              color='primary'
-              disabled={this.state.sendDisabled}
-            >
-              <DoneIcon />
-            </IconButton>
-          </>
+          <ClickAwayListener onClickAway={this.props.hideAdd}>
+            <div>
+              <InputVendorCode
+                typeSuccess={this.nameSuccess}
+                typeContinue={this.nameFail}
+              />
+              <IconButton
+                onClick={this.setNewVendorTemplate}
+                color='primary'
+                disabled={this.state.sendDisabled}
+              >
+                <DoneIcon />
+              </IconButton>
+            </div>
+          </ClickAwayListener>
         ) : (
           <Button
             onClick={this.props.showAdd}
