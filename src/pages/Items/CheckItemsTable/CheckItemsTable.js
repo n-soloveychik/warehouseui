@@ -64,7 +64,9 @@ const CTable = (props) => {
             </TableCell>
             <TableCell style={{ textAlign: 'center' }}>{item.size}</TableCell>
             <TableCell style={{ textAlign: 'center' }}>{item.count}</TableCell>
-            <TableCell style={{ textAlign: 'center' }}>{item.weight}</TableCell>
+            <TableCell style={{ textAlign: 'center' }}>
+              {Math.round(item.weight * 1000) / 1000}
+            </TableCell>
             <TableCell>
               <Typography variant={'caption'}>{item.description}</Typography>
             </TableCell>
