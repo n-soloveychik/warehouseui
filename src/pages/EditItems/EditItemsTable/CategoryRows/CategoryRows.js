@@ -53,7 +53,6 @@ const CategoryRows = (props) => {
           category: props.category.category,
         }}
         create={createItem}
-        cells={props.cells}
       />
     </>
   )

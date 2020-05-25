@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Button, TableRow, TableCell } from '@material-ui/core'
+import { connect } from 'react-redux'
 
 class Buttons extends Component {
   render() {
@@ -30,4 +31,10 @@ class Buttons extends Component {
   }
 }
 
-export default Buttons
+function mapStateToProps(state) {
+  return {
+    cells: state.templates.cells,
+  }
+}
+
+export default connect(mapStateToProps)(Buttons)

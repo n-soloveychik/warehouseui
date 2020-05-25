@@ -8,6 +8,15 @@ class SelectItem extends Component {
   state = {
     currentItem: {},
     options: [],
+    opened: true,
+  }
+
+  open = () => {
+    this.setState({ opened: true })
+  }
+
+  close = () => {
+    this.setState({ opened: false })
   }
 
   componentDidMount = async () => {
@@ -41,9 +50,13 @@ class SelectItem extends Component {
                   onChange={(event, newValue) => this.setCurrentItem(newValue)}
                   options={this.state.options}
                   getOptionLabel={(option) => option.itemNum}
+                  open={this.state.opened}
                   renderInput={(params) => (
                     <TextField
                       {...params}
+                      autoFocus={true}
+                      onBlur={this.close}
+                      onFocus={this.open}
                       label='Артикул товара'
                       variant='outlined'
                     />
@@ -96,6 +109,7 @@ class SelectItem extends Component {
 function mapStateToProps(state) {
   return {
     items: state.templates.itemsOfCurrentVendor,
+    cells: state.templates.cells,
   }
 }
 

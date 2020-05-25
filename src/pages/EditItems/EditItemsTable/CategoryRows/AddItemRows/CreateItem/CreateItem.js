@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import { TableRow, TableCell, Button } from '@material-ui/core'
 import InputText from './InputText/InputText'
 import InputImage from './InputImage/InputImage'
@@ -110,4 +111,10 @@ class CreateItem extends Component {
   }
 }
 
-export default CreateItem
+function mapStateToProps(state) {
+  return {
+    cells: state.templates.cells,
+  }
+}
+
+export default connect(mapStateToProps)(CreateItem)

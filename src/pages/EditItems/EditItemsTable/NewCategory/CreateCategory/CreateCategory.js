@@ -11,6 +11,7 @@ class CreateCategory extends Component {
     return (
       <>
         <TextField
+          autoFocus={true}
           value={this.state.value}
           onChange={(e) => this.setState({ value: e.target.value })}
         />

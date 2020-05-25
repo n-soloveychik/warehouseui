@@ -8,6 +8,18 @@ import { categoryOptionsGetter } from '@/redux/getters/categoryGetters'
 class SelectCategory extends Component {
   state = {
     value: '',
+    opened: true,
+  }
+
+  close = () => {
+    this.setState({
+      opened: false,
+    })
+  }
+  open = () => {
+    this.setState({
+      opened: true,
+    })
   }
 
   render() {
@@ -18,12 +30,16 @@ class SelectCategory extends Component {
           options={this.props.options}
           getOptionLabel={(option) => option.category}
           onChange={(event, newValue) => this.setState({ value: newValue })}
+          open={this.state.opened}
           renderInput={(params) => (
             <TextField
               {...params}
               placeholder='Начните вводить'
               label='Категория'
               variant='outlined'
+              autoFocus={true}
+              onBlur={this.close}
+              onFocus={this.open}
             />
           )}
         />

@@ -46,7 +46,6 @@ class NewItemRows extends Component {
       <>
         {(this.state.showCreate && (
           <CreateItem
-            cells={this.props.cells}
             handleCancel={() => this.setState({ showCreate: false })}
             handleOk={this.createItem}
           />
@@ -54,7 +53,6 @@ class NewItemRows extends Component {
           (this.state.showSelect && (
             <SelectItem
               categoryId={this.props.category.categoryId}
-              cells={this.props.cells}
               handleOk={this.createItem}
               handleCancel={() => this.setState({ showSelect: false })}
             />
@@ -62,7 +60,6 @@ class NewItemRows extends Component {
             <Buttons
               showCreating={() => this.setState({ showCreate: true })}
               showSelecting={() => this.setState({ showSelect: true })}
-              cells={this.props.cells}
             />
           )}
       </>
