@@ -27,8 +27,10 @@ class InputVendorCode extends Component {
   render() {
     return (
       <InputMask
+        autoFocus={true}
         mask={this.state.mask}
         onChange={this.onChange}
+        onBlur={this.props.onBlur}
         value={this.state.value}
       >
         <TextField inputProps={{ style: { textAlign: 'center' } }} />

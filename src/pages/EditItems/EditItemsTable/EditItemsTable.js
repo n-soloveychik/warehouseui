@@ -6,61 +6,6 @@ import CategoryRows from './CategoryRows/CategoryRows'
 import NewCategory from './NewCategory/NewCategory'
 import { editItemsGetter } from '@/redux/getters/itemsGetters'
 
-const cells = [
-  {
-    title: 'Артикул',
-    name: 'itemNum',
-    type: 'string',
-    required: true,
-    default: '',
-    minLength: 0,
-    maxLength: 1000,
-  },
-  {
-    title: 'Изображение',
-    name: 'image',
-    type: 'image',
-    required: false,
-    default: '',
-  },
-  {
-    title: 'Размер',
-    name: 'size',
-    type: 'string',
-    required: true,
-    default: '',
-    minLength: 0,
-    maxLength: 1000,
-  },
-  {
-    title: 'Кол-во',
-    name: 'count',
-    type: 'number',
-    required: true,
-    default: 0,
-    min: 1,
-    max: 10000,
-  },
-  {
-    title: 'Масса',
-    name: 'weight',
-    type: 'float',
-    required: true,
-    default: 0,
-    min: 0.001,
-    max: 10000,
-  },
-  {
-    title: 'Примечание',
-    name: 'description',
-    type: 'string',
-    required: false,
-    default: '',
-    minLength: 0,
-    maxLength: 1000,
-  },
-]
-
 class EditItemsTable extends Component {
   state = {
     newCategory: null,
@@ -88,31 +33,24 @@ class EditItemsTable extends Component {
   render() {
     return (
       <Table size='small'>
-        <HeadRow
-          titles={
-            (!!cells && !!cells.length && cells.map((cell) => cell.title)) || []
-          }
-        />
+        <HeadRow />
         <TableBody>
           {this.props.groupedItems.map((category, index) => (
             <CategoryRows
               create={this.createItem}
               key={index}
-              cells={cells}
               category={category}
             />
           ))}
           {!!this.props.newCategory?.category ? (
             <CategoryRows
               create={this.createItem}
-              cells={cells}
               category={this.props.newCategory}
             />
           ) : (
             <NewCategory
               categories={this.props.categories}
               getCategory={this.setNewCategory}
-              cells={cells}
             />
           )}
         </TableBody>

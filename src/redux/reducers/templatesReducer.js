@@ -9,7 +9,8 @@ const initialState = {
       required: true,
       default: '',
       minLength: 0,
-      maxLength: 10,
+      maxLength: 100,
+      style: {},
     },
     {
       title: 'Артикул',
@@ -18,7 +19,8 @@ const initialState = {
       required: true,
       default: '',
       minLength: 0,
-      maxLength: 10,
+      maxLength: 100,
+      style: {},
     },
     {
       title: 'Изображение',
@@ -26,6 +28,7 @@ const initialState = {
       type: 'image',
       required: true,
       default: '',
+      style: {},
     },
     {
       title: 'Размер',
@@ -34,7 +37,8 @@ const initialState = {
       required: true,
       default: '',
       minLength: 0,
-      maxLength: 10,
+      maxLength: 100,
+      style: {},
     },
     {
       title: 'Кол-во',
@@ -44,6 +48,7 @@ const initialState = {
       default: 0,
       min: 1,
       max: 10000,
+      style: {},
     },
     {
       title: 'Масса',
@@ -53,6 +58,8 @@ const initialState = {
       default: 0,
       min: 0.001,
       max: 10000,
+      style: {},
+      output: (float) => Math.round(parseFloat(float) * 1000) / 1000,
     },
     {
       title: 'Примечание',
@@ -61,7 +68,8 @@ const initialState = {
       required: false,
       default: '',
       minLength: 0,
-      maxLength: 10,
+      maxLength: 256,
+      style: { fontSize: 12, maxWidth: 200 },
     },
   ],
   vendors: [],
@@ -74,80 +82,86 @@ const initialState = {
   itemPageShowCategorySelect: false,
 }
 
+const obj = {
+  [GRPC.TEMPLATES.VENDORS.GET.SUCCESS]: (state, { data }) => ({
+    ...state,
+    vendors: data,
+  }),
+  [GRPC.TEMPLATES.VENDORS.CREATE.SUCCESS]: (state) => ({
+    ...state,
+    vendorPageShowAddVendor: false,
+  }),
+  [GRPC.TEMPLATES.CATEGORIES.GET.SUCCESS]: (state, { data }) => ({
+    ...state,
+    categories: data,
+  }),
+  [GRPC.TEMPLATES.CATEGORIES.CREATE.SUCCESS]: (state, { data }) => ({
+    ...state,
+    newCategory: data || {},
+  }),
+  [GRPC.TEMPLATES.ITEMS.GET_BY_VENDOR.SUCCESS]: (state, action) => {
+    const newCategory = !!action.data.find(
+      (item) =>
+        item.category === state.newCategory.category ||
+        item.categoryId === state.newCategory.categoryId,
+    )
+      ? {}
+      : state.newCategory.categoryId
+    return {
+      ...state,
+      itemsOfCurrentVendor: action.data,
+      newCategory: newCategory || {},
+    }
+  },
+  [GRPC.TEMPLATES.ITEMS.GET_BY_CATEGORY.SUCCESS]: (state) => state,
+  [GRPC.TEMPLATES.ITEMS.CREATE.SUCCESS]: (state) => state,
+  [GRPC.TEMPLATES.ITEMS.ADD_TO_VENDOR]: (state) => state,
+  [TEMPLATES.VENDOR_PAGE_SHOW_ADD_VENDOR]: (state) => ({
+    ...state,
+    vendorPageShowAddVendor: true,
+  }),
+  [TEMPLATES.VENDOR_PAGE_HIDE_ADD_VENDOR]: (state) => ({
+    ...state,
+    vendorPageShowAddVendor: false,
+  }),
+  [TEMPLATES.ITEM_PAGE_SET_CURRENT_VENDOR]: (state, action) => {
+    const itemsOfCurrentVendor =
+      +action.vendorId === state.currentVendorId
+        ? state.itemsOfCurrentVendor
+        : []
+    return {
+      ...state,
+      currentVendorId: +action.vendorId,
+      itemsOfCurrentVendor,
+    }
+  },
+  [TEMPLATES.ITEM_PAGE_SHOW_CATEGORY_CREATE]: (state) => ({
+    ...state,
+    itemPageShowCategoryCreate: true,
+  }),
+  [TEMPLATES.ITEM_PAGE_HIDE_CATEGORY_CREATE]: (state) => ({
+    ...state,
+    itemPageShowCategoryCreate: false,
+  }),
+  [TEMPLATES.ITEM_PAGE_SHOW_CATEGORY_SELECT]: (state) => ({
+    ...state,
+    itemPageShowCategorySelect: true,
+  }),
+  [TEMPLATES.ITEM_PAGE_HIDE_CATEGORY_SELECT]: (state) => ({
+    ...state,
+    itemPageShowCategorySelect: false,
+  }),
+  [TEMPLATES.ITEM_PAGE_ADD_NEW_CATEGORY]: (state, action) => ({
+    ...state,
+    newCategory: action.category || {},
+  }),
+  [TEMPLATES.VENDOR_PAGE_CLEAR_ITEMS]: (state) => ({
+    ...state,
+    itemsOfCurrentVendor: [],
+  }),
+  DEFAULT: (state) => state,
+}
+
 export default (state = initialState, action) => {
-  switch (action.type) {
-    case GRPC.TEMPLATES.VENDORS.GET.SUCCESS: {
-      return { ...state, vendors: action.data }
-    }
-    case GRPC.TEMPLATES.VENDORS.CREATE.SUCCESS: {
-      return { ...state, vendorPageShowAddVendor: false }
-    }
-    case GRPC.TEMPLATES.CATEGORIES.GET.SUCCESS: {
-      return { ...state, categories: action.data }
-    }
-    case GRPC.TEMPLATES.CATEGORIES.CREATE.SUCCESS: {
-      return { ...state, newCategory: action.data || {} }
-    }
-    case GRPC.TEMPLATES.ITEMS.GET_BY_VENDOR.SUCCESS: {
-      const newCategory = !!action.data.find(
-        (item) =>
-          item.category === state.newCategory.category ||
-          item.categoryId === state.newCategory.categoryId,
-      )
-        ? {}
-        : state.newCategory.categoryId
-      return {
-        ...state,
-        itemsOfCurrentVendor: action.data,
-        newCategory: newCategory || {},
-      }
-    }
-    case GRPC.TEMPLATES.ITEMS.GET_BY_CATEGORY.SUCCESS: {
-      return state
-    }
-    case GRPC.TEMPLATES.ITEMS.CREATE.SUCCESS: {
-      return state
-    }
-    case GRPC.TEMPLATES.ITEMS.ADD_TO_VENDOR: {
-      return state
-    }
-    case TEMPLATES.VENDOR_PAGE_SHOW_ADD_VENDOR: {
-      return { ...state, vendorPageShowAddVendor: true }
-    }
-    case TEMPLATES.VENDOR_PAGE_HIDE_ADD_VENDOR: {
-      return { ...state, vendorPageShowAddVendor: false }
-    }
-    case TEMPLATES.ITEM_PAGE_SET_CURRENT_VENDOR: {
-      const itemsOfCurrentVendor =
-        +action.vendorId === state.currentVendorId
-          ? state.itemsOfCurrentVendor
-          : []
-      return {
-        ...state,
-        currentVendorId: +action.vendorId,
-        itemsOfCurrentVendor,
-      }
-    }
-    case TEMPLATES.ITEM_PAGE_SHOW_CATEGORY_CREATE: {
-      return { ...state, itemPageShowCategoryCreate: true }
-    }
-    case TEMPLATES.ITEM_PAGE_HIDE_CATEGORY_CREATE: {
-      return { ...state, itemPageShowCategoryCreate: false }
-    }
-    case TEMPLATES.ITEM_PAGE_SHOW_CATEGORY_SELECT: {
-      return { ...state, itemPageShowCategorySelect: true }
-    }
-    case TEMPLATES.ITEM_PAGE_HIDE_CATEGORY_SELECT: {
-      return { ...state, itemPageShowCategorySelect: false }
-    }
-    case TEMPLATES.ITEM_PAGE_ADD_NEW_CATEGORY: {
-      return { ...state, newCategory: action.category || {} }
-    }
-    case TEMPLATES.VENDOR_PAGE_CLEAR_ITEMS: {
-      return { ...state, itemsOfCurrentVendor: [] }
-    }
-    default: {
-      return state
-    }
-  }
+  return obj[action.type] ? obj[action.type](state, action) : obj.DEFAULT(state)
 }

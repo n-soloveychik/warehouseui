@@ -5,18 +5,6 @@ import SelectCategory from './SelectCategory/SelectCategory'
 import CreateCategory from './CreateCategory/CreateCategory'
 import Buttons from './Buttons/Buttons'
 
-const categories = [
-  { category: 'Шифер', categoryId: 1 },
-  { category: 'Болты', categoryId: 2 },
-  { category: 'Шурупы', categoryId: 3 },
-  { category: 'Гайки', categoryId: 4 },
-  { category: 'Металлы', categoryId: 5 },
-  { category: 'Пластмассы', categoryId: 6 },
-  { category: 'Пластики', categoryId: 7 },
-  { category: 'Полимеры', categoryId: 8 },
-  { category: 'Карбоны', categoryId: 9 },
-]
-
 class NewCategory extends Component {
   state = {
     selecting: false,
@@ -80,6 +68,7 @@ function mapStateToProps(state) {
   return {
     showCreate: state.templates.itemPageShowCategoryCreate,
     showSelect: state.templates.itemPageShowCategorySelect,
+    cells: state.templates.cells,
   }
 }
 

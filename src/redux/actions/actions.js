@@ -3,6 +3,7 @@ import {
   SELECT_CURRENT_VENDOR_CODE,
   GRPC,
   TEMPLATES,
+  ERROR,
 } from './actionNames'
 import { getOrdersAction } from './grpcActions/orderActions'
 import {
@@ -101,4 +102,10 @@ export const templateActions = {
       dispatch({ type: TEMPLATES.ITEM_PAGE_HIDE_CATEGORY_CREATE })
     },
   },
+}
+
+export const errorActions = {
+  showError: (dispatch, title, text) =>
+    dispatch({ type: ERROR.OPEN, title, text }),
+  hideError: (dispatch) => dispatch({ type: ERROR.CLOSE }),
 }

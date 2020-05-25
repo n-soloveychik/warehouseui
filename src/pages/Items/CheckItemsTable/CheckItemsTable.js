@@ -27,7 +27,6 @@ const styles = {
 }
 
 const CTable = (props) => {
-  console.log(props)
   const tableBody =
     props.data &&
     props.data.map((category, index) => {

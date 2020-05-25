@@ -3,7 +3,6 @@ import { connect } from 'react-redux'
 import { Typography, Container } from '@material-ui/core'
 import VendorList from './VendorList/VendorList'
 import NewVendorCode from './NewVendorCode/NewVendorCode'
-import { grpc } from '@/grpc'
 import { templateActions } from '@/redux/actions/actions'
 
 class EditVendorCodes extends Component {

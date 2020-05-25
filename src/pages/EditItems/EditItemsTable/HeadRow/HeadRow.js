@@ -1,17 +1,24 @@
 import React from 'react'
 import { TableHead, TableRow, TableCell } from '@material-ui/core'
+import { connect } from 'react-redux'
 
-const HeadRow = ({ titles }) => {
+const HeadRow = (props) => {
   return (
     <TableHead>
       <TableRow>
-        {titles &&
-          titles.map((title, index) => (
-            <TableCell key={index}>{title}</TableCell>
+        {props.cells &&
+          props.cells.map((cell, index) => (
+            <TableCell key={index}>{cell.title}</TableCell>
           ))}
       </TableRow>
     </TableHead>
   )
 }
 
-export default HeadRow
+function mapStateToProps(state) {
+  return {
+    cells: state.templates.cells,
+  }
+}
+
+export default connect(mapStateToProps)(HeadRow)

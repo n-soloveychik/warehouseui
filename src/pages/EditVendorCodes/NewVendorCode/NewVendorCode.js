@@ -51,6 +51,7 @@ class NewVendorCode extends Component {
         {this.props.showAddNewCode ? (
           <>
             <InputVendorCode
+              onBlur={this.props.hideAdd}
               typeSuccess={this.nameSuccess}
               typeContinue={this.nameFail}
             />
