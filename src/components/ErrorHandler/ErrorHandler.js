@@ -20,7 +20,7 @@ class ErrorHandler extends Component {
         </DialogContent>
         <DialogActions>
           <Button style={{ color: 'red' }} onClick={this.props.close}>
-            Понятно
+            ОК
           </Button>
         </DialogActions>
       </Dialog>

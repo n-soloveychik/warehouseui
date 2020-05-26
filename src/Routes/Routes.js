@@ -5,6 +5,7 @@ import CreateClaim from '@/pages/CreateClaim/CreateClaim'
 import Claims from '@/pages/Claims/Claims'
 import EditVendorCodes from '@/pages/EditVendorCodes/EditVendorCodes'
 import EditItems from '@/pages/EditItems/EditItems'
+import Login from '@/pages/Login/Login'
 
 export default function () {
   return (
@@ -30,6 +31,7 @@ export default function () {
         path='/edit-vendor-codes/:vendor/edit-items'
         component={EditItems}
       />
+      <Route exact path='/login' component={Login} />
       <Route component={Items} />
     </Switch>
   )
