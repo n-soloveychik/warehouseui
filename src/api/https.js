@@ -50,5 +50,5 @@ async function request(uri, method = 'GET', data) {
   if (response.headers.get('content-type') === 'application/json') {
     json = await response.json()
   }
-  return { ...json, status: response.status }
+  return { data: json, status: response.status }
 }

@@ -3,13 +3,12 @@ import { connect } from 'react-redux'
 import { TextField, Button, Typography } from '@material-ui/core'
 import classes from './Login.module.scss'
 import { errorActions, loginActions } from '@/redux/actions/actions'
-import { REQUEST } from '@/api'
 
 class Login extends Component {
   constructor(props) {
     super(props)
     if (localStorage.getItem('token')) {
-      this.checkToken()
+      this.props.checkToken()
     }
     this.inputEmail = createRef()
     this.state = {
@@ -37,13 +36,6 @@ class Login extends Component {
         errorMessage: ' ',
       },
     }
-  }
-
-  checkToken = async () => {
-    const response = await this.props.checkToken()
-    // if (response.status === 202) {
-    //   this.props.history.push('/')
-    // }
   }
 
   disableButton = () => {

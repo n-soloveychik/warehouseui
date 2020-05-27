@@ -27,15 +27,16 @@ export const apiCoreAction = async (
   if (!dispatch) return
   dispatch(request(actionNameObj.CALL))
   try {
-    const responseData = await apiRequest(data)
-    if (responseData.status === 401) {
+    const response = await apiRequest(data)
+    if (response.status === 401) {
       dispatch(unauthorized)
       return null
     } else {
-      dispatch(success(actionNameObj.SUCCESS, responseData))
-      return responseData
+      dispatch(success(actionNameObj.SUCCESS, response.data))
+      return response
     }
   } catch (e) {
+    console.log(e)
     dispatch(fail(actionNameObj.FAILURE, e))
   }
 }

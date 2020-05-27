@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import classes from './Lists.module.scss'
 import CList from './CList/CList'
 import { Grid } from '@material-ui/core'
-// import { selectVendorCode, selectOrder } from '@/redux/actions/actions'
+import { selectInvoice, selectOrder } from '@/redux/actions/actions'
 
 const Lists = (props) => (
   <Grid container className={classes.lists} spacing={3}>
@@ -14,37 +14,48 @@ const Lists = (props) => (
         items={props.orders}
         handleItemClick={props.selectOrder}
         currentItem={props.currentOrder}
+        keyToRender='order_num'
+        keyDetectCurrent='order_num'
       ></CList>
     </Grid>
-    <Grid className={classes.column} item xs={6}>
-      {/* <CList
-        title='Артикул'
-        loading={props.loading}
-        items={props.vendorCodes}
-        handleItemClick={props.selectVendorCode}
-        currentItem={props.currentVendorCode}
-      ></CList> */}
-    </Grid>
+    {props.currentOrder &&
+      props.orders &&
+      props.orders.find((order) => order.order_num === props.currentOrder) && (
+        <Grid className={classes.column} item xs={6}>
+          <CList
+            title='Артикул'
+            loading={props.loading}
+            items={
+              props.orders.find(
+                (order) => order.order_num === props.currentOrder,
+              ).invoices || []
+            }
+            handleItemClick={props.selectInvoice}
+            currentItem={props.currentInvoice}
+            keyToRender='invoice_code'
+            keyDetectCurrent='invoice_code'
+          ></CList>
+        </Grid>
+      )}
   </Grid>
 )
 
 function mapStateToProps(state) {
-  console.log(state.warehouse.orders)
   state = state.warehouse
   return {
     orders: state.orders,
     // vendorCodes: state.currentOrder ? list[state.currentOrder] : [],
     // products: state.table,
-    // currentOrder: state.currentOrder,
-    // currentVendorCode: state.currentVendorCode,
+    currentOrder: state.currentOrder,
+    currentInvoice: state.currentInvoice,
     // loading: state.isCallingGetOrders,
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    // selectOrder: (id) => selectOrder(dispatch, id),
-    // selectVendorCode: (id) => selectVendorCode(dispatch, id),
+    selectOrder: (id) => selectOrder(dispatch, id),
+    selectInvoice: (id) => selectInvoice(dispatch, id),
   }
 }
 

@@ -12,14 +12,16 @@ const CList = (props) => {
       marginBottom: 10,
     },
   }
-
   const items = props.loading
     ? [...Array(20)].map((el, index) => (
         <Skeleton style={style.item} key={index} width={100} height={20} />
       ))
     : props.items.map((item, index) => {
         const className = [classes.item]
-        if (props.currentItem === item) {
+        if (
+          props.currentItem &&
+          props.currentItem === item[props.keyDetectCurrent]
+        ) {
           className.push(classes['item--current'])
         }
         return (
@@ -28,7 +30,7 @@ const CList = (props) => {
             className={className.join(' ')}
             key={index}
           >
-            {item}
+            {item[props.keyToRender]}
           </ListItem>
         )
       })

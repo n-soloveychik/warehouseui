@@ -1,6 +1,6 @@
 import {
-  // SELECT_CURRENT_ORDER,
-  // SELECT_CURRENT_VENDOR_CODE,
+  SELECT_CURRENT_ORDER,
+  SELECT_CURRENT_INVOICE,
   API,
   // TEMPLATES,
   ERROR,
@@ -12,6 +12,7 @@ import { getOrdersAction } from './apiActions/orderActions'
 // } from './apiActions/itemActions'
 import { REQUEST } from '@/api/index'
 import { login, checkToken } from './apiActions/loginAction'
+import { getInvoicesByOrder } from './apiActions/invoiceAction'
 // import {
 //   getVendorTemplatesAction,
 //   createVendorTemplateAction,
@@ -26,8 +27,8 @@ export function getOrders(dispatch) {
   return getOrdersAction(dispatch, API.ORDERS.GET, REQUEST.getAvailableOrders)
 }
 
-// export function getItemsByVendorCode(dispatch, vendorCode) {
-//   return getItemsAction(dispatch, API.ITEMS.GET, REQUEST.items.get, vendorCode)
+// export function getItemsByInvoice(dispatch, invoice) {
+//   return getItemsAction(dispatch, API.ITEMS.GET, REQUEST.items.get, invoice)
 // }
 
 // export function updateItemStatus(dispatch, { statusId, itemId }) {
@@ -39,26 +40,33 @@ export function getOrders(dispatch) {
 //   )
 // }
 
-// export const selectVendorCode = (dispatch, vendorCode) => {
-//   dispatch({
-//     type: SELECT_CURRENT_VENDOR_CODE,
-//     vendorCode,
-//   })
-//   getItemsByVendorCode(dispatch, vendorCode)
-// }
+export const selectInvoice = (dispatch, invoice) => {
+  dispatch({
+    type: SELECT_CURRENT_INVOICE,
+    invoice: invoice.invoice_code,
+  })
+  dispatch({
+    type: API.ITEMS.SET_BY_INVOICE,
+  })
+}
 
-// export const selectOrder = (dispatch, order) => {
-//   dispatch({
-//     type: SELECT_CURRENT_ORDER,
-//     order,
-//   })
-// }
+export const selectOrder = async (dispatch, order) => {
+  dispatch({
+    type: SELECT_CURRENT_ORDER,
+    order: order.order_num,
+  })
+  await getInvoicesByOrder(
+    dispatch,
+    API.INVOICES.GET,
+    REQUEST.getInvoicesAndItemsByOrder.bind(null, order.order_id),
+  )
+}
 
 // export const templateActions = {
 //   vendor: {
 //     get: (dispatch) => getVendorTemplatesAction(dispatch),
-//     create: (dispatch, vendorCode) =>
-//       createVendorTemplateAction(dispatch, vendorCode),
+//     create: (dispatch, invoice) =>
+//       createVendorTemplateAction(dispatch, invoice),
 //     addItem: (dispatch, itemId, vendorId) =>
 //       addItemToVendorAction(dispatch, { itemId, vendorId }),
 //   },

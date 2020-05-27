@@ -5,7 +5,7 @@ const api = (method, name) => ({
 })
 
 export const SELECT_CURRENT_ORDER = 'SELECT_CURRENT_ORDER'
-export const SELECT_CURRENT_VENDOR_CODE = 'SELECT_CURRENT_VENDOR_CODE'
+export const SELECT_CURRENT_INVOICE = 'SELECT_CURRENT_INVOICE'
 
 export const API = {
   ORDERS: {
@@ -14,6 +14,10 @@ export const API = {
   ITEMS: {
     GET: api('GET', 'ITEMS'),
     UPDATE: api('UPDATE', 'ITEM'),
+    SET_BY_INVOICE: 'SET_ITEM_BY_INVOICE',
+  },
+  INVOICES: {
+    GET: api('GET', 'INVOICES'),
   },
   TEMPLATES: {
     VENDORS: {

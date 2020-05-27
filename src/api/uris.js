@@ -8,5 +8,9 @@ export const URI = {
       AVAILABLE: (warehouseId) =>
         `${HOST_NAME}/v1/order/available?warehouse_id=${warehouseId}`,
     },
+    INVOICES: {
+      GET: (orderId) =>
+        `https://warehouseapi.iopk.in/v1/order/${orderId}/invoices`,
+    },
   },
 }

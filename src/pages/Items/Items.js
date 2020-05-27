@@ -40,8 +40,8 @@ class Items extends Component {
   componentDidUpdate(prevProps, prevState) {
     this.setURLParams()
     if (
-      this.props.currentVendorCode &&
-      prevProps.currentVendorCode !== this.props.currentVendorCode
+      this.props.currentInvoice &&
+      prevProps.currentInvoice !== this.props.currentInvoice
     ) {
       this.closeSidebar()
     }
@@ -73,7 +73,7 @@ class Items extends Component {
       // eslint-disable-next-line
       this.props.match.params.order == this.props.currentOrder &&
       // eslint-disable-next-line
-      this.props.match.params.vendor == this.props.currentVendorCode
+      this.props.match.params.vendor == this.props.currentInvoice
     ) {
       return
     }
@@ -81,8 +81,8 @@ class Items extends Component {
       ? `/order/${this.props.currentOrder}/`
       : '/'
     path +=
-      this.props.currentOrder && this.props.currentVendorCode
-        ? `vendor-code/${this.props.currentVendorCode}`
+      this.props.currentOrder && this.props.currentInvoice
+        ? `vendor-code/${this.props.currentInvoice}`
         : ''
     this.props.history.push(path)
   }
@@ -131,8 +131,9 @@ class Items extends Component {
   }
 
   render() {
-    const headerText = this.props.currentVendorCode
-      ? `${this.props.currentOrder} / ${this.props.currentVendorCode}`
+    console.log(this.props.table)
+    const headerText = this.props.currentInvoice
+      ? `${this.props.currentOrder} / ${this.props.currentInvoice}`
       : 'Открыть артикул'
     return (
       <div className='page'>
@@ -182,7 +183,7 @@ class Items extends Component {
 function mapStateToProps(state) {
   return {
     currentOrder: state.warehouse.currentOrder,
-    currentVendorCode: state.warehouse.currentVendorCode,
+    currentInvoice: state.warehouse.currentInvoice,
     table: checkItemsGetter(state.warehouse.items),
     isOrder: (orderNum) =>
       !!state.warehouse.vendorCodes.find(

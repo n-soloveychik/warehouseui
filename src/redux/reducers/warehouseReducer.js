@@ -1,16 +1,17 @@
 import {
   SELECT_CURRENT_ORDER,
-  SELECT_CURRENT_VENDOR_CODE,
+  SELECT_CURRENT_INVOICE,
   API,
 } from '@/redux/actions/actionNames'
 
 const initialState = {
   orders: [],
+  invoices: [],
   items: [],
   isCallingGetOrders: false,
   isCallingGetItems: false,
   currentOrder: null,
-  currentVendorCode: null,
+  currentInvoice: null,
 }
 
 const selectOrder = (state, orderNum) => {
@@ -18,29 +19,31 @@ const selectOrder = (state, orderNum) => {
     return Object.assign({}, state)
   return Object.assign({}, state, {
     currentOrder: orderNum,
-    currentVendorCode:
-      state.currentOrder === orderNum ? state.currentVendorCode : null,
+    currentInvoice:
+      state.currentOrder === orderNum ? state.currentInvoice : null,
   })
 }
 
-const selectVendorCode = (state, vendorCode) => {
+const selectInvoice = (state, invoice) => {
   if (
     !state.currentOrder ||
-    !state.orders.find((order) => order.orderNum === state.currentOrder) ||
-    !vendorCode ||
-    !state.orders.find((order) => order.vendorCode === vendorCode)
+    !state.orders.find((order) => order.order_num === state.currentOrder) ||
+    !invoice ||
+    !state.orders
+      .find((order) => order.order_num === state.currentOrder)
+      .invoices?.find((inv) => inv.invoice_code === invoice)
   ) {
     return Object.assign({}, state)
   }
   return Object.assign({}, state, {
-    currentVendorCode: vendorCode,
+    currentInvoice: invoice,
   })
 }
 
 const obj = {
   [SELECT_CURRENT_ORDER]: (state, { order }) => selectOrder(state, order),
-  [SELECT_CURRENT_VENDOR_CODE]: (state, { vendorCode }) =>
-    selectVendorCode(state, vendorCode),
+  [SELECT_CURRENT_INVOICE]: (state, { invoice }) =>
+    selectInvoice(state, invoice),
   [API.ORDERS.GET.CALL]: (state) => ({ ...state, isCallingGetOrders: true }),
   [API.ORDERS.GET.FAILURE]: (state) => ({
     ...state,
@@ -51,6 +54,24 @@ const obj = {
     isCallingGetOrders: false,
     orders: data,
   }),
+  [API.INVOICES.GET.SUCCESS]: (state, { data }) => ({
+    ...state,
+    invoices: data,
+  }),
+  [API.ITEMS.SET_BY_INVOICE]: (state) => {
+    let currentInvoice = state.invoices.find(
+      (invoice) => invoice.invoice_code === state.currentInvoice,
+    )
+    if (currentInvoice && currentInvoice.items) {
+      return {
+        ...state,
+        items: currentInvoice.items,
+      }
+    }
+    return {
+      ...state,
+    }
+  },
   [API.ITEMS.GET.CALL]: (state) => ({ ...state, isCallingGetItems: true }),
   [API.ITEMS.GET.FAILURE]: (state) => ({ ...state, isCallingGetItems: false }),
   [API.ITEMS.GET.SUCCESS]: (state, { data }) => ({

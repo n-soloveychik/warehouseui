@@ -1,4 +1,3 @@
-import { apiCoreAction } from './apiCoreAction'
 import { ERROR, ROUTER } from '../actionNames'
 
 export const login = async (dispatch, requestFn, requestData) => {
@@ -10,7 +9,7 @@ export const login = async (dispatch, requestFn, requestData) => {
       text: response.message,
     })
   } else {
-    localStorage.setItem('token', response.token)
+    localStorage.setItem('token', response.data.token)
     dispatch({ type: ROUTER.AUTHORIZED })
   }
 }

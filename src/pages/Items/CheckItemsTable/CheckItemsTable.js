@@ -53,13 +53,13 @@ const CTable = (props) => {
               </TableCell>
             )}
             <TableCell style={{ textAlign: 'center' }}>
-              {item.itemNum}
+              {item.item_num}
             </TableCell>
             <TableCell style={{ textAlign: 'center' }}>
               <img
                 style={{ width: 100, height: 100, objectFit: 'contain' }}
                 alt='продукт'
-                src={'http://iopk.in' + item.image}
+                src={item.image}
               />
             </TableCell>
             <TableCell style={{ textAlign: 'center' }}>{item.size}</TableCell>
@@ -96,7 +96,7 @@ const CTable = (props) => {
                 onClick={(e) => props.contextMenuButtonClick(item, e.target)}
                 size={'small'}
               >
-                <Badge badgeContent={item.itemclaimsList.length} color='error'>
+                <Badge badgeContent={item.claims?.length || 0} color='error'>
                   <ReportProblemIcon />
                 </Badge>
               </IconButton>
