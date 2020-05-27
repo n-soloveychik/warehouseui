@@ -1,4 +1,4 @@
-import { grpcCoreAction } from './grpcCoreAction'
+import { apiCoreAction } from './apiCoreAction'
 
 export const getItemsAction = async (
   dispatch,
@@ -6,7 +6,7 @@ export const getItemsAction = async (
   requestFn,
   accountContract,
 ) => {
-  await grpcCoreAction(dispatch, actionNameObj, requestFn, accountContract)
+  await apiCoreAction(dispatch, actionNameObj, requestFn, accountContract)
 }
 
 export const updateItemStatusAction = async (
@@ -15,5 +15,5 @@ export const updateItemStatusAction = async (
   requestFn,
   { itemId, statusId },
 ) => {
-  await grpcCoreAction(dispatch, actionNameObj, requestFn, { itemId, statusId })
+  await apiCoreAction(dispatch, actionNameObj, requestFn, { itemId, statusId })
 }

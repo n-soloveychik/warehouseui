@@ -1,11 +1,11 @@
 import {
   SELECT_CURRENT_ORDER,
   SELECT_CURRENT_VENDOR_CODE,
-  GRPC,
+  API,
 } from '@/redux/actions/actionNames'
 
 const initialState = {
-  vendorCodes: [],
+  orders: [],
   items: [],
   isCallingGetOrders: false,
   isCallingGetItems: false,
@@ -14,7 +14,7 @@ const initialState = {
 }
 
 const selectOrder = (state, orderNum) => {
-  if (!state.vendorCodes.find((vendor) => vendor.orderNum === orderNum))
+  if (!state.orders.find((order) => order.order_num === orderNum))
     return Object.assign({}, state)
   return Object.assign({}, state, {
     currentOrder: orderNum,
@@ -26,11 +26,9 @@ const selectOrder = (state, orderNum) => {
 const selectVendorCode = (state, vendorCode) => {
   if (
     !state.currentOrder ||
-    !state.vendorCodes.find(
-      (vendor) => vendor.orderNum === state.currentOrder,
-    ) ||
+    !state.orders.find((order) => order.orderNum === state.currentOrder) ||
     !vendorCode ||
-    !state.vendorCodes.find((vendor) => vendor.vendorCode === vendorCode)
+    !state.orders.find((order) => order.vendorCode === vendorCode)
   ) {
     return Object.assign({}, state)
   }
@@ -43,26 +41,26 @@ const obj = {
   [SELECT_CURRENT_ORDER]: (state, { order }) => selectOrder(state, order),
   [SELECT_CURRENT_VENDOR_CODE]: (state, { vendorCode }) =>
     selectVendorCode(state, vendorCode),
-  [GRPC.ORDERS.GET.CALL]: (state) => ({ ...state, isCallingGetOrders: true }),
-  [GRPC.ORDERS.GET.FAILURE]: (state) => ({
+  [API.ORDERS.GET.CALL]: (state) => ({ ...state, isCallingGetOrders: true }),
+  [API.ORDERS.GET.FAILURE]: (state) => ({
     ...state,
     isCallingGetOrders: false,
   }),
-  [GRPC.ORDERS.GET.SUCCESS]: (state, { data }) => ({
+  [API.ORDERS.GET.SUCCESS]: (state, { data }) => ({
     ...state,
     isCallingGetOrders: false,
-    vendorCodes: data,
+    orders: data,
   }),
-  [GRPC.ITEMS.GET.CALL]: (state) => ({ ...state, isCallingGetItems: true }),
-  [GRPC.ITEMS.GET.FAILURE]: (state) => ({ ...state, isCallingGetItems: false }),
-  [GRPC.ITEMS.GET.SUCCESS]: (state, { data }) => ({
+  [API.ITEMS.GET.CALL]: (state) => ({ ...state, isCallingGetItems: true }),
+  [API.ITEMS.GET.FAILURE]: (state) => ({ ...state, isCallingGetItems: false }),
+  [API.ITEMS.GET.SUCCESS]: (state, { data }) => ({
     ...state,
     isCallingGetItems: false,
     items: data,
   }),
-  [GRPC.ITEMS.UPDATE.CALL]: (state) => ({ ...state }),
-  [GRPC.ITEMS.UPDATE.FAILURE]: (state) => ({ ...state }),
-  [GRPC.ITEMS.UPDATE.SUCCESS]: (state, { data }) => {
+  [API.ITEMS.UPDATE.CALL]: (state) => ({ ...state }),
+  [API.ITEMS.UPDATE.FAILURE]: (state) => ({ ...state }),
+  [API.ITEMS.UPDATE.SUCCESS]: (state, { data }) => {
     const newState = { ...state }
     const item = newState.items.find((item) => item.itemId === data.itemId)
     item.statusId = data.statusId

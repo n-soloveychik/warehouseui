@@ -3,28 +3,7 @@ import { connect } from 'react-redux'
 import classes from './Lists.module.scss'
 import CList from './CList/CList'
 import { Grid } from '@material-ui/core'
-import { selectVendorCode, selectOrder } from '@/redux/actions/actions'
-import { vendorCodesGetter } from '@/redux/getters/vendorCodesGetters'
-
-function mapStateToProps(state) {
-  const list = vendorCodesGetter(state)
-  state = state.warehouse
-  return {
-    orders: Object.keys(list),
-    vendorCodes: state.currentOrder ? list[state.currentOrder] : [],
-    products: state.table,
-    currentOrder: state.currentOrder,
-    currentVendorCode: state.currentVendorCode,
-    loading: state.isCallingGetOrders,
-  }
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    selectOrder: (id) => selectOrder(dispatch, id),
-    selectVendorCode: (id) => selectVendorCode(dispatch, id),
-  }
-}
+// import { selectVendorCode, selectOrder } from '@/redux/actions/actions'
 
 const Lists = (props) => (
   <Grid container className={classes.lists} spacing={3}>
@@ -38,15 +17,35 @@ const Lists = (props) => (
       ></CList>
     </Grid>
     <Grid className={classes.column} item xs={6}>
-      <CList
+      {/* <CList
         title='Артикул'
         loading={props.loading}
         items={props.vendorCodes}
         handleItemClick={props.selectVendorCode}
         currentItem={props.currentVendorCode}
-      ></CList>
+      ></CList> */}
     </Grid>
   </Grid>
 )
+
+function mapStateToProps(state) {
+  console.log(state.warehouse.orders)
+  state = state.warehouse
+  return {
+    orders: state.orders,
+    // vendorCodes: state.currentOrder ? list[state.currentOrder] : [],
+    // products: state.table,
+    // currentOrder: state.currentOrder,
+    // currentVendorCode: state.currentVendorCode,
+    // loading: state.isCallingGetOrders,
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    // selectOrder: (id) => selectOrder(dispatch, id),
+    // selectVendorCode: (id) => selectVendorCode(dispatch, id),
+  }
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(Lists)

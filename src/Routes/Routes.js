@@ -1,38 +1,56 @@
 import React from 'react'
-import { Route, Switch } from 'react-router-dom'
+import { Route, Switch, Redirect } from 'react-router-dom'
 import Items from '@/pages/Items/Items'
-import CreateClaim from '@/pages/CreateClaim/CreateClaim'
-import Claims from '@/pages/Claims/Claims'
-import EditVendorCodes from '@/pages/EditVendorCodes/EditVendorCodes'
-import EditItems from '@/pages/EditItems/EditItems'
+// import CreateClaim from '@/pages/CreateClaim/CreateClaim'
+// import Claims from '@/pages/Claims/Claims'
+// import EditVendorCodes from '@/pages/EditVendorCodes/EditVendorCodes'
+// import EditItems from '@/pages/EditItems/EditItems'
 import Login from '@/pages/Login/Login'
+import { connect } from 'react-redux'
+import PrivateRoute from './PrivateRoute'
 
-export default function () {
+const Routes = ({ authorized }) => {
   return (
     <Switch>
-      <Route exact path='/' component={Items} />
-      <Route exact path='/order' component={Items} />
-      <Route exact path='/order/:order/' component={Items} />
-      <Route exact path='/order/:order/vendor-code' component={Items} />
-      <Route exact path='/order/:order/vendor-code/:vendor' component={Items} />
-      <Route
+      <PrivateRoute exact path='/' component={Items} />
+      <PrivateRoute exact path='/order' component={Items} />
+      <PrivateRoute exact path='/order/:order/' component={Items} />
+      <PrivateRoute exact path='/order/:order/vendor-code' component={Items} />
+      <PrivateRoute
+        exact
+        path='/order/:order/vendor-code/:vendor'
+        component={Items}
+      />
+      {/* <PrivateRoute
         exact
         path='/order/:order/vendor-code/:vendor/item/:item/new-claim'
         component={CreateClaim}
       />
-      <Route
+      <PrivateRoute
         exact
         path='/order/:order/vendor-code/:vendor/item/:item/claims'
         component={Claims}
       />
-      <Route exact path='/edit-vendor-codes' component={EditVendorCodes} />
-      <Route
+      <PrivateRoute exact path='/edit-vendor-codes' component={EditVendorCodes} />
+      <PrivateRoute
         exact
         path='/edit-vendor-codes/:vendor/edit-items'
         component={EditItems}
+      /> */}
+      <Route
+        exact
+        path='/login'
+        render={() => (authorized ? <Redirect to='/' /> : <Login />)}
       />
-      <Route exact path='/login' component={Login} />
-      <Route component={Items} />
+      <PrivateRoute component={Items} />
     </Switch>
   )
 }
+
+function mapStateToProps(state) {
+  return {
+    authorized: state.router.authorized,
+  }
+}
+
+export default connect(mapStateToProps)(Routes)

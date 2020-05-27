@@ -8,11 +8,11 @@ import { IconButton, SwipeableDrawer } from '@material-ui/core'
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos'
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos'
 import {
-  selectOrder,
-  selectVendorCode,
+  // selectOrder,
+  // selectVendorCode,
   getOrders,
-  getItemsByVendorCode,
-  updateItemStatus,
+  // getItemsByVendorCode,
+  // updateItemStatus,
 } from '@/redux/actions/actions'
 import { checkItemsGetter } from '@/redux/getters/itemsGetters'
 import ContextMenu from './ContextMenu/ContextMenu'
@@ -27,15 +27,15 @@ class Items extends Component {
 
   async componentDidMount() {
     await this.props.getOrders()
-    await this.props.getItemsByVendorCode()
-    await this.setStateFromURLParams()
-    this.setState({ shouldUpdate: true })
-    await this.openDrawerOnStart()
+    // await this.props.getItemsByVendorCode()
+    // await this.setStateFromURLParams()
+    // this.setState({ shouldUpdate: true })
+    // await this.openDrawerOnStart()
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
-    return nextState.shouldUpdate
-  }
+  // shouldComponentUpdate(nextProps, nextState) {
+  //   return nextState.shouldUpdate
+  // }
 
   componentDidUpdate(prevProps, prevState) {
     this.setURLParams()
@@ -197,12 +197,12 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    selectOrder: (id) => selectOrder(dispatch, id),
-    selectVendorCode: (id) => selectVendorCode(dispatch, id),
+    // selectOrder: (id) => selectOrder(dispatch, id),
+    // selectVendorCode: (id) => selectVendorCode(dispatch, id),
     getOrders: () => getOrders(dispatch),
-    getItemsByVendorCode: () => getItemsByVendorCode(dispatch, 1),
-    updateItemStatus: ({ itemId, statusId }) =>
-      updateItemStatus(dispatch, { statusId, itemId }),
+    // getItemsByVendorCode: () => getItemsByVendorCode(dispatch, 1),
+    // updateItemStatus: ({ itemId, statusId }) =>
+    // updateItemStatus(dispatch, { statusId, itemId }),
   }
 }
 

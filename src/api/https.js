@@ -46,6 +46,9 @@ async function request(uri, method = 'GET', data) {
     init = { ...init, body: JSON.stringify(data) }
   }
   const response = await fetch(uri, init)
-  const json = await response.json()
+  let json = {}
+  if (response.headers.get('content-type') === 'application/json') {
+    json = await response.json()
+  }
   return { ...json, status: response.status }
 }

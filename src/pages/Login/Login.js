@@ -2,8 +2,8 @@ import React, { Component, createRef } from 'react'
 import { connect } from 'react-redux'
 import { TextField, Button, Typography } from '@material-ui/core'
 import classes from './Login.module.scss'
-import { errorActions } from '@/redux/actions/actions'
-import { API } from '@/api'
+import { errorActions, loginActions } from '@/redux/actions/actions'
+import { REQUEST } from '@/api'
 
 class Login extends Component {
   constructor(props) {
@@ -40,11 +40,10 @@ class Login extends Component {
   }
 
   checkToken = async () => {
-    const response = await API.checkLogin()
-    console.log(response)
-    if (response.status === 202) {
-      this.props.history.push('/')
-    }
+    const response = await this.props.checkToken()
+    // if (response.status === 202) {
+    //   this.props.history.push('/')
+    // }
   }
 
   disableButton = () => {
@@ -56,23 +55,13 @@ class Login extends Component {
 
   submit = async (e) => {
     e.preventDefault()
-    if (this.validateAll()) {
-      this.login()
-    }
-  }
-
-  login = async () => {
     const device = `${window.navigator.appCodeName}-${window.navigator.platform}`
-    const response = await API.login({
-      email: this.state.email.value,
-      password: this.state.password.value,
-      device,
-    })
-    if (response.status === 201 && response.token) {
-      localStorage.setItem('token', response.token)
-      this.props.history.push('/')
-    } else {
-      this.props.showError(response.status, response.message)
+    if (this.validateAll()) {
+      this.props.login({
+        email: this.state.email.value,
+        password: this.state.password.value,
+        device,
+      })
     }
   }
 
@@ -181,6 +170,8 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     showError: (title, text) => errorActions.showError(dispatch, title, text),
+    login: (loginData) => loginActions.login(dispatch, loginData),
+    checkToken: () => loginActions.checkToken(dispatch),
   }
 }
 

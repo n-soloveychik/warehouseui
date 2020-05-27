@@ -1,34 +1,34 @@
-const grpc = (method, name) => ({
-  CALL: `GRPC_${method}_${name}_CALL`,
-  FAILURE: `GRPC_${method}_${name}_FAILURE`,
-  SUCCESS: `GRPC_${method}_${name}_SUCCESS`,
+const api = (method, name) => ({
+  CALL: `API_${method}_${name}_CALL`,
+  FAILURE: `API_${method}_${name}_FAILURE`,
+  SUCCESS: `API_${method}_${name}_SUCCESS`,
 })
 
 export const SELECT_CURRENT_ORDER = 'SELECT_CURRENT_ORDER'
 export const SELECT_CURRENT_VENDOR_CODE = 'SELECT_CURRENT_VENDOR_CODE'
 
-export const GRPC = {
+export const API = {
   ORDERS: {
-    GET: grpc('GET', 'ORDERS'),
+    GET: api('GET', 'ORDERS'),
   },
   ITEMS: {
-    GET: grpc('GET', 'ITEMS'),
-    UPDATE: grpc('UPDATE', 'ITEM'),
+    GET: api('GET', 'ITEMS'),
+    UPDATE: api('UPDATE', 'ITEM'),
   },
   TEMPLATES: {
     VENDORS: {
-      GET: grpc('GET', 'VENDOR_TEMPLATES'),
-      CREATE: grpc('CREATE', 'VENDOR_TEMPLATES'),
-      ADD_ITEM: grpc('ADD_ITEM', 'VENDOR_TEMPLATES'),
+      GET: api('GET', 'VENDOR_TEMPLATES'),
+      CREATE: api('CREATE', 'VENDOR_TEMPLATES'),
+      ADD_ITEM: api('ADD_ITEM', 'VENDOR_TEMPLATES'),
     },
     CATEGORIES: {
-      GET: grpc('GET', 'CATEGORIES_TEMPLATES'),
-      CREATE: grpc('CREATE', 'CATEGORY_TEMPLATE'),
+      GET: api('GET', 'CATEGORIES_TEMPLATES'),
+      CREATE: api('CREATE', 'CATEGORY_TEMPLATE'),
     },
     ITEMS: {
-      GET_BY_VENDOR: grpc('GET_BY_VENDOR', 'ITEM_TEMPLATES'),
-      GET_BY_CATEGORY: grpc('GET_BY_CATEGORY', 'ITEM_TEMPLATES'),
-      CREATE: grpc('CREATE', 'ITEM_TEMPLATE'),
+      GET_BY_VENDOR: api('GET_BY_VENDOR', 'ITEM_TEMPLATES'),
+      GET_BY_CATEGORY: api('GET_BY_CATEGORY', 'ITEM_TEMPLATES'),
+      CREATE: api('CREATE', 'ITEM_TEMPLATE'),
     },
   },
 }
@@ -48,4 +48,9 @@ export const TEMPLATES = {
 export const ERROR = {
   OPEN: 'ERROR_OPEN',
   CLOSE: 'ERROR_CLOSE',
+}
+
+export const ROUTER = {
+  UNAUTHORIZED: 'ROUTER_UNAUTHORIZED',
+  AUTHORIZED: 'ROUTER_AUTHORIZED',
 }
