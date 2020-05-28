@@ -7,4 +7,8 @@ export const REQUEST = {
   getAvailableOrders: async () => await HTTPS.get(URI.V1.ORDER.AVAILABLE(1)),
   getInvoicesAndItemsByOrder: async (orderId) =>
     await HTTPS.get(URI.V1.INVOICES.GET(orderId)),
+  setItemStatusInStock: async (itemId) =>
+    await HTTPS.put(URI.V1.ITEM.SET_STATUS.IN_STOCK(itemId)),
+  setItemStatusAwaitDelivery: async (itemId) =>
+    await HTTPS.put(URI.V1.ITEM.SET_STATUS.AWAIT_DELIVERY(itemId)),
 }

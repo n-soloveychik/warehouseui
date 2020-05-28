@@ -16,10 +16,10 @@ import ReportProblemIcon from '@material-ui/icons/ReportProblem'
 
 const styles = {
   1: {
-    backgroundColor: '#00ff0020',
+    backgroundColor: '#ffffff20',
   },
   2: {
-    backgroundColor: '#ffffff20',
+    backgroundColor: '#00ff0020',
   },
   3: {
     backgroundColor: '#ff000020',
@@ -43,7 +43,10 @@ const CTable = (props) => {
       )
       const categoryRows = category.lots.map((lot, index) =>
         lot.items.map((item, itemIndex) => (
-          <TableRow style={styles[item.statusId]} key={`${index}-${itemIndex}`}>
+          <TableRow
+            style={styles[item.status_id]}
+            key={`${index}-${itemIndex}`}
+          >
             {itemIndex === 0 && (
               <TableCell
                 rowSpan={lot.items.length}
@@ -71,20 +74,16 @@ const CTable = (props) => {
               <Typography variant={'caption'}>{item.description}</Typography>
             </TableCell>
             <TableCell style={{ padding: '6px 6px', maxWidth: 51 }}>
-              {item.statusId !== 1 ? (
+              {item.status_id !== 2 ? (
                 <IconButton
-                  onClick={() =>
-                    props.updateStatus({ itemId: item.itemId, statusId: 1 })
-                  }
+                  onClick={() => props.setStatusInStock(item.item_id)}
                   size={'small'}
                 >
                   <CheckBoxOutlineBlankIcon></CheckBoxOutlineBlankIcon>
                 </IconButton>
               ) : (
                 <IconButton
-                  onClick={() =>
-                    props.updateStatus({ itemId: item.itemId, statusId: 2 })
-                  }
+                  onClick={() => props.setStatusAwaitDelivery(item.item_id)}
                   size={'small'}
                 >
                   <CheckBoxIcon></CheckBoxIcon>

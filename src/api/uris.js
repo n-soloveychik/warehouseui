@@ -12,5 +12,13 @@ export const URI = {
       GET: (orderId) =>
         `https://warehouseapi.iopk.in/v1/order/${orderId}/invoices`,
     },
+    ITEM: {
+      SET_STATUS: {
+        IN_STOCK: (itemId) =>
+          `https://warehouseapi.iopk.in/v1/item/${itemId}/status-in-stock`,
+        AWAIT_DELIVERY: (itemId) =>
+          `https://warehouseapi.iopk.in/v1/item/${itemId}/status-await-delivery`,
+      },
+    },
   },
 }

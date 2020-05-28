@@ -8,12 +8,3 @@ export const getItemsAction = async (
 ) => {
   await apiCoreAction(dispatch, actionNameObj, requestFn, accountContract)
 }
-
-export const updateItemStatusAction = async (
-  dispatch,
-  actionNameObj,
-  requestFn,
-  { itemId, statusId },
-) => {
-  await apiCoreAction(dispatch, actionNameObj, requestFn, { itemId, statusId })
-}

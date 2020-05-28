@@ -6,10 +6,10 @@ const PrivateRoute = ({ authorized, component: Component, ...rest }) => {
   return (
     <Route
       {...rest}
-      render={(props) =>
-        authorized ? <Component {...props} /> : <Redirect to='/login' />
-      }
-    ></Route>
+      render={(props) => {
+        return authorized ? <Component {...props} /> : <Redirect to='/login' />
+      }}
+    />
   )
 }
 
@@ -19,8 +19,4 @@ function mapStateToProps(state) {
   }
 }
 
-function mapDispatchToProps(dispatch) {
-  return {}
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(PrivateRoute)
+export default connect(mapStateToProps)(PrivateRoute)

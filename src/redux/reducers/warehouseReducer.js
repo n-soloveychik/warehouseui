@@ -7,7 +7,6 @@ import {
 const initialState = {
   orders: [],
   invoices: [],
-  items: [],
   isCallingGetOrders: false,
   isCallingGetItems: false,
   currentOrder: null,
@@ -58,20 +57,6 @@ const obj = {
     ...state,
     invoices: data,
   }),
-  [API.ITEMS.SET_BY_INVOICE]: (state) => {
-    let currentInvoice = state.invoices.find(
-      (invoice) => invoice.invoice_code === state.currentInvoice,
-    )
-    if (currentInvoice && currentInvoice.items) {
-      return {
-        ...state,
-        items: currentInvoice.items,
-      }
-    }
-    return {
-      ...state,
-    }
-  },
   [API.ITEMS.GET.CALL]: (state) => ({ ...state, isCallingGetItems: true }),
   [API.ITEMS.GET.FAILURE]: (state) => ({ ...state, isCallingGetItems: false }),
   [API.ITEMS.GET.SUCCESS]: (state, { data }) => ({

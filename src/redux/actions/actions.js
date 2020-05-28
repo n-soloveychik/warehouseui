@@ -12,7 +12,7 @@ import { getOrdersAction } from './apiActions/orderActions'
 // } from './apiActions/itemActions'
 import { REQUEST } from '@/api/index'
 import { login, checkToken } from './apiActions/loginAction'
-import { getInvoicesByOrder } from './apiActions/invoiceAction'
+import { getInvoicesByOrderAction } from './apiActions/invoiceAction'
 // import {
 //   getVendorTemplatesAction,
 //   createVendorTemplateAction,
@@ -31,15 +31,6 @@ export function getOrders(dispatch) {
 //   return getItemsAction(dispatch, API.ITEMS.GET, REQUEST.items.get, invoice)
 // }
 
-// export function updateItemStatus(dispatch, { statusId, itemId }) {
-//   return updateItemStatusAction(
-//     dispatch,
-//     API.ITEMS.UPDATE,
-//     REQUEST.items.updateStatus,
-//     { itemId, statusId },
-//   )
-// }
-
 export const selectInvoice = (dispatch, invoice) => {
   dispatch({
     type: SELECT_CURRENT_INVOICE,
@@ -55,12 +46,19 @@ export const selectOrder = async (dispatch, order) => {
     type: SELECT_CURRENT_ORDER,
     order: order.order_num,
   })
-  await getInvoicesByOrder(
+  await getInvoicesByOrderAction(
     dispatch,
     API.INVOICES.GET,
     REQUEST.getInvoicesAndItemsByOrder.bind(null, order.order_id),
   )
 }
+
+export const getInvoicesByOrder = (dispatch, orderId) =>
+  getInvoicesByOrderAction(
+    dispatch,
+    API.INVOICES.GET,
+    REQUEST.getInvoicesAndItemsByOrder.bind(null, orderId),
+  )
 
 // export const templateActions = {
 //   vendor: {

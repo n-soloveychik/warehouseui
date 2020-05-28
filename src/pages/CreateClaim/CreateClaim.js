@@ -10,7 +10,6 @@ import {
 } from '@material-ui/core'
 import classes from './CreateClaim.module.scss'
 import Photo from './Photo/Photo'
-import { grpc } from '@/grpc/index'
 
 class CreateClaim extends Component {
   state = {
@@ -56,28 +55,29 @@ class CreateClaim extends Component {
     this.setState({ description })
   }
 
-  takePhotos = async (photos) => {
-    this.setState({ photos: [...this.state.photos, ...photos] })
-    for (const photo of photos) {
-      try {
-        if (!photo.serverName) {
-          photo.serverName = await grpc.image.upload(photo.binary)
-        }
-      } catch (err) {
-        console.error(err)
-      }
-    }
-  }
+  // takePhotos = async (photos) => {
+  //   this.setState({ photos: [...this.state.photos, ...photos] })
+  //   for (const photo of photos) {
+  //     try {
+  //       if (!photo.serverName) {
+  //         photo.serverName = await grpc.image.upload(photo.binary)
+  //       }
+  //     } catch (err) {
+  //       console.error(err)
+  //     }
+  //   }
+  // }
 
-  createClaim = async () => {
-    const itemId = this.props.match.params.item
-    const images = this.state.photos.map((photo) => photo.serverName)
-    const description = this.state.description
-    await grpc.claim.create({ itemId, images, description })
-    this.goBack()
-  }
+  // createClaim = async () => {
+  //   const itemId = this.props.match.params.item
+  //   const images = this.state.photos.map((photo) => photo.serverName)
+  //   const description = this.state.description
+  //   await grpc.claim.create({ itemId, images, description })
+  //   this.goBack()
+  // }
 
   render() {
+    console.log('render CreateClaim')
     const photos = this.state.photos.map((photo, index) => (
       <Photo
         alt='Фото претензии'

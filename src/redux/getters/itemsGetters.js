@@ -1,4 +1,14 @@
-export const checkItemsGetter = (items) => {
+export const checkItemsGetter = (state) => {
+  state = state.warehouse
+  const items =
+    state.invoices?.length && state.currentInvoice
+      ? state.invoices.find(
+          (invoice) => invoice.invoice_code === state.currentInvoice,
+        )?.items
+      : null
+  if (!items || !(items instanceof Array)) {
+    return []
+  }
   const groupedItems = items.reduce((acc, cur) => {
     const category = acc.find((obj) => obj.category === cur.category)
     if (category) {

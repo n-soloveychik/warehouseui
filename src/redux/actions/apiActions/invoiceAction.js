@@ -1,6 +1,6 @@
 import { apiCoreAction } from './apiCoreAction'
 
-export const getInvoicesByOrder = async (
+export const getInvoicesByOrderAction = async (
   dispatch,
   actionName,
   requestFn,
