@@ -4,6 +4,7 @@ import CHeader from '@/components/CHeader/CHeader'
 import { Container } from '@material-ui/core'
 import CardClaim from './CardClaim/CardClaim'
 import { setCurrentOrderInvoiceAction } from '@/redux/actions/apiActions/appAction'
+import { REQUEST } from '@/api'
 
 class Claims extends Component {
   state = {
@@ -11,8 +12,12 @@ class Claims extends Component {
   }
 
   componentDidMount = async () => {
+    await this.setCurrentParams()
+  }
+
+  setCurrentParams = async (toSet = false) => {
     const { order, invoice, item } = this.props.match.params
-    if (!this.props.invoices?.length) {
+    if (!this.props.invoices?.length || toSet) {
       await this.props.setCurrentParams(order, invoice)
     }
     const claims = this.props.invoices
@@ -26,6 +31,13 @@ class Claims extends Component {
     this.props.history.push(`/order/${params.order}/invoice/${params.invoice}`)
   }
 
+  closeClaim = async (claimId) => {
+    const response = await REQUEST.closeClaim(claimId)
+    if (response.status === 200) {
+      await this.setCurrentParams(true)
+    }
+  }
+
   render() {
     return (
       <div className='page'>
@@ -33,7 +45,11 @@ class Claims extends Component {
         {!!this.state.claims?.length && (
           <Container maxWidth='sm'>
             {this.state.claims?.map((claim, index) => (
-              <CardClaim key={index} claim={claim} />
+              <CardClaim
+                key={index}
+                closeClaim={this.closeClaim}
+                claim={claim}
+              />
             ))}
           </Container>
         )}

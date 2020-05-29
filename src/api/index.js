@@ -15,6 +15,7 @@ export const REQUEST = {
     await HTTPS.postFormData(URI.V1.PHOTOS.INSERT, formData),
   createClaim: async (itemId, data) =>
     HTTPS.post(URI.V1.ITEM.CLAIM.CREATE(itemId), data),
+  closeClaim: async (claimId) => HTTPS.delete(URI.V1.ITEM.CLAIM.CLOSE(claimId)),
   getTemplateInvoices: async () => HTTPS.get(URI.V1.TEMPLATE.INVOICES.GET),
   createTemplateInvoice: async (invoice) =>
     HTTPS.post(URI.V1.TEMPLATE.INVOICES.CREATE, invoice),

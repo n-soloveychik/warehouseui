@@ -3,6 +3,21 @@ import { List, ListItem, Typography } from '@material-ui/core'
 import classes from './CList.module.scss'
 import { Skeleton } from '@material-ui/lab'
 
+const statusColors = {
+  1: {
+    backgroundColor: '#ffffff20',
+  },
+  2: {
+    backgroundColor: '#ffff0020',
+  },
+  3: {
+    backgroundColor: '#ff000020',
+  },
+  4: {
+    backgroundColor: '#00ff0020',
+  },
+}
+
 const CList = (props) => {
   const style = {
     title: {
@@ -29,6 +44,7 @@ const CList = (props) => {
             onClick={() => props.handleItemClick(item)}
             className={className.join(' ')}
             key={index}
+            style={statusColors[item.status_id]}
           >
             {item[props.keyToRender]}
           </ListItem>

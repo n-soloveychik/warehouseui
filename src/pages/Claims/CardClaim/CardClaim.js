@@ -4,34 +4,41 @@ import {
   CardMedia,
   CardContent,
   Typography,
-  // Button,
-  // CardActions,
+  Button,
+  CardActions,
 } from '@material-ui/core'
 import Carousel from 're-carousel'
 import classes from './CardClaim.module.scss'
 
-const CardClaim = ({ claim }) => {
-  console.log(claim)
+const CardClaim = ({ claim, closeClaim }) => {
   return (
-    <Card className={classes.card}>
+    <Card
+      className={[
+        classes.card,
+        claim.closed ? classes['card--closed'] : '',
+      ].join(' ')}
+    >
       <div className={classes['image-container']}>
         <Carousel className={classes.carousel}>
           {claim.images.map((link, index) => (
-            <CardMedia
-              className={classes.img}
-              key={index}
-              image={link}
-              title='Неисправность'
-            />
+            <CardMedia className={classes.img} key={index} image={link} />
           ))}
         </Carousel>
       </div>
       <CardContent className={classes.content}>
         <Typography>{claim.claim_description}</Typography>
       </CardContent>
-      {/* <CardActions className={classes.buttons}>
-        <Button>Закрыть претензию</Button>
-      </CardActions> */}
+      {!claim.closed && (
+        <CardActions className={classes.buttons}>
+          <Button
+            onClick={() => closeClaim(claim.claim_id)}
+            variant='outlined'
+            color='secondary'
+          >
+            Закрыть претензию
+          </Button>
+        </CardActions>
+      )}
     </Card>
   )
 }

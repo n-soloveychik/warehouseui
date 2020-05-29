@@ -19,6 +19,7 @@ export const URI = {
       },
       CLAIM: {
         CREATE: (itemId) => `${HOST_NAME}/v1/item/${itemId}/claim`,
+        CLOSE: (claimId) => `${HOST_NAME}/v1/claim/${claimId}`,
       },
     },
     PHOTOS: {

@@ -25,7 +25,6 @@ const styles = {
     backgroundColor: '#ff000020',
   },
 }
-
 const CTable = (props) => {
   const tableBody =
     props.data &&
@@ -95,7 +94,12 @@ const CTable = (props) => {
                 onClick={(e) => props.contextMenuButtonClick(item, e.target)}
                 size={'small'}
               >
-                <Badge badgeContent={item.claims?.length || 0} color='error'>
+                <Badge
+                  badgeContent={
+                    item.claims?.filter((claim) => !claim.closed)?.length || 0
+                  }
+                  color='error'
+                >
                   <ReportProblemIcon />
                 </Badge>
               </IconButton>
