@@ -70,16 +70,20 @@ class Items extends Component {
     this.props.history.push(path)
   }
 
-  toggleSidebar = () => {
+  toggleSidebar = async () => {
     this.setState({
       sideOpened: !this.state.sideOpened,
     })
+    if (!this.state.sideOpened) {
+      await this.props.getOrders()
+    }
   }
 
-  openSidebar = () => {
+  openSidebar = async () => {
     this.setState({
       sideOpened: true,
     })
+    await this.props.getOrders()
   }
 
   closeSidebar = () => {

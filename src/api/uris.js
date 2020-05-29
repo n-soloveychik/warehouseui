@@ -7,6 +7,7 @@ export const URI = {
     ORDER: {
       AVAILABLE: (warehouseId) =>
         `${HOST_NAME}/v1/warehouse/${warehouseId}/order/available`,
+      CREATE: `${HOST_NAME}/v1/order`,
     },
     INVOICES: {
       GET: (orderId) => `${HOST_NAME}/v1/order/${orderId}/invoices`,

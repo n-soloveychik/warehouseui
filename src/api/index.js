@@ -5,6 +5,7 @@ export const REQUEST = {
   login: async (data) => await HTTPS.post(URI.V1.LOGIN, data),
   checkToken: async () => await HTTPS.post(URI.V1.CHECK_TOKEN),
   getAvailableOrders: async () => await HTTPS.get(URI.V1.ORDER.AVAILABLE(1)),
+  createOrder: async (order) => await HTTPS.post(URI.V1.ORDER.CREATE, order),
   getInvoicesAndItemsByOrder: async (orderId) =>
     await HTTPS.get(URI.V1.INVOICES.GET(orderId)),
   setItemStatusInStock: async (itemId) =>

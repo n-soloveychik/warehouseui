@@ -8,14 +8,13 @@ import TemplateItems from '@/pages/TemplateItems/TemplateItems'
 import Login from '@/pages/Login/Login'
 import { connect } from 'react-redux'
 import PrivateRoute from './PrivateRoute'
+import MakeOrder from '@/pages/MakeOrder/MakeOrder'
 
 const Routes = ({ authorized }) => {
   return (
     <Switch>
       <PrivateRoute exact path='/' component={Items} />
-      <PrivateRoute exact path='/order' component={Items} />
       <PrivateRoute exact path='/order/:order/' component={Items} />
-      <PrivateRoute exact path='/order/:order/invoice' component={Items} />
       <PrivateRoute
         exact
         path='/order/:order/invoice/:invoice'
@@ -41,6 +40,7 @@ const Routes = ({ authorized }) => {
         path='/template/invoices/:invoice/items'
         component={TemplateItems}
       />
+      <PrivateRoute exact path='/order' component={MakeOrder} />
       <Route
         exact
         path='/login'
