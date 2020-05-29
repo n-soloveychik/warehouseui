@@ -108,7 +108,7 @@ class MakeOrder extends Component {
           }}
         >
           <TextField
-            label='Код заказа'
+            label='Номер заказа'
             value={this.state.name}
             onChange={(e) => this.setState({ name: e.target.value })}
           />
