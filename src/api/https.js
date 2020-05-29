@@ -19,35 +19,50 @@ export class HTTPS {
     try {
       return await request(uri, 'GET')
     } catch (error) {
-      throw error
+      return {
+        status: 'GET Request',
+        data: { message: `ServerError on request ${uri}` },
+      }
     }
   }
   static async post(uri, data = {}) {
     try {
       return await request(uri, 'POST', data)
     } catch (error) {
-      throw error
+      return {
+        status: 'POST Request',
+        data: { message: `ServerError on request ${uri}` },
+      }
     }
   }
   static async postFormData(uri, formData) {
     try {
       return await request(uri, 'POST', formData)
     } catch (error) {
-      throw error
+      return {
+        status: 'POST Request',
+        data: { message: `ServerError on request ${uri}` },
+      }
     }
   }
   static async put(uri, data = {}) {
     try {
       return await request(uri, 'PUT', data)
     } catch (error) {
-      throw error
+      return {
+        status: 'PUT Request',
+        data: { message: `ServerError on request ${uri}` },
+      }
     }
   }
   static async delete(uri) {
     try {
       return await request(uri, 'DELETE')
     } catch (error) {
-      throw error
+      return {
+        status: 'DELETE Request',
+        data: { message: `ServerError on request ${uri}` },
+      }
     }
   }
 }

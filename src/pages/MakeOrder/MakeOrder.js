@@ -106,9 +106,11 @@ class MakeOrder extends Component {
             onChange={(e) => this.setState({ name: e.target.value })}
           />
           <Button
-            disabled={!this.state.name || !this.state.invoicesInOrder.length}
+            disabled={
+              !this.state.name.length > 2 || !this.state.invoicesInOrder.length
+            }
             variant={
-              !this.state.name || !this.state.invoicesInOrder.length
+              !this.state.name.length > 2 || !this.state.invoicesInOrder.length
                 ? 'text'
                 : 'contained'
             }
