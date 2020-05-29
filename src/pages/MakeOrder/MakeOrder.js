@@ -99,7 +99,14 @@ class MakeOrder extends Component {
   render() {
     return (
       <div style={{ padding: 20, overflow: 'auto', height: '100vh' }}>
-        <div>
+        <div
+          style={{
+            marginBottom: 50,
+            position: 'relative',
+            display: 'flex',
+            justifyContent: 'center',
+          }}
+        >
           <TextField
             label='Код заказа'
             value={this.state.name}
@@ -135,11 +142,23 @@ class MakeOrder extends Component {
               <TableRow key={index}>
                 <TableCell>{invoice.invoice_code}</TableCell>
                 <TableCell>
-                  <Button onClick={() => this.editInvoice(index, -1)}>-</Button>
+                  <Button
+                    variant='outlined'
+                    disabled={invoice.count < 2}
+                    onClick={() => this.editInvoice(index, -1)}
+                  >
+                    -
+                  </Button>
                 </TableCell>
                 <TableCell>{invoice.count}</TableCell>
                 <TableCell>
-                  <Button onClick={() => this.editInvoice(index, 1)}>+</Button>
+                  <Button
+                    variant='outlined'
+                    disabled={invoice.count > 100}
+                    onClick={() => this.editInvoice(index, 1)}
+                  >
+                    +
+                  </Button>
                 </TableCell>
                 <TableCell>
                   <Button onClick={() => this.removeInvoice(index)}>
@@ -158,7 +177,7 @@ class MakeOrder extends Component {
                   renderInput={(params) => (
                     <TextField
                       {...params}
-                      label='Номер Комплектовочной ведомости'
+                      label='Выбрать комплектовочную ведомость'
                       variant='outlined'
                     />
                   )}
