@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { TableRow, TableCell, Button, TextField } from '@material-ui/core'
 import Autocomplete from '@material-ui/lab/Autocomplete'
-import { grpc } from '@/grpc'
+import { REQUEST } from '@/api'
 
 class SelectItem extends Component {
   state = {
@@ -23,7 +23,9 @@ class SelectItem extends Component {
     if (!this.props.categoryId) {
       return
     }
-    let options = await grpc.template.item.getByCategory(this.props.categoryId)
+    let options = await REQUEST.template.item.getByCategory(
+      this.props.categoryId,
+    )
     options = options.filter(
       (item) =>
         !this.props.items.find(

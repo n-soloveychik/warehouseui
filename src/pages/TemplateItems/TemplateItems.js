@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import CHeader from '@/components/CHeader/CHeader'
-import EditItemsTable from './EditItemsTable/EditItemsTable'
+import TemplateItemsTable from './TemplateItemsTable/TemplateItemsTable'
 import { templateActions } from '@/redux/actions/actions'
 
 // const itemsTemplate = [
@@ -79,7 +79,7 @@ import { templateActions } from '@/redux/actions/actions'
 //   },
 // ]
 
-class EditItems extends Component {
+class TemplateItems extends Component {
   componentDidMount = async () => {
     const vendorId = this.props.match.params.vendor
     await this.props.getCategories()
@@ -95,7 +95,7 @@ class EditItems extends Component {
     return (
       <div className='page'>
         <CHeader text='Назад' onTextClick={this.goBack} />
-        <EditItemsTable createItem={this.createItem} />
+        <TemplateItemsTable createItem={this.createItem} />
       </div>
     )
   }
@@ -111,4 +111,4 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-export default connect(null, mapDispatchToProps)(EditItems)
+export default connect(null, mapDispatchToProps)(TemplateItems)

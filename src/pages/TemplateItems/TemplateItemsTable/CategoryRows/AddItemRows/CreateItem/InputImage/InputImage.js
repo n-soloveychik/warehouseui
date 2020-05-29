@@ -3,7 +3,7 @@ import { IconButton, Button } from '@material-ui/core'
 import PhotoCamera from '@material-ui/icons/PhotoCamera'
 import imageProcessor from '@/helpers/imageProcessor'
 import classes from './InputImage.module.scss'
-import { grpc } from '@/grpc'
+import { REQUEST } from '@/api'
 
 class InputImage extends Component {
   state = {
@@ -17,7 +17,7 @@ class InputImage extends Component {
 
   handleInputChange = async (event) => {
     const photo = await imageProcessor(event.nativeEvent.target.files[0])
-    const serverName = await grpc.image.upload(photo.binary)
+    const serverName = await REQUEST.image.upload(photo.binary)
     this.props.ready(serverName)
     this.setState({ photo: { ...photo, serverName } })
   }

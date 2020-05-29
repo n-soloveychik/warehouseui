@@ -1,4 +1,4 @@
-import { GRPC, TEMPLATES } from '../actions/actionNames'
+import { API, TEMPLATES } from '../actions/actionNames'
 
 const initialState = {
   cells: [
@@ -62,10 +62,10 @@ const initialState = {
       style: { fontSize: 12, maxWidth: 200 },
     },
   ],
-  vendors: [],
-  vendorPageShowAddVendor: false,
-  currentVendorId: null,
-  itemsOfCurrentVendor: [],
+  invoices: [],
+  invoicePageShowAddInvoice: false,
+  currentInvoiceId: null,
+  itemsOfCurrentInvoice: [],
   categories: [],
   newCategory: {},
   itemPageShowCategoryCreate: false,
@@ -73,23 +73,23 @@ const initialState = {
 }
 
 const obj = {
-  [GRPC.TEMPLATES.VENDORS.GET.SUCCESS]: (state, { data }) => ({
+  [API.TEMPLATES.INVOICES.GET.SUCCESS]: (state, { data }) => ({
     ...state,
-    vendors: data,
+    invoices: data,
   }),
-  [GRPC.TEMPLATES.VENDORS.CREATE.SUCCESS]: (state) => ({
+  [API.TEMPLATES.INVOICES.CREATE.SUCCESS]: (state) => ({
     ...state,
-    vendorPageShowAddVendor: false,
+    invoicePageShowAddInvoice: false,
   }),
-  [GRPC.TEMPLATES.CATEGORIES.GET.SUCCESS]: (state, { data }) => ({
+  [API.TEMPLATES.CATEGORIES.GET.SUCCESS]: (state, { data }) => ({
     ...state,
     categories: data,
   }),
-  [GRPC.TEMPLATES.CATEGORIES.CREATE.SUCCESS]: (state, { data }) => ({
+  [API.TEMPLATES.CATEGORIES.CREATE.SUCCESS]: (state, { data }) => ({
     ...state,
     newCategory: data || {},
   }),
-  [GRPC.TEMPLATES.ITEMS.GET_BY_VENDOR.SUCCESS]: (state, action) => {
+  [API.TEMPLATES.ITEMS.GET_BY_INVOICE.SUCCESS]: (state, action) => {
     const newCategory = !!action.data.find(
       (item) =>
         item.category === state.newCategory.category ||
@@ -99,30 +99,30 @@ const obj = {
       : state.newCategory.categoryId
     return {
       ...state,
-      itemsOfCurrentVendor: action.data,
+      itemsOfCurrentInvoice: action.data,
       newCategory: newCategory || {},
     }
   },
-  [GRPC.TEMPLATES.ITEMS.GET_BY_CATEGORY.SUCCESS]: (state) => state,
-  [GRPC.TEMPLATES.ITEMS.CREATE.SUCCESS]: (state) => state,
-  [GRPC.TEMPLATES.ITEMS.ADD_TO_VENDOR]: (state) => state,
-  [TEMPLATES.VENDOR_PAGE_SHOW_ADD_VENDOR]: (state) => ({
+  [API.TEMPLATES.ITEMS.GET_BY_CATEGORY.SUCCESS]: (state) => state,
+  [API.TEMPLATES.ITEMS.CREATE.SUCCESS]: (state) => state,
+  [API.TEMPLATES.ITEMS.ADD_TO_INVOICE]: (state) => state,
+  [TEMPLATES.INVOICE_PAGE_SHOW_ADD_INVOICE]: (state) => ({
     ...state,
-    vendorPageShowAddVendor: true,
+    invoicePageShowAddInvoice: true,
   }),
-  [TEMPLATES.VENDOR_PAGE_HIDE_ADD_VENDOR]: (state) => ({
+  [TEMPLATES.INVOICE_PAGE_HIDE_ADD_INVOICE]: (state) => ({
     ...state,
-    vendorPageShowAddVendor: false,
+    invoicePageShowAddInvoice: false,
   }),
-  [TEMPLATES.ITEM_PAGE_SET_CURRENT_VENDOR]: (state, action) => {
-    const itemsOfCurrentVendor =
-      +action.vendorId === state.currentVendorId
-        ? state.itemsOfCurrentVendor
+  [TEMPLATES.ITEM_PAGE_SET_CURRENT_INVOICE]: (state, action) => {
+    const itemsOfCurrentInvoice =
+      +action.invoiceId === state.currentInvoiceId
+        ? state.itemsOfCurrentInvoice
         : []
     return {
       ...state,
-      currentVendorId: +action.vendorId,
-      itemsOfCurrentVendor,
+      currentInvoiceId: +action.invoiceId,
+      itemsOfCurrentInvoice,
     }
   },
   [TEMPLATES.ITEM_PAGE_SHOW_CATEGORY_CREATE]: (state) => ({
@@ -145,9 +145,9 @@ const obj = {
     ...state,
     newCategory: action.category || {},
   }),
-  [TEMPLATES.VENDOR_PAGE_CLEAR_ITEMS]: (state) => ({
+  [TEMPLATES.INVOICE_PAGE_CLEAR_ITEMS]: (state) => ({
     ...state,
-    itemsOfCurrentVendor: [],
+    itemsOfCurrentInvoice: [],
   }),
   DEFAULT: (state) => state,
 }

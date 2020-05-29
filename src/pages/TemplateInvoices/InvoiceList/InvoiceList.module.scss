@@ -4,3 +4,7 @@
   height: calc(100% - 41px);
   overflow: auto;
 }
+
+.pagination > ul {
+  justify-content: center;
+}

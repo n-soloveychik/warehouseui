@@ -3,8 +3,8 @@ import { Route, Switch, Redirect } from 'react-router-dom'
 import Items from '@/pages/Items/Items'
 import CreateClaim from '@/pages/CreateClaim/CreateClaim'
 import Claims from '@/pages/Claims/Claims'
-// import EditVendorCodes from '@/pages/EditVendorCodes/EditVendorCodes'
-// import EditItems from '@/pages/EditItems/EditItems'
+import TemplateInvoices from '@/pages/TemplateInvoices/TemplateInvoices'
+import TemplateItems from '@/pages/TemplateItems/TemplateItems'
 import Login from '@/pages/Login/Login'
 import { connect } from 'react-redux'
 import PrivateRoute from './PrivateRoute'
@@ -31,18 +31,22 @@ const Routes = ({ authorized }) => {
         path='/order/:order/invoice/:invoice/item/:item/new-claim'
         component={CreateClaim}
       />
-      {/* <PrivateRoute exact path='/edit-vendor-codes' component={EditVendorCodes} />
       <PrivateRoute
         exact
-        path='/edit-vendor-codes/:vendor/edit-items'
-        component={EditItems}
-      /> */}
+        path='/template/invoices'
+        component={TemplateInvoices}
+      />
+      <PrivateRoute
+        exact
+        path='/template/invoices/:invoice/items'
+        component={TemplateItems}
+      />
       <Route
         exact
         path='/login'
         render={() => (authorized ? <Redirect to='/' /> : <Login />)}
       />
-      {/* <PrivateRoute component={Items} /> */}
+      <PrivateRoute component={Items} />
     </Switch>
   )
 }

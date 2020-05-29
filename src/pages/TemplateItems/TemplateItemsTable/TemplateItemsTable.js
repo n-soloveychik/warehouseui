@@ -6,7 +6,7 @@ import CategoryRows from './CategoryRows/CategoryRows'
 import NewCategory from './NewCategory/NewCategory'
 import { editItemsGetter } from '@/redux/getters/itemsGetters'
 
-class EditItemsTable extends Component {
+class TemplateItemsTable extends Component {
   state = {
     newCategory: null,
   }
@@ -73,4 +73,4 @@ function mapDispatchToProps() {
   return {}
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(EditItemsTable)
+export default connect(mapStateToProps, mapDispatchToProps)(TemplateItemsTable)

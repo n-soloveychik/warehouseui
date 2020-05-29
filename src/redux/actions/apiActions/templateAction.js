@@ -1,35 +1,44 @@
-import { api } from '@/api'
-import { API } from '../actionNames'
-import { apiCoreAction } from './spiCoreAction'
+import { REQUEST } from '@/api'
+import { API, ERROR } from '../actionNames'
+import { apiCoreAction } from './apiCoreAction'
 
-export const getVendorTemplatesAction = async (dispatch) => {
+export const getInvoiceTemplatesAction = async (dispatch) => {
   await apiCoreAction(
     dispatch,
-    API.TEMPLATES.VENDORS.GET,
-    api.template.vendor.get,
+    API.TEMPLATES.INVOICES.GET,
+    REQUEST.getTemplateInvoices,
   )
 }
 
-export const createVendorTemplateAction = async (dispatch, vendorCode) => {
-  await apiCoreAction(
+export const createInvoiceTemplateAction = async (dispatch, invoice) => {
+  let response = await apiCoreAction(
     dispatch,
-    API.TEMPLATES.VENDORS.CREATE,
-    api.template.vendor.create,
-    vendorCode,
+    API.TEMPLATES.INVOICES.CREATE,
+    REQUEST.createTemplateInvoice,
+    invoice,
   )
+  if (response.status > 399) {
+    console.log(response)
+    dispatch({
+      type: ERROR.OPEN,
+      title: response.status,
+      text: response.data.message,
+    })
+    return
+  }
   await apiCoreAction(
     dispatch,
-    API.TEMPLATES.VENDORS.GET,
-    api.template.vendor.get,
+    API.TEMPLATES.INVOICES.GET,
+    REQUEST.getTemplateInvoices,
   )
 }
 
-export const getItemsByVendorAction = async (dispatch, vendorId) => {
+export const getItemsByInvoiceAction = async (dispatch, invoiceId) => {
   await apiCoreAction(
     dispatch,
     API.TEMPLATES.ITEMS.GET_BY_VENDOR,
-    api.template.item.getByVendor,
-    vendorId,
+    REQUEST.template.item.getByInvoice,
+    invoiceId,
   )
 }
 
@@ -37,7 +46,7 @@ export const getCategoriesAction = async (dispatch) => {
   await apiCoreAction(
     dispatch,
     API.TEMPLATES.CATEGORIES.GET,
-    api.template.category.get,
+    REQUEST.template.category.get,
   )
 }
 
@@ -45,7 +54,7 @@ export const createCategoryAction = async (dispatch, categoryName) => {
   await apiCoreAction(
     dispatch,
     API.TEMPLATES.CATEGORIES.CREATE,
-    api.template.category.create,
+    REQUEST.template.category.create,
     categoryName,
   )
 }
@@ -54,16 +63,19 @@ export const createItemAction = async (dispatch, item) => {
   await apiCoreAction(
     dispatch,
     API.TEMPLATES.ITEMS.CREATE,
-    api.template.item.create,
+    REQUEST.template.item.create,
     item,
   )
 }
 
-export const addItemToVendorAction = async (dispatch, { itemId, vendorId }) => {
+export const addItemToInvoiceAction = async (
+  dispatch,
+  { itemId, invoiceId },
+) => {
   await apiCoreAction(
     dispatch,
-    API.TEMPLATES.VENDORS.ADD_ITEM,
-    api.template.vendor.addItem,
-    { itemId, vendorId },
+    API.TEMPLATES.INVOICES.ADD_ITEM,
+    REQUEST.template.invoice.addItem,
+    { itemId, invoiceId },
   )
 }

@@ -1,5 +1,5 @@
 import { REQUEST } from '@/api'
-import { ERROR, ROUTER, APP } from '../actionNames'
+import { ROUTER, APP } from '../actionNames'
 
 export const setCurrentOrderInvoiceAction = async (
   dispatch,

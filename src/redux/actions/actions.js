@@ -2,7 +2,7 @@ import {
   SELECT_CURRENT_ORDER,
   SELECT_CURRENT_INVOICE,
   API,
-  // TEMPLATES,
+  TEMPLATES,
   ERROR,
 } from './actionNames'
 import { getOrdersAction } from './apiActions/orderActions'
@@ -14,15 +14,15 @@ import { REQUEST } from '@/api/index'
 import { login, checkToken } from './apiActions/loginAction'
 import { getInvoicesByOrderAction } from './apiActions/invoiceAction'
 import { setCurrentOrderInvoiceAction } from './apiActions/appAction'
-// import {
-//   getVendorTemplatesAction,
-//   createVendorTemplateAction,
-//   getItemsByVendorAction,
-//   getCategoriesAction,
-//   createCategoryAction,
-//   createItemAction,
-//   addItemToVendorAction,
-// } from './apiActions/templateAction'
+import {
+  getInvoiceTemplatesAction,
+  createInvoiceTemplateAction,
+  getItemsByInvoiceAction,
+  getCategoriesAction,
+  createCategoryAction,
+  createItemAction,
+  addItemToInvoiceAction,
+} from './apiActions/templateAction'
 
 export function getOrders(dispatch) {
   return getOrdersAction(dispatch, API.ORDERS.GET, REQUEST.getAvailableOrders)
@@ -65,56 +65,56 @@ export const setCurrentParams = (dispatch, order_num, invoice_code) => {
   setCurrentOrderInvoiceAction(dispatch, order_num, invoice_code)
 }
 
-// export const templateActions = {
-//   vendor: {
-//     get: (dispatch) => getVendorTemplatesAction(dispatch),
-//     create: (dispatch, invoice) =>
-//       createVendorTemplateAction(dispatch, invoice),
-//     addItem: (dispatch, itemId, vendorId) =>
-//       addItemToVendorAction(dispatch, { itemId, vendorId }),
-//   },
-//   vendorPage: {
-//     showCreateVendor: (dispatch) =>
-//       dispatch({ type: TEMPLATES.VENDOR_PAGE_SHOW_ADD_VENDOR }),
-//     hideCreateVendor: (dispatch) =>
-//       dispatch({ type: TEMPLATES.VENDOR_PAGE_HIDE_ADD_VENDOR }),
-//   },
-//   items: {
-//     getByVendor: (dispatch, vendorId) =>
-//       getItemsByVendorAction(dispatch, vendorId),
-//     create: (dispatch, item) => createItemAction(dispatch, item),
-//     clear: (dispatch) => dispatch({ type: TEMPLATES.VENDOR_PAGE_CLEAR_ITEMS }),
-//   },
-//   itemPage: {
-//     setCurrentVendor: (dispatch, vendorId) => {
-//       dispatch({ type: TEMPLATES.ITEM_PAGE_SET_CURRENT_VENDOR, vendorId })
-//     },
-//     showCategoryCreate: (dispatch) => {
-//       dispatch({ type: TEMPLATES.ITEM_PAGE_SHOW_CATEGORY_CREATE })
-//     },
-//     hideCategoryCreate: (dispatch) => {
-//       dispatch({ type: TEMPLATES.ITEM_PAGE_HIDE_CATEGORY_CREATE })
-//     },
-//     showCategorySelect: (dispatch) => {
-//       dispatch({ type: TEMPLATES.ITEM_PAGE_SHOW_CATEGORY_SELECT })
-//     },
-//     hideCategorySelect: (dispatch) => {
-//       dispatch({ type: TEMPLATES.ITEM_PAGE_HIDE_CATEGORY_SELECT })
-//     },
-//   },
-//   categories: {
-//     get: (dispatch) => getCategoriesAction(dispatch),
-//     create: (dispatch, categoryName) =>
-//       createCategoryAction(dispatch, categoryName),
-//   },
-//   newCategory: {
-//     add: (dispatch, category) => {
-//       dispatch({ type: TEMPLATES.ITEM_PAGE_ADD_NEW_CATEGORY, category })
-//       dispatch({ type: TEMPLATES.ITEM_PAGE_HIDE_CATEGORY_SELECT })
-//       dispatch({ type: TEMPLATES.ITEM_PAGE_HIDE_CATEGORY_CREATE })
-//     },
-//   },
-// }
+export const templateActions = {
+  invoices: {
+    get: (dispatch) => getInvoiceTemplatesAction(dispatch),
+    create: (dispatch, invoice) =>
+      createInvoiceTemplateAction(dispatch, invoice),
+    addItem: (dispatch, itemId, invoiceId) =>
+      addItemToInvoiceAction(dispatch, { itemId, invoiceId }),
+  },
+  invoicePage: {
+    showCreateInvoice: (dispatch) =>
+      dispatch({ type: TEMPLATES.INVOICE_PAGE_SHOW_ADD_INVOICE }),
+    hideCreateInvoice: (dispatch) =>
+      dispatch({ type: TEMPLATES.INVOICE_PAGE_HIDE_ADD_INVOICE }),
+  },
+  items: {
+    getByInvoice: (dispatch, invoiceId) =>
+      getItemsByInvoiceAction(dispatch, invoiceId),
+    create: (dispatch, item) => createItemAction(dispatch, item),
+    clear: (dispatch) => dispatch({ type: TEMPLATES.INVOICE_PAGE_CLEAR_ITEMS }),
+  },
+  itemPage: {
+    setCurrentInvoice: (dispatch, invoiceId) => {
+      dispatch({ type: TEMPLATES.ITEM_PAGE_SET_CURRENT_INVOICE, invoiceId })
+    },
+    showCategoryCreate: (dispatch) => {
+      dispatch({ type: TEMPLATES.ITEM_PAGE_SHOW_CATEGORY_CREATE })
+    },
+    hideCategoryCreate: (dispatch) => {
+      dispatch({ type: TEMPLATES.ITEM_PAGE_HIDE_CATEGORY_CREATE })
+    },
+    showCategorySelect: (dispatch) => {
+      dispatch({ type: TEMPLATES.ITEM_PAGE_SHOW_CATEGORY_SELECT })
+    },
+    hideCategorySelect: (dispatch) => {
+      dispatch({ type: TEMPLATES.ITEM_PAGE_HIDE_CATEGORY_SELECT })
+    },
+  },
+  categories: {
+    get: (dispatch) => getCategoriesAction(dispatch),
+    create: (dispatch, categoryName) =>
+      createCategoryAction(dispatch, categoryName),
+  },
+  newCategory: {
+    add: (dispatch, category) => {
+      dispatch({ type: TEMPLATES.ITEM_PAGE_ADD_NEW_CATEGORY, category })
+      dispatch({ type: TEMPLATES.ITEM_PAGE_HIDE_CATEGORY_SELECT })
+      dispatch({ type: TEMPLATES.ITEM_PAGE_HIDE_CATEGORY_CREATE })
+    },
+  },
+}
 
 export const errorActions = {
   showError: (dispatch, title, text) =>

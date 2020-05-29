@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { Button } from '@material-ui/core'
 import PhotoCamera from '@material-ui/icons/PhotoCamera'
-import imageProcessor from '@/helpers/imageProcessor'
 
 class UploadButton extends Component {
   state = {

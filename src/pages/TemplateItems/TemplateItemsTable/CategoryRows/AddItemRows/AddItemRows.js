@@ -4,7 +4,7 @@ import CreateItem from './CreateItem/CreateItem'
 import Buttons from './Buttons/Buttons'
 import SelectItem from './SelectItem/SelectItem'
 import { templateActions } from '@/redux/actions/actions'
-import { grpc } from '@/grpc'
+import { REQUEST } from '@/api'
 
 class NewItemRows extends Component {
   state = {
@@ -15,7 +15,7 @@ class NewItemRows extends Component {
   createItem = async (item) => {
     let categoryId = this.props.category.categoryId
     if (!categoryId) {
-      const category = await grpc.template.category.create(
+      const category = await REQUEST.template.category.create(
         this.props.category.category,
       )
       categoryId = category.categoryId
@@ -26,10 +26,12 @@ class NewItemRows extends Component {
           ...item,
           categoryId,
         }
-    const newItem = item.itemId ? item : await grpc.template.item.create(item)
+    const newItem = item.itemId
+      ? item
+      : await REQUEST.template.item.create(item)
     if (!newItem) return
     const newItemId = newItem.itemId
-    await grpc.template.vendor.addItem({
+    await REQUEST.template.vendor.addItem({
       itemId: newItemId,
       vendorId: this.props.currentVendorId,
     })

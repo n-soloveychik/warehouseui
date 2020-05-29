@@ -4,11 +4,11 @@ import { Button, ClickAwayListener } from '@material-ui/core'
 import AddIcon from '@material-ui/icons/Add'
 import DoneIcon from '@material-ui/icons/Done'
 import { IconButton } from '@material-ui/core'
-import classes from './NewVendorCode.module.scss'
-import InputVendorCode from './InputVendorCode/InputVendorCode'
+import classes from './NewInvoice.module.scss'
+import InputInvoice from './InputInvoice/InputInvoice'
 import { templateActions } from '@/redux/actions/actions'
 
-class NewVendorCode extends Component {
+class NewInvoice extends Component {
   state = {
     sendDisabled: true,
     newName: '',
@@ -16,21 +16,13 @@ class NewVendorCode extends Component {
 
   static getDerivedStateFromProps(props, state) {
     let newState = state
-    if (!props.showAddNewCode) {
+    if (!props.showAddNewInvoice) {
       newState = {
         sendDisabled: true,
         newName: '',
       }
     }
     return newState
-  }
-
-  hideTextField = () => {
-    this.setState({
-      showTextField: false,
-      sendDisabled: true,
-      newName: '',
-    })
   }
 
   nameSuccess = (value) => {
@@ -41,22 +33,22 @@ class NewVendorCode extends Component {
     this.setState({ sendDisabled: true, newName: value })
   }
 
-  setNewVendorTemplate = () => {
-    this.props.createVendor(this.state.newName)
+  setNewInvoiceTemplate = () => {
+    this.props.createInvoice({ invoice_code: this.state.newName })
   }
 
   render() {
     return (
       <div className={classes.container}>
-        {this.props.showAddNewCode ? (
+        {this.props.showAddNewInvoice ? (
           <ClickAwayListener onClickAway={this.props.hideAdd}>
             <div>
-              <InputVendorCode
+              <InputInvoice
                 typeSuccess={this.nameSuccess}
                 typeContinue={this.nameFail}
               />
               <IconButton
-                onClick={this.setNewVendorTemplate}
+                onClick={this.setNewInvoiceTemplate}
                 color='primary'
                 disabled={this.state.sendDisabled}
               >
@@ -80,16 +72,16 @@ class NewVendorCode extends Component {
 
 function mapStateToProps(state) {
   return {
-    showAddNewCode: state.templates.vendorPageShowAddVendor,
+    showAddNewInvoice: state.templates.invoicePageShowAddInvoice,
   }
 }
 function mapDispatchToProps(dispatch) {
   return {
-    showAdd: () => templateActions.vendorPage.showCreateVendor(dispatch),
-    hideAdd: () => templateActions.vendorPage.hideCreateVendor(dispatch),
-    createVendor: (vendorCode) =>
-      templateActions.vendor.create(dispatch, vendorCode),
+    showAdd: () => templateActions?.invoicePage?.showCreateInvoice(dispatch),
+    hideAdd: () => templateActions?.invoicePage?.hideCreateInvoice(dispatch),
+    createInvoice: (invoice) =>
+      templateActions.invoices.create(dispatch, invoice),
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(NewVendorCode)
+export default connect(mapStateToProps, mapDispatchToProps)(NewInvoice)

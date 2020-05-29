@@ -1,19 +1,19 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Typography, Container } from '@material-ui/core'
-import VendorList from './VendorList/VendorList'
-import NewVendorCode from './NewVendorCode/NewVendorCode'
+import InvoiceList from './InvoiceList/InvoiceList'
+import NewInvoice from './NewInvoice/NewInvoice'
 import { templateActions } from '@/redux/actions/actions'
 
-class EditVendorCodes extends Component {
-  openVendorCodeEditItems = (vendorCode) => {
+class TemplateInvoices extends Component {
+  openInvoiceTemplateItems = (invoice) => {
     this.props.history.push(
-      `${this.props.location.pathname}/${vendorCode}/edit-items`,
+      `${this.props.location.pathname}/${invoice}/edit-items`,
     )
   }
 
   componentDidMount = async () => {
-    this.props.getVendors()
+    this.props.getInvoices()
   }
 
   render() {
@@ -23,14 +23,14 @@ class EditVendorCodes extends Component {
           Комплектовочные ведомости
         </Typography>
         <Container
-          maxWidth='xs'
+          maxWidth='sm'
           style={{ height: '100vh', overflow: 'hidden' }}
         >
-          <NewVendorCode />
-          <VendorList
-            vendorTemplates={this.props.vendors}
-            openItems={this.openVendorCodeEditItems}
-          ></VendorList>
+          <NewInvoice />
+          <InvoiceList
+            invoiceTemplates={this.props.invoices}
+            openItems={this.openInvoiceTemplateItems}
+          ></InvoiceList>
         </Container>
       </>
     )
@@ -39,14 +39,14 @@ class EditVendorCodes extends Component {
 
 function mapStateToProps(state) {
   return {
-    vendors: state.templates.vendors,
+    invoices: state.templates?.invoices,
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    getVendors: () => templateActions.vendor.get(dispatch),
+    getInvoices: () => templateActions.invoices.get(dispatch),
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(EditVendorCodes)
+export default connect(mapStateToProps, mapDispatchToProps)(TemplateInvoices)
