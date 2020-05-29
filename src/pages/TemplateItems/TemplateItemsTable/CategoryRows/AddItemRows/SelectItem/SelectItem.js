@@ -3,10 +3,14 @@ import { connect } from 'react-redux'
 import { TableRow, TableCell, Button, TextField } from '@material-ui/core'
 import Autocomplete from '@material-ui/lab/Autocomplete'
 import { REQUEST } from '@/api'
+import InputNumber from '../CreateItem/InputNumber/InputNumber'
+import InputText from '../CreateItem/InputText/InputText'
 
 class SelectItem extends Component {
   state = {
     currentItem: {},
+    lot: '',
+    count: 0,
     options: [],
     opened: true,
   }
@@ -20,7 +24,6 @@ class SelectItem extends Component {
   }
 
   componentDidMount = async () => {
-    console.log(this.props)
     if (!this.props.category_id) {
       return
     }
@@ -41,8 +44,19 @@ class SelectItem extends Component {
     })
   }
 
+  isOkDisabled = () => {
+    return (
+      !this.state.currentItem.item_id ||
+      this.state.lot ===
+        this.props.cells.find((cell) => cell.name === 'lot').default ||
+      this.state.count ===
+        this.props.cells.find((cell) => cell.name === 'count').default ||
+      !this.state.lot ||
+      !this.state.count
+    )
+  }
+
   render() {
-    console.log(this.state.options)
     return (
       <>
         <TableRow>
@@ -75,6 +89,26 @@ class SelectItem extends Component {
                   src={this.state.currentItem[cell.name]}
                   alt='Изображение'
                 />
+              ) : cell.name === 'lot' ? (
+                <InputText
+                  label={cell.title}
+                  ready={(value) => this.setState({ [cell.name]: value })}
+                  notReady={(value) =>
+                    this.setState({ [cell.name]: cell.default })
+                  }
+                  minLength={cell.minLength}
+                  maxLength={cell.maxLength}
+                />
+              ) : cell.name === 'count' ? (
+                <InputNumber
+                  ready={(value) => this.setState({ [cell.name]: value })}
+                  notReady={(value) =>
+                    this.setState({ [cell.name]: cell.default })
+                  }
+                  min={cell.min}
+                  max={cell.max}
+                  label={cell.title}
+                />
               ) : (
                 this.state.currentItem[cell.name]
               )}
@@ -87,8 +121,14 @@ class SelectItem extends Component {
             style={{ textAlign: 'center' }}
           >
             <Button
-              disabled={!this.state.currentItem.item_id}
-              onClick={() => this.props.handleOk(this.state.currentItem)}
+              disabled={this.isOkDisabled()}
+              onClick={() =>
+                this.props.handleOk({
+                  ...this.state.currentItem,
+                  lot: this.state.lot,
+                  count: this.state.count,
+                })
+              }
               color='primary'
               variant='contained'
               style={{ marginRight: 30 }}
