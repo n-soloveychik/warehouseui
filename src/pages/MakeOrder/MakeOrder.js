@@ -114,17 +114,17 @@ class MakeOrder extends Component {
           />
           <Button
             disabled={
-              this.state.name.length > 2 || !this.state.invoicesInOrder.length
+              this.state.name.length < 3 || !this.state.invoicesInOrder.length
             }
             variant={
-              this.state.name.length > 2 || !this.state.invoicesInOrder.length
+              this.state.name.length < 3 || !this.state.invoicesInOrder.length
                 ? 'text'
                 : 'contained'
             }
             color='primary'
             onClick={this.makeOrder}
           >
-            Создать
+            Создать заказ
           </Button>
         </div>
         <Table>
