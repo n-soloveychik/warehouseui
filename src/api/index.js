@@ -11,4 +11,8 @@ export const REQUEST = {
     await HTTPS.put(URI.V1.ITEM.SET_STATUS.IN_STOCK(itemId)),
   setItemStatusAwaitDelivery: async (itemId) =>
     await HTTPS.put(URI.V1.ITEM.SET_STATUS.AWAIT_DELIVERY(itemId)),
+  insertImage: async (formData) =>
+    await HTTPS.postFormData(URI.V1.PHOTOS.INSERT, formData),
+  createClaim: async (itemId, data) =>
+    HTTPS.post(URI.V1.ITEM.CLAIM.CREATE(itemId), data),
 }

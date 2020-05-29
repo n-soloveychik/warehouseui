@@ -19,6 +19,13 @@ export const URI = {
         AWAIT_DELIVERY: (itemId) =>
           `https://warehouseapi.iopk.in/v1/item/${itemId}/status-await-delivery`,
       },
+      CLAIM: {
+        CREATE: (itemId) =>
+          `https://warehouseapi.iopk.in/v1/item/${itemId}/create-claim`,
+      },
+    },
+    PHOTOS: {
+      INSERT: 'https://warehouseapi.iopk.in/v1/image/insert',
     },
   },
 }

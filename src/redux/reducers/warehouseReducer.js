@@ -2,6 +2,7 @@ import {
   SELECT_CURRENT_ORDER,
   SELECT_CURRENT_INVOICE,
   API,
+  APP,
 } from '@/redux/actions/actionNames'
 
 const initialState = {
@@ -71,6 +72,12 @@ const obj = {
     const item = newState.items.find((item) => item.itemId === data.itemId)
     item.statusId = data.statusId
     return newState
+  },
+  [APP.SET.ORDERS_INVOICES_CURRENT_ORDER_INVOICE]: (
+    state,
+    { orders, invoices, currentOrder, currentInvoice },
+  ) => {
+    return { ...state, orders, invoices, currentOrder, currentInvoice }
   },
   DEFAULT: (state) => ({ ...state }),
 }

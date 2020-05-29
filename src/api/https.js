@@ -1,6 +1,14 @@
 export class HTTPS {
-  static HEADERS = () => {
-    const result = { 'Content-Type': 'application/json' }
+  static HEADERS = (contentType = 'application/json') => {
+    const result = { 'Content-Type': contentType }
+    if (localStorage.getItem('token')) {
+      result.Authorization = 'Bearer ' + localStorage.getItem('token')
+    }
+    return result
+  }
+
+  static HEADERS_FOR_FORM_DATA = () => {
+    const result = {}
     if (localStorage.getItem('token')) {
       result.Authorization = 'Bearer ' + localStorage.getItem('token')
     }
@@ -17,6 +25,13 @@ export class HTTPS {
   static async post(uri, data = {}) {
     try {
       return await request(uri, 'POST', data)
+    } catch (error) {
+      throw error
+    }
+  }
+  static async postFormData(uri, formData) {
+    try {
+      return await request(uri, 'POST', formData)
     } catch (error) {
       throw error
     }
@@ -38,12 +53,15 @@ export class HTTPS {
 }
 
 async function request(uri, method = 'GET', data) {
-  let init = {
-    method,
-    headers: HTTPS.HEADERS(),
-  }
-  if (method === 'POST' || method === 'PUT') {
-    init = { ...init, body: JSON.stringify(data) }
+  let init = { method }
+  if (data instanceof FormData) {
+    init.headers = HTTPS.HEADERS_FOR_FORM_DATA()
+    init.body = data
+  } else {
+    init.headers = HTTPS.HEADERS()
+    if (method === 'POST' || method === 'PUT') {
+      init.body = data instanceof FormData ? data : JSON.stringify(data)
+    }
   }
   const response = await fetch(uri, init)
   let json = {}

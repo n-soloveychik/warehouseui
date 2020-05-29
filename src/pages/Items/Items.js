@@ -13,6 +13,7 @@ import {
   getOrders,
   getInvoicesByOrder,
   errorActions,
+  setCurrentParams,
   // getItemsByVendorCode,
   // updateItemStatus,
 } from '@/redux/actions/actions'
@@ -28,7 +29,13 @@ class Items extends Component {
   }
 
   async componentDidMount() {
-    await this.props.getOrders()
+    const order_num = this.props.match.params.order
+    const invoice_code = this.props.match.params.invoice
+    if (order_num && invoice_code) {
+      await this.props.setCurrentParams(order_num, invoice_code)
+    } else {
+      await this.props.getOrders()
+    }
     if (!this.props.currentOrder || !this.props.currentInvoice) {
       this.openSidebar()
     }
@@ -108,7 +115,6 @@ class Items extends Component {
   }
 
   openCreateClaim = (itemId) => {
-    console.log(this.props)
     this.props.history.push(
       `${this.props.location.pathname}/item/${itemId}/new-claim`,
     )
@@ -180,7 +186,6 @@ class Items extends Component {
 }
 
 function mapStateToProps(state) {
-  console.log(state)
   return {
     currentOrder: state.warehouse.currentOrder,
     currentOrderId: state.warehouse.orders.find(
@@ -206,6 +211,8 @@ function mapDispatchToProps(dispatch) {
     getOrders: () => getOrders(dispatch),
     getInvoicesByOrder: (orderId) => getInvoicesByOrder(dispatch, orderId),
     showError: (title, text) => errorActions.showError(dispatch, title, text),
+    setCurrentParams: (order_num, invoice_code) =>
+      setCurrentParams(dispatch, order_num, invoice_code),
     // getItemsByVendorCode: () => getItemsByVendorCode(dispatch, 1),
     // updateItemStatus: ({ itemId, statusId }) =>
     // updateItemStatus(dispatch, { statusId, itemId }),

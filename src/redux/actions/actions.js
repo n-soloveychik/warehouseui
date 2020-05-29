@@ -13,6 +13,7 @@ import { getOrdersAction } from './apiActions/orderActions'
 import { REQUEST } from '@/api/index'
 import { login, checkToken } from './apiActions/loginAction'
 import { getInvoicesByOrderAction } from './apiActions/invoiceAction'
+import { setCurrentOrderInvoiceAction } from './apiActions/appAction'
 // import {
 //   getVendorTemplatesAction,
 //   createVendorTemplateAction,
@@ -59,6 +60,10 @@ export const getInvoicesByOrder = (dispatch, orderId) =>
     API.INVOICES.GET,
     REQUEST.getInvoicesAndItemsByOrder.bind(null, orderId),
   )
+
+export const setCurrentParams = (dispatch, order_num, invoice_code) => {
+  setCurrentOrderInvoiceAction(dispatch, order_num, invoice_code)
+}
 
 // export const templateActions = {
 //   vendor: {

@@ -2,7 +2,7 @@ import React from 'react'
 import { Route, Switch, Redirect } from 'react-router-dom'
 import Items from '@/pages/Items/Items'
 import CreateClaim from '@/pages/CreateClaim/CreateClaim'
-// import Claims from '@/pages/Claims/Claims'
+import Claims from '@/pages/Claims/Claims'
 // import EditVendorCodes from '@/pages/EditVendorCodes/EditVendorCodes'
 // import EditItems from '@/pages/EditItems/EditItems'
 import Login from '@/pages/Login/Login'
@@ -21,11 +21,11 @@ const Routes = ({ authorized }) => {
         path='/order/:order/invoice/:invoice'
         component={Items}
       />
-      {/* <PrivateRoute
+      <PrivateRoute
         exact
         path='/order/:order/invoice/:invoice/item/:item/claims'
         component={Claims}
-      /> */}
+      />
       <PrivateRoute
         exact
         path='/order/:order/invoice/:invoice/item/:item/new-claim'
@@ -37,11 +37,11 @@ const Routes = ({ authorized }) => {
         path='/edit-vendor-codes/:vendor/edit-items'
         component={EditItems}
       /> */}
-      {/* <Route
+      <Route
         exact
         path='/login'
         render={() => (authorized ? <Redirect to='/' /> : <Login />)}
-      /> */}
+      />
       {/* <PrivateRoute component={Items} /> */}
     </Switch>
   )

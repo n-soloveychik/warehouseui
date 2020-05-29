@@ -13,10 +13,7 @@ class UploadButton extends Component {
   }
 
   handleInputChange = async (event) => {
-    let photos = Array.from(event.nativeEvent.target.files).map(
-      async (file) => await imageProcessor(file),
-    )
-    photos = await Promise.all(photos)
+    const photos = event.target.files
     this.props.takePhotos(photos)
   }
 
