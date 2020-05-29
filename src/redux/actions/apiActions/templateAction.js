@@ -36,8 +36,8 @@ export const createInvoiceTemplateAction = async (dispatch, invoice) => {
 export const getItemsByInvoiceAction = async (dispatch, invoiceId) => {
   await apiCoreAction(
     dispatch,
-    API.TEMPLATES.ITEMS.GET_BY_VENDOR,
-    REQUEST.template.item.getByInvoice,
+    API.TEMPLATES.ITEMS.GET_BY_INVOICE,
+    REQUEST.getTemplateItems,
     invoiceId,
   )
 }
@@ -46,7 +46,7 @@ export const getCategoriesAction = async (dispatch) => {
   await apiCoreAction(
     dispatch,
     API.TEMPLATES.CATEGORIES.GET,
-    REQUEST.template.category.get,
+    REQUEST.getItemCategories,
   )
 }
 
@@ -63,7 +63,7 @@ export const createItemAction = async (dispatch, item) => {
   await apiCoreAction(
     dispatch,
     API.TEMPLATES.ITEMS.CREATE,
-    REQUEST.template.item.create,
+    REQUEST.createTemplateItem(item),
     item,
   )
 }

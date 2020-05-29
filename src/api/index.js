@@ -18,4 +18,16 @@ export const REQUEST = {
   getTemplateInvoices: async () => HTTPS.get(URI.V1.TEMPLATE.INVOICES.GET),
   createTemplateInvoice: async (invoice) =>
     HTTPS.post(URI.V1.TEMPLATE.INVOICES.CREATE, invoice),
+  getTemplateItems: async (invoiceId) =>
+    HTTPS.get(URI.V1.TEMPLATE.ITEMS.GET(invoiceId)),
+  getItemCategories: async () => HTTPS.get(URI.V1.TEMPLATE.ITEMS.CATEGORIES),
+  getItemsOfCategory: async (categoryId) =>
+    HTTPS.get(URI.V1.TEMPLATE.ITEMS.GET_OF_CATEGORY(categoryId)),
+  createTemplateItem: async (item) =>
+    HTTPS.post(URI.V1.TEMPLATE.ITEMS.CREATE, item),
+  addTemplateItemToInvoice: async (itemId, invoiceId, { lot, count }) =>
+    HTTPS.post(URI.V1.TEMPLATE.INVOICES.ADD_ITEM(itemId, invoiceId), {
+      lot,
+      count,
+    }),
 }

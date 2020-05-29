@@ -8,7 +8,7 @@ import { REQUEST } from '@/api'
 class InputImage extends Component {
   state = {
     inputEl: React.createRef(),
-    photo: {},
+    photo: '',
   }
 
   handleButtonClick = () => {
@@ -17,9 +17,12 @@ class InputImage extends Component {
 
   handleInputChange = async (event) => {
     const photo = await imageProcessor(event.nativeEvent.target.files[0])
-    const serverName = await REQUEST.image.upload(photo.binary)
+    const formData = new FormData()
+    formData.append('photo', photo)
+    const response = await REQUEST.insertImage(formData)
+    const serverName = response.data[0]
     this.props.ready(serverName)
-    this.setState({ photo: { ...photo, serverName } })
+    this.setState({ photo: serverName })
   }
 
   render() {
@@ -33,14 +36,14 @@ class InputImage extends Component {
           onChange={this.handleInputChange}
           ref={this.state.inputEl}
         />
-        {this.state.photo.base64 ? (
+        {this.state.photo ? (
           <Button
             onClick={this.handleButtonClick}
             style={{ maxWidth: 200, maxHeight: 300 }}
           >
             <img
               className={classes.image}
-              src={this.state.photo.base64}
+              src={this.state.photo}
               alt='изображение продукта'
             />
           </Button>

@@ -9,12 +9,12 @@ import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos'
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos'
 import {
   // selectOrder,
-  // selectVendorCode,
+  // selectInvoice,
   getOrders,
   getInvoicesByOrder,
   errorActions,
   setCurrentParams,
-  // getItemsByVendorCode,
+  // getItemsByInvoice,
   // updateItemStatus,
 } from '@/redux/actions/actions'
 import { checkItemsGetter } from '@/redux/getters/itemsGetters'
@@ -194,26 +194,24 @@ function mapStateToProps(state) {
     currentInvoice: state.warehouse.currentInvoice,
     table: checkItemsGetter(state),
     isOrder: (orderNum) =>
-      !!state.warehouse.vendorCodes.find(
-        (vendor) => vendor.orderNum === orderNum,
+      !!state.warehouse.invoices.find(
+        (invoice) => invoice.orderNum === orderNum,
       ),
-    isVendor: (vendorCode) =>
-      !!state.warehouse.vendorCodes.find(
-        (vendor) => vendor.vendorCode === vendorCode,
-      ),
+    isInvoice: (invoice) =>
+      !!state.warehouse.invoices.find((invoice) => invoice.invoice === invoice),
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
     // selectOrder: (id) => selectOrder(dispatch, id),
-    // selectVendorCode: (id) => selectVendorCode(dispatch, id),
+    // selectInvoice: (id) => selectInvoice(dispatch, id),
     getOrders: () => getOrders(dispatch),
     getInvoicesByOrder: (orderId) => getInvoicesByOrder(dispatch, orderId),
     showError: (title, text) => errorActions.showError(dispatch, title, text),
     setCurrentParams: (order_num, invoice_code) =>
       setCurrentParams(dispatch, order_num, invoice_code),
-    // getItemsByVendorCode: () => getItemsByVendorCode(dispatch, 1),
+    // getItemsByInvoice: () => getItemsByInvoice(dispatch, 1),
     // updateItemStatus: ({ itemId, statusId }) =>
     // updateItemStatus(dispatch, { statusId, itemId }),
   }

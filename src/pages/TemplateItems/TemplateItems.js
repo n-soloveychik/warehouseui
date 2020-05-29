@@ -4,91 +4,16 @@ import CHeader from '@/components/CHeader/CHeader'
 import TemplateItemsTable from './TemplateItemsTable/TemplateItemsTable'
 import { templateActions } from '@/redux/actions/actions'
 
-// const itemsTemplate = [
-//   {
-//     itemId: 2,
-//     category: 'Фанера',
-//     lot: '1',
-//     vendorCode: '000-1233',
-//     image: '',
-//     size: '1',
-//     count: 1,
-//     itemNum: '1',
-//     weight: 1,
-//     description: 'DESCRIPTION!',
-//   },
-//   {
-//     itemId: 6,
-//     category: 'Фанера',
-//     lot: '2',
-//     vendorCode: '000-1233',
-//     image: '',
-//     size: '22',
-//     count: 4,
-//     itemNum: '2',
-//     weight: 87,
-//     description: '!!!!!',
-//   },
-//   {
-//     itemId: 2,
-//     category: 'Металл',
-//     lot: '1',
-//     vendorCode: '000-1233',
-//     image: '',
-//     size: '1',
-//     count: 1,
-//     itemNum: '1',
-//     weight: 1,
-//     description: 'DESCRIPTION!',
-//   },
-//   {
-//     itemId: 6,
-//     category: 'Металл',
-//     lot: '2',
-//     vendorCode: '000-1233',
-//     image: '',
-//     size: '22',
-//     count: 4,
-//     itemNum: '2',
-//     weight: 87,
-//     description: '!!!!!',
-//   },
-//   {
-//     itemId: 2,
-//     category: 'Карбон',
-//     lot: '1',
-//     vendorCode: '000-1233',
-//     image: '',
-//     size: '1',
-//     count: 1,
-//     itemNum: '1',
-//     weight: 1,
-//     description: 'DESCRIPTION!',
-//   },
-//   {
-//     itemId: 6,
-//     category: 'Карбон',
-//     lot: '2',
-//     vendorCode: '000-1233',
-//     image: '',
-//     size: '22',
-//     count: 4,
-//     itemNum: '2',
-//     weight: 87,
-//     description: '!!!!!',
-//   },
-// ]
-
 class TemplateItems extends Component {
   componentDidMount = async () => {
-    const vendorId = this.props.match.params.vendor
+    const invoiceId = this.props.match.params.invoice
     await this.props.getCategories()
-    await this.props.setCurrentVendor(vendorId)
-    await this.props.getItems(vendorId)
+    await this.props.setCurrentInvoice(invoiceId)
+    await this.props.getItems(invoiceId)
   }
 
   goBack = () => {
-    this.props.history.push('/edit-vendor-codes')
+    this.props.history.push('/template/invoices')
   }
 
   render() {
@@ -103,10 +28,10 @@ class TemplateItems extends Component {
 
 function mapDispatchToProps(dispatch) {
   return {
-    setCurrentVendor: (vendorId) =>
-      templateActions.itemPage.setCurrentVendor(dispatch, vendorId),
-    getItems: (vendorId) =>
-      templateActions.items.getByVendor(dispatch, vendorId),
+    setCurrentInvoice: (invoiceId) =>
+      templateActions.itemPage.setCurrentInvoice(dispatch, invoiceId),
+    getItems: (invoiceId) =>
+      templateActions.items.getByInvoice(dispatch, invoiceId),
     getCategories: () => templateActions.categories.get(dispatch),
   }
 }

@@ -3,8 +3,18 @@ import { API, TEMPLATES } from '../actions/actionNames'
 const initialState = {
   cells: [
     {
+      title: 'Лот',
+      name: 'lot',
+      type: 'string',
+      required: true,
+      default: '',
+      minLength: 1,
+      maxLength: 100,
+      style: {},
+    },
+    {
       title: 'Артикул',
-      name: 'itemNum',
+      name: 'item_num',
       type: 'string',
       required: true,
       default: '',

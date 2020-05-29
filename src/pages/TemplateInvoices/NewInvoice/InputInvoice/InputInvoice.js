@@ -1,42 +1,27 @@
-import React, { Component } from 'react'
-import InputMask from 'react-input-mask'
+import React, { useState } from 'react'
 import { TextField } from '@material-ui/core'
 
-class InputVendorCode extends Component {
-  state = {
-    defaultMask: '*999.9999.9999',
-    mask: '*999.9999.9999',
-    lettersCount: 0,
-    value: '',
-  }
+const InputInvoice = (props) => {
+  const [value, setValue] = useState('')
 
-  onChange = (event) => {
-    let value = event.target.value.toUpperCase()
-    let lettersCount = value.length - value.replace(/^[A-Z]*/, '').length
-    let mask = this.state.defaultMask.padStart(
-      this.state.defaultMask.length + lettersCount,
-      '*',
-    )
-    if (value && value.indexOf('_') === -1) {
-      this.props.typeSuccess(value)
+  const onChange = (event) => {
+    let value = event.target.value.toUpperCase().trim()
+    if (value.length > 2 && value.length < 100) {
+      props.typeSuccess(value)
     } else {
-      this.props.typeContinue(value)
+      props.typeContinue(value)
     }
-    this.setState({ value, mask, lettersCount })
+    setValue(value)
   }
-  render() {
-    return (
-      <InputMask
-        autoFocus={true}
-        mask={this.state.mask}
-        onChange={this.onChange}
-        onBlur={this.props.onBlur}
-        value={this.state.value}
-      >
-        <TextField inputProps={{ style: { textAlign: 'center' } }} />
-      </InputMask>
-    )
-  }
+  return (
+    <TextField
+      value={value}
+      onChange={onChange}
+      onBlur={props.onBlur}
+      autoFocus={true}
+      inputProps={{ style: { textAlign: 'center' } }}
+    />
+  )
 }
 
-export default InputVendorCode
+export default InputInvoice

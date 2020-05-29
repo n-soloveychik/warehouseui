@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Button } from '@material-ui/core'
 import PhotoCamera from '@material-ui/icons/PhotoCamera'
+import imagePropcessor from '@/helpers/imageProcessor'
 
 class UploadButton extends Component {
   state = {
@@ -12,7 +13,11 @@ class UploadButton extends Component {
   }
 
   handleInputChange = async (event) => {
-    const photos = event.target.files
+    console.log(event.target.files)
+    const photos = []
+    for (const photo of event.target.files) {
+      photos.push(await imagePropcessor(photo))
+    }
     this.props.takePhotos(photos)
   }
 

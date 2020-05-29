@@ -18,7 +18,7 @@ export const URI = {
           `${HOST_NAME}/v1/item/${itemId}/status-await-delivery`,
       },
       CLAIM: {
-        CREATE: (itemId) => `${HOST_NAME}/v1/item/${itemId}/create-claim`,
+        CREATE: (itemId) => `${HOST_NAME}/v1/item/${itemId}/claim`,
       },
     },
     PHOTOS: {
@@ -27,7 +27,17 @@ export const URI = {
     TEMPLATE: {
       INVOICES: {
         GET: `${HOST_NAME}/v1/template/invoices`,
-        CREATE: `${HOST_NAME}/v1/template/invoice/create`,
+        CREATE: `${HOST_NAME}/v1/template/invoice`,
+        ADD_ITEM: (invoiceId, itemId) =>
+          `${HOST_NAME}/v1/template/invoice/${invoiceId}/item/${itemId}`,
+      },
+      ITEMS: {
+        GET: (invoiceId) =>
+          `${HOST_NAME}/v1/template/invoice/${invoiceId}/items`,
+        CREATE: `${HOST_NAME}/v1/template/item`,
+        CATEGORIES: `${HOST_NAME}/v1/item/categories`,
+        GET_OF_CATEGORY: (categoryId) =>
+          `${HOST_NAME}/v1/template/items?filter[category_id]=${categoryId}`,
       },
     },
   },

@@ -6,41 +6,46 @@ import SelectItem from './SelectItem/SelectItem'
 import { templateActions } from '@/redux/actions/actions'
 import { REQUEST } from '@/api'
 
-class NewItemRows extends Component {
+class AddItemRows extends Component {
   state = {
     showCreate: false,
     showSelect: false,
   }
 
   createItem = async (item) => {
-    let categoryId = this.props.category.categoryId
-    if (!categoryId) {
+    let category_id = this.props.category.category_id
+    if (!category_id) {
       const category = await REQUEST.template.category.create(
         this.props.category.category,
       )
-      categoryId = category.categoryId
+      category_id = category.category_id
     }
-    item = item.categoryId
+    item = item.category_id
       ? item
       : {
           ...item,
-          categoryId,
+          category_id,
         }
-    const newItem = item.itemId
-      ? item
-      : await REQUEST.template.item.create(item)
+    let newItem
+    if (item.item_id) {
+      newItem = item
+    } else {
+      let response = await REQUEST.createTemplateItem(item)
+      newItem = response.data
+    }
     if (!newItem) return
-    const newItemId = newItem.itemId
-    await REQUEST.template.vendor.addItem({
-      itemId: newItemId,
-      vendorId: this.props.currentVendorId,
-    })
+    const newItemId = newItem.item_id
+    await REQUEST.addTemplateItemToInvoice(
+      this.props.currentInvoiceId,
+      newItemId,
+      item,
+    )
     this.setState({
       showCreate: false,
       showSelect: false,
     })
     await this.props.updateCategories()
-    this.props.updateItems(this.props.currentVendorId)
+    this.props.updateItems(this.props.currentInvoiceId)
   }
 
   render() {
@@ -54,7 +59,7 @@ class NewItemRows extends Component {
         )) ||
           (this.state.showSelect && (
             <SelectItem
-              categoryId={this.props.category.categoryId}
+              category_id={this.props.category.category_id}
               handleOk={this.createItem}
               handleCancel={() => this.setState({ showSelect: false })}
             />
@@ -71,16 +76,16 @@ class NewItemRows extends Component {
 
 function mapStateToProps(state) {
   return {
-    currentVendorId: state.templates.currentVendorId,
+    currentInvoiceId: state.templates.currentInvoiceId,
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    updateItems: (vendorId) =>
-      templateActions.items.getByVendor(dispatch, vendorId),
+    updateItems: (invoiceId) =>
+      templateActions.items.getByInvoice(dispatch, invoiceId),
     updateCategories: () => templateActions.categories.get(dispatch),
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(NewItemRows)
+export default connect(mapStateToProps, mapDispatchToProps)(AddItemRows)

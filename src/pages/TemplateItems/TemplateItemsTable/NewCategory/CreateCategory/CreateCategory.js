@@ -19,8 +19,8 @@ class CreateCategory extends Component {
           disabled={!this.state.value}
           onClick={() =>
             this.props.addCategory({
-              category: this.state.value,
-              categoryId: null,
+              category_name: this.state.value,
+              category_id: null,
             })
           }
         >

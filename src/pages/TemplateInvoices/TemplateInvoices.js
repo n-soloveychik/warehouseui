@@ -7,9 +7,7 @@ import { templateActions } from '@/redux/actions/actions'
 
 class TemplateInvoices extends Component {
   openInvoiceTemplateItems = (invoice) => {
-    this.props.history.push(
-      `${this.props.location.pathname}/${invoice}/edit-items`,
-    )
+    this.props.history.push(`${this.props.location.pathname}/${invoice}/items`)
   }
 
   componentDidMount = async () => {

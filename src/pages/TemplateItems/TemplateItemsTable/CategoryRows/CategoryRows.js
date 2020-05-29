@@ -7,8 +7,8 @@ import classes from './CategoryRows.module.scss'
 const CategoryRows = (props) => {
   const addCategoryToItem = (item) => ({
     ...item,
-    categoryId: props.category.categoryId,
-    category: props.category.category,
+    category_id: props.category.category_id,
+    category_name: props.category.category_name,
   })
 
   const createItem = (item) => props.create(addCategoryToItem(item))
@@ -24,7 +24,9 @@ const CategoryRows = (props) => {
           }}
           colSpan={props.cells.length}
         >
-          <Typography variant='subtitle1'>{props.category.category}</Typography>
+          <Typography variant='subtitle1'>
+            {props.category.category_name}
+          </Typography>
         </TableCell>
       </TableRow>
       {props.category.items &&
@@ -35,8 +37,8 @@ const CategoryRows = (props) => {
                 {cell.name === 'image' ? (
                   <img
                     className={classes.image}
-                    src={'http://iopk.in' + item[cell.name]}
-                    alt={item.itemNum}
+                    src={item[cell.name]}
+                    alt={item.item_num}
                   />
                 ) : cell.output ? (
                   cell.output(item[cell.name])
@@ -49,8 +51,8 @@ const CategoryRows = (props) => {
         ))}
       <AddItemRows
         category={{
-          categoryId: props.category.categoryId,
-          category: props.category.category,
+          category_id: props.category.category_id,
+          category_name: props.category.category_name,
         }}
         create={createItem}
       />

@@ -20,16 +20,16 @@ class SelectItem extends Component {
   }
 
   componentDidMount = async () => {
-    if (!this.props.categoryId) {
+    console.log(this.props)
+    if (!this.props.category_id) {
       return
     }
-    let options = await REQUEST.template.item.getByCategory(
-      this.props.categoryId,
-    )
+    let response = await REQUEST.getItemsOfCategory(this.props.category_id)
+    let options = response.data
     options = options.filter(
       (item) =>
         !this.props.items.find(
-          (i) => i.itemNum === item.itemNum || i.itemId === item.itemId,
+          (i) => i.item_num === item.item_num || i.item_id === item.item_id,
         ),
     )
     this.setState({ options })
@@ -42,16 +42,17 @@ class SelectItem extends Component {
   }
 
   render() {
+    console.log(this.state.options)
     return (
       <>
         <TableRow>
           {this.props.cells.map((cell, index) => (
             <TableCell key={index}>
-              {cell.name === 'itemNum' ? (
+              {cell.name === 'item_num' ? (
                 <Autocomplete
                   onChange={(event, newValue) => this.setCurrentItem(newValue)}
                   options={this.state.options}
-                  getOptionLabel={(option) => option.itemNum}
+                  getOptionLabel={(option) => option.item_num}
                   open={this.state.opened}
                   renderInput={(params) => (
                     <TextField
@@ -71,7 +72,7 @@ class SelectItem extends Component {
                     height: 100,
                     objectFit: 'contain',
                   }}
-                  src={'http://iopk.in/' + this.state.currentItem[cell.name]}
+                  src={this.state.currentItem[cell.name]}
                   alt='Изображение'
                 />
               ) : (
@@ -86,7 +87,7 @@ class SelectItem extends Component {
             style={{ textAlign: 'center' }}
           >
             <Button
-              disabled={!this.state.currentItem.itemId}
+              disabled={!this.state.currentItem.item_id}
               onClick={() => this.props.handleOk(this.state.currentItem)}
               color='primary'
               variant='contained'
@@ -110,7 +111,7 @@ class SelectItem extends Component {
 
 function mapStateToProps(state) {
   return {
-    items: state.templates.itemsOfCurrentVendor,
+    items: state.templates.itemsOfCurrentInvoice,
     cells: state.templates.cells,
   }
 }

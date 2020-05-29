@@ -4,7 +4,7 @@ import { Table, TableBody } from '@material-ui/core'
 import HeadRow from './HeadRow/HeadRow'
 import CategoryRows from './CategoryRows/CategoryRows'
 import NewCategory from './NewCategory/NewCategory'
-import { editItemsGetter } from '@/redux/getters/itemsGetters'
+import { templateItemsGetter } from '@/redux/getters/itemsGetters'
 
 class TemplateItemsTable extends Component {
   state = {
@@ -42,7 +42,7 @@ class TemplateItemsTable extends Component {
               category={category}
             />
           ))}
-          {!!this.props.newCategory?.category ? (
+          {!!this.props.newCategory.category_name ? (
             <CategoryRows
               create={this.createItem}
               category={this.props.newCategory}
@@ -61,8 +61,8 @@ class TemplateItemsTable extends Component {
 
 function mapStateToProps(state) {
   return {
-    groupedItems: editItemsGetter(
-      state.templates.itemsOfCurrentVendor,
+    groupedItems: templateItemsGetter(
+      state.templates.itemsOfCurrentInvoice,
       state.templates.categories,
     ),
     newCategory: state.templates.newCategory,

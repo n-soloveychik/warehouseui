@@ -28,7 +28,7 @@ class SelectCategory extends Component {
         <Autocomplete
           style={{ width: 300, display: 'inline-flex' }}
           options={this.props.options}
-          getOptionLabel={(option) => option.category}
+          getOptionLabel={(option) => option.category_name}
           onChange={(event, newValue) => this.setState({ value: newValue })}
           open={this.state.opened}
           renderInput={(params) => (
@@ -56,10 +56,10 @@ class SelectCategory extends Component {
 }
 
 function mapStateToProps(state) {
-  const categoriesInVendor = state.templates.itemsOfCurrentVendor.reduce(
+  const categoriesInInvoice = state.templates.itemsOfCurrentInvoice.reduce(
     (acc, cur) => {
-      if (!acc.find((item) => item.categoryId === cur.categoryId)) {
-        acc.push({ categoryId: cur.categoryId })
+      if (!acc.find((item) => item.category_id === cur.category_id)) {
+        acc.push({ category_id: cur.category_id })
       }
       return acc
     },
@@ -68,7 +68,7 @@ function mapStateToProps(state) {
   return {
     options: categoryOptionsGetter(
       state.templates.categories,
-      categoriesInVendor,
+      categoriesInInvoice,
     ),
   }
 }

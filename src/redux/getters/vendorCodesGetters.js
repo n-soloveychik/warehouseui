@@ -1,10 +1,10 @@
-export const vendorCodesGetter = (state) => {
-  const vendorCodes = state.warehouse.vendorCodes
+export const invoicesGetter = (state) => {
+  const invoices = state.warehouse.invoices
   let result = {}
-  vendorCodes.forEach((vendor) =>
-    result[vendor.orderNum]
-      ? result[vendor.orderNum].push(vendor.vendorCode)
-      : (result[vendor.orderNum] = [vendor.vendorCode]),
+  invoices.forEach((invoice) =>
+    result[invoice.orderNum]
+      ? result[invoice.orderNum].push(invoice.invoice)
+      : (result[invoice.orderNum] = [invoice.invoice]),
   )
   return result
 }

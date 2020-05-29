@@ -44,7 +44,7 @@ function mapStateToProps(state) {
   state = state.warehouse
   return {
     orders: state.orders,
-    // vendorCodes: state.currentOrder ? list[state.currentOrder] : [],
+    // invoices: state.currentOrder ? list[state.currentOrder] : [],
     // products: state.table,
     currentOrder: state.currentOrder,
     currentInvoice: state.currentInvoice,
