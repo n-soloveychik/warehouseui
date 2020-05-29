@@ -98,7 +98,7 @@ class MakeOrder extends Component {
 
   render() {
     return (
-      <div style={{ padding: 20 }}>
+      <div style={{ padding: 20, overflow: 'auto', height: '100vh' }}>
         <div>
           <TextField
             label='Код заказа'
@@ -107,10 +107,10 @@ class MakeOrder extends Component {
           />
           <Button
             disabled={
-              !this.state.name.length > 2 || !this.state.invoicesInOrder.length
+              this.state.name.length > 2 || !this.state.invoicesInOrder.length
             }
             variant={
-              !this.state.name.length > 2 || !this.state.invoicesInOrder.length
+              this.state.name.length > 2 || !this.state.invoicesInOrder.length
                 ? 'text'
                 : 'contained'
             }
