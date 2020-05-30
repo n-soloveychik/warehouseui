@@ -14,7 +14,7 @@ import classes from './InvoiceList.module.scss'
 
 const style = {
   list: {
-    height: window.innerHeight - 184,
+    height: window.innerHeight - 200,
   },
 }
 
@@ -23,11 +23,21 @@ const InvoiceList = (props) => {
 
   const [currentPage, setCurrentPage] = useState(1)
 
+  const searchedInvoiceTemplates = props.invoiceTemplates.filter((invoice) =>
+    invoice.invoice_code.includes(props.search),
+  )
+
+  const pages = Math.ceil(searchedInvoiceTemplates.length / perPage)
+
   const handleChange = (event, page) => {
     setCurrentPage(page)
   }
 
-  const items = props.invoiceTemplates
+  // if (currentPage > pages) {
+  //   setCurrentPage(1)
+  // }
+
+  const items = searchedInvoiceTemplates
     .slice((currentPage - 1) * perPage, currentPage * perPage)
     .map((invoiceTemplete, index) => (
       <ListItem key={index}>
@@ -54,7 +64,7 @@ const InvoiceList = (props) => {
       <Pagination
         className={classes.pagination}
         style={style.pagination}
-        count={Math.ceil(props.invoiceTemplates.length / perPage)}
+        count={pages}
         showFirstButton
         showLastButton
         onChange={handleChange}

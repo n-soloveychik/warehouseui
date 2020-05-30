@@ -23,10 +23,6 @@ export function getOrders(dispatch) {
   return getOrdersAction(dispatch, API.ORDERS.GET, REQUEST.getAvailableOrders)
 }
 
-// export function getItemsByInvoice(dispatch, invoice) {
-//   return getItemsAction(dispatch, API.ITEMS.GET, REQUEST.items.get, invoice)
-// }
-
 export const selectInvoice = (dispatch, invoice) => {
   dispatch({
     type: SELECT_CURRENT_INVOICE,

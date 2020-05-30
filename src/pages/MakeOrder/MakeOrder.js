@@ -12,6 +12,7 @@ import {
 import Autocomplete from '@material-ui/lab/Autocomplete'
 import { REQUEST } from '@/api'
 import { errorActions } from '@/redux/actions/actions'
+import { ROUTER } from '@/redux/actions/actionNames'
 
 class MakeOrder extends Component {
   state = {
@@ -28,6 +29,10 @@ class MakeOrder extends Component {
 
   getInvoices = async () => {
     const response = await REQUEST.getTemplateInvoices()
+    if (response.status === 401) {
+      this.props.unauthorized()
+      return
+    }
     if (response.status !== 200) {
       this.props.showError(response.status, response.data.message)
       return
@@ -87,6 +92,10 @@ class MakeOrder extends Component {
       order_num: this.state.name,
     }
     const response = await REQUEST.createOrder(requestData)
+    if (response.status === 401) {
+      this.props.unauthorized()
+      return
+    }
     if (response.status < 200 || response.status > 299) {
       this.props.showError(response.status, response.data.message)
       return
@@ -242,6 +251,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     showError: (title, text) => errorActions.showError(dispatch, title, text),
+    unauthorized: () => dispatch({ type: ROUTER.UNAUTHORIZED }),
   }
 }
 

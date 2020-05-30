@@ -41,10 +41,10 @@ const Routes = ({ authorized }) => {
         path='/constructor/invoices/:invoice/items'
         component={TemplateItems}
       />
-      <PrivateRoute exact path='/constructor/order' component={MakeOrder} />
+      <PrivateRoute exact path='/constructor/orders' component={MakeOrder} />
       <PrivateRoute
         exact
-        path='/constructor/order/:order'
+        path='/constructor/orders/:order'
         component={MakeOrder}
       />
       <Route
