@@ -68,6 +68,7 @@ class SelectItem extends Component {
                   options={this.state.options}
                   getOptionLabel={(option) => option.item_num}
                   open={this.state.opened}
+                  fullWidth={true}
                   renderInput={(params) => (
                     <TextField
                       {...params}
@@ -117,7 +118,7 @@ class SelectItem extends Component {
         </TableRow>
         <TableRow>
           <TableCell
-            colSpan={this.props.cells.length}
+            colSpan={this.props.cells.length + 1}
             style={{ textAlign: 'center' }}
           >
             <Button

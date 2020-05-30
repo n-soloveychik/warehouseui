@@ -6,10 +6,6 @@ import {
   ERROR,
 } from './actionNames'
 import { getOrdersAction } from './apiActions/orderActions'
-// import {
-// getItemsAction,
-// updateItemStatusAction,
-// } from './apiActions/itemActions'
 import { REQUEST } from '@/api/index'
 import { login, checkToken } from './apiActions/loginAction'
 import { getInvoicesByOrderAction } from './apiActions/invoiceAction'
@@ -21,7 +17,6 @@ import {
   getCategoriesAction,
   createCategoryAction,
   createItemAction,
-  addItemToInvoiceAction,
 } from './apiActions/templateAction'
 
 export function getOrders(dispatch) {
@@ -70,8 +65,6 @@ export const templateActions = {
     get: (dispatch) => getInvoiceTemplatesAction(dispatch),
     create: (dispatch, invoice) =>
       createInvoiceTemplateAction(dispatch, invoice),
-    addItem: (dispatch, itemId, invoiceId) =>
-      addItemToInvoiceAction(dispatch, { itemId, invoiceId }),
   },
   invoicePage: {
     showCreateInvoice: (dispatch) =>

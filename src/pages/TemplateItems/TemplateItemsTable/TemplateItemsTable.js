@@ -26,10 +26,6 @@ class TemplateItemsTable extends Component {
     this.setState({ newCategory: { ...newCategory, items: [] } })
   }
 
-  createItem = (item) => {
-    this.props.createItem(item)
-  }
-
   render() {
     return (
       <Table size='small'>
@@ -37,14 +33,14 @@ class TemplateItemsTable extends Component {
         <TableBody>
           {this.props.groupedItems.map((category, index) => (
             <CategoryRows
-              create={this.createItem}
+              invoiceId={this.props.invoiceId}
               key={index}
               category={category}
             />
           ))}
           {!!this.props.newCategory.category_name ? (
             <CategoryRows
-              create={this.createItem}
+              invoiceId={this.props.invoiceId}
               category={this.props.newCategory}
             />
           ) : (

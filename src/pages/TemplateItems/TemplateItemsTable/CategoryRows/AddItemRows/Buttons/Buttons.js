@@ -7,7 +7,7 @@ class Buttons extends Component {
     return (
       <TableRow>
         <TableCell
-          colSpan={this.props.cells.length}
+          colSpan={this.props.cells.length + 1}
           style={{ textAlign: 'center' }}
         >
           <Button

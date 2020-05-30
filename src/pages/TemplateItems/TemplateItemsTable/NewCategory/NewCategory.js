@@ -42,7 +42,7 @@ class NewCategory extends Component {
       <TableRow>
         <TableCell
           style={{ textAlign: 'center' }}
-          colSpan={this.props.cells.length}
+          colSpan={this.props.cells.length + 1}
         >
           {(this.props.showSelect && (
             <SelectCategory

@@ -67,15 +67,3 @@ export const createItemAction = async (dispatch, item) => {
     item,
   )
 }
-
-export const addItemToInvoiceAction = async (
-  dispatch,
-  { itemId, invoiceId },
-) => {
-  await apiCoreAction(
-    dispatch,
-    API.TEMPLATES.INVOICES.ADD_ITEM,
-    REQUEST.template.invoice.addItem,
-    { itemId, invoiceId },
-  )
-}

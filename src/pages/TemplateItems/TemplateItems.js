@@ -20,7 +20,7 @@ class TemplateItems extends Component {
     return (
       <div className='page'>
         <CHeader text='Назад' onTextClick={this.goBack} />
-        <TemplateItemsTable createItem={this.createItem} />
+        <TemplateItemsTable invoiceId={this.props.match.params.invoice} />
       </div>
     )
   }

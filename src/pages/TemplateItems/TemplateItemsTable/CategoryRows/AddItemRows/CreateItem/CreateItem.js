@@ -86,7 +86,7 @@ class CreateItem extends Component {
         <TableRow>
           <TableCell
             style={{ textAlign: 'center', borderBottom: '2px solid #d0d0d0' }}
-            colSpan={this.props.cells.length}
+            colSpan={this.props.cells.length + 1}
           >
             <Button
               // disabled={this.isSaveDisabled()}

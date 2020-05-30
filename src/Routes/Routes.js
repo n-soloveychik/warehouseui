@@ -14,6 +14,7 @@ const Routes = ({ authorized }) => {
   return (
     <Switch>
       <PrivateRoute exact path='/' component={Items} />
+      <PrivateRoute exact path='/order/' component={Items} />
       <PrivateRoute exact path='/order/:order/' component={Items} />
       <PrivateRoute
         exact
@@ -32,15 +33,20 @@ const Routes = ({ authorized }) => {
       />
       <PrivateRoute
         exact
-        path='/template/invoices'
+        path='/constructor/invoices'
         component={TemplateInvoices}
       />
       <PrivateRoute
         exact
-        path='/template/invoices/:invoice/items'
+        path='/constructor/invoices/:invoice/items'
         component={TemplateItems}
       />
-      <PrivateRoute exact path='/order' component={MakeOrder} />
+      <PrivateRoute exact path='/constructor/order' component={MakeOrder} />
+      <PrivateRoute
+        exact
+        path='/constructor/order/:order'
+        component={MakeOrder}
+      />
       <Route
         exact
         path='/login'

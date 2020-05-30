@@ -27,9 +27,11 @@ export const REQUEST = {
     HTTPS.get(URI.V1.TEMPLATE.ITEMS.GET_OF_CATEGORY(categoryId)),
   createTemplateItem: async (item) =>
     HTTPS.post(URI.V1.TEMPLATE.ITEMS.CREATE, item),
-  addTemplateItemToInvoice: async (itemId, invoiceId, { lot, count }) =>
-    HTTPS.post(URI.V1.TEMPLATE.INVOICES.ADD_ITEM(itemId, invoiceId), {
+  addTemplateItemToInvoice: async (invoiceId, itemId, { lot, count }) =>
+    HTTPS.post(URI.V1.TEMPLATE.INVOICES.ADD_ITEM(invoiceId, itemId), {
       lot,
       count,
     }),
+  removeTemplateItemFromInvoice: async (invoiceId, itemId) =>
+    HTTPS.delete(URI.V1.TEMPLATE.INVOICES.REMOVE_ITEM(invoiceId, itemId)),
 }

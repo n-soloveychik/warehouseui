@@ -14,12 +14,6 @@ class AddItemRows extends Component {
 
   createItem = async (item) => {
     let category_id = this.props.category.category_id
-    if (!category_id) {
-      const category = await REQUEST.template.category.create(
-        this.props.category.category,
-      )
-      category_id = category.category_id
-    }
     item = item.category_id
       ? item
       : {

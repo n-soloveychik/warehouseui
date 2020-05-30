@@ -13,16 +13,14 @@ import Autocomplete from '@material-ui/lab/Autocomplete'
 import { REQUEST } from '@/api'
 import { errorActions } from '@/redux/actions/actions'
 
-const initialState = {
-  invoices: [],
-  newInvoice: null,
-  newInvoiceCount: 0,
-  invoicesInOrder: [],
-  name: '',
-}
-
 class MakeOrder extends Component {
-  state = { ...initialState }
+  state = {
+    invoices: [],
+    newInvoice: null,
+    newInvoiceCount: 0,
+    invoicesInOrder: [],
+    name: '',
+  }
 
   componentDidMount = async () => {
     await this.getInvoices()
@@ -89,11 +87,18 @@ class MakeOrder extends Component {
       order_num: this.state.name,
     }
     const response = await REQUEST.createOrder(requestData)
-    if (response.status !== 201) {
-      this.props.showError(response.status, response.message)
+    if (response.status < 200 || response.status > 299) {
+      this.props.showError(response.status, response.data.message)
       return
     }
-    this.setState({ ...initialState })
+    this.setState({
+      invoices: [],
+      newInvoice: null,
+      newInvoiceCount: 0,
+      invoicesInOrder: [],
+      name: '',
+    })
+    console.log(this.state)
   }
 
   render() {

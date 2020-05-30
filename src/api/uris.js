@@ -32,6 +32,8 @@ export const URI = {
         CREATE: `${HOST_NAME}/v1/template/invoice`,
         ADD_ITEM: (invoiceId, itemId) =>
           `${HOST_NAME}/v1/template/invoice/${invoiceId}/item/${itemId}`,
+        REMOVE_ITEM: (invoiceId, itemId) =>
+          `${HOST_NAME}/v1/template/invoice/${invoiceId}/item/${itemId}`,
       },
       ITEMS: {
         GET: (invoiceId) =>

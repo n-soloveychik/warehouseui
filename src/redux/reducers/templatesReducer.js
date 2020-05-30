@@ -100,18 +100,17 @@ const obj = {
     newCategory: data || {},
   }),
   [API.TEMPLATES.ITEMS.GET_BY_INVOICE.SUCCESS]: (state, action) => {
+    const newState = state
     const newCategory = !!action.data.find(
       (item) =>
-        item.category === state.newCategory.category ||
-        item.categoryId === state.newCategory.categoryId,
+        item.category === newState.newCategory.category ||
+        item.categoryId === newState.newCategory.categoryId,
     )
       ? {}
-      : state.newCategory.categoryId
-    return {
-      ...state,
-      itemsOfCurrentInvoice: action.data,
-      newCategory: newCategory || {},
-    }
+      : newState.newCategory.categoryId
+    newState.itemsOfCurrentInvoice = [...action.data]
+    newState.newCategory = newCategory || {}
+    return { ...newState }
   },
   [API.TEMPLATES.ITEMS.GET_BY_CATEGORY.SUCCESS]: (state) => state,
   [API.TEMPLATES.ITEMS.CREATE.SUCCESS]: (state) => state,
