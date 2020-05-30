@@ -31,7 +31,7 @@ const selectInvoice = (state, invoice) => {
     !invoice ||
     !state.orders
       .find((order) => order.order_num === state.currentOrder)
-      .invoices?.find((inv) => inv.invoice_code === invoice)
+      .invoices?.find((inv) => inv.invoice_id === invoice)
   ) {
     return Object.assign({}, state)
   }
@@ -77,7 +77,13 @@ const obj = {
     state,
     { orders, invoices, currentOrder, currentInvoice },
   ) => {
-    return { ...state, orders, invoices, currentOrder, currentInvoice }
+    return {
+      ...state,
+      orders,
+      invoices,
+      currentOrder,
+      currentInvoice: parseInt(currentInvoice),
+    }
   },
   DEFAULT: (state) => ({ ...state }),
 }

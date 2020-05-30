@@ -4,7 +4,7 @@ import { ROUTER, APP } from '../actionNames'
 export const setCurrentOrderInvoiceAction = async (
   dispatch,
   order_num,
-  invoice_code,
+  invoice_id,
 ) => {
   let response = await REQUEST.getAvailableOrders()
   if (!checkAuth(dispatch, response)) {
@@ -23,7 +23,7 @@ export const setCurrentOrderInvoiceAction = async (
     orders,
     invoices,
     currentOrder: order_num,
-    currentInvoice: invoice_code,
+    currentInvoice: invoice_id,
   })
 }
 

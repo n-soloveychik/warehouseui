@@ -13,13 +13,28 @@ class TemplateItems extends Component {
   }
 
   goBack = () => {
-    this.props.history.push('/template/invoices')
+    this.props.history.push('/constructor/invoices')
   }
+
+  menuItems = [
+    {
+      name: 'Заказы',
+      link: '/',
+    },
+    {
+      name: 'Конструктор заказов',
+      link: '/constructor/orders',
+    },
+  ]
 
   render() {
     return (
       <div className='page'>
-        <CHeader text='Назад' onTextClick={this.goBack} />
+        <CHeader
+          menuItems={this.menuItems}
+          text='Назад'
+          onTextClick={this.goBack}
+        />
         <TemplateItemsTable invoiceId={this.props.match.params.invoice} />
       </div>
     )

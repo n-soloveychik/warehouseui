@@ -4,6 +4,7 @@ import { Typography, Container, TextField } from '@material-ui/core'
 import InvoiceList from './InvoiceList/InvoiceList'
 import NewInvoice from './NewInvoice/NewInvoice'
 import { templateActions } from '@/redux/actions/actions'
+import CHeader from '@/components/CHeader/CHeader'
 
 class TemplateInvoices extends Component {
   state = {
@@ -18,15 +19,27 @@ class TemplateInvoices extends Component {
     this.props.getInvoices()
   }
 
+  menuItems = [
+    {
+      name: 'Заказы',
+      link: '/',
+    },
+    {
+      name: 'Конструктор заказов',
+      link: '/constructor/orders',
+    },
+  ]
+
   render() {
     return (
-      <>
-        <Typography style={{ textAlign: 'center' }} variant='h4'>
+      <div className='page' style={{ paddingTop: 80, paddingBottom: 0 }}>
+        <CHeader menuItems={this.menuItems} />
+        <Typography style={{ textAlign: 'center' }} variant='h6'>
           Комплектовочные ведомости
         </Typography>
         <Container
           maxWidth='sm'
-          style={{ height: 'calc(100vh - 41px)', overflow: 'hidden' }}
+          style={{ height: 'calc(100vh - 130px)', overflow: 'hidden' }}
         >
           <NewInvoice />
           <TextField
@@ -41,7 +54,7 @@ class TemplateInvoices extends Component {
             openItems={this.openInvoiceTemplateItems}
           ></InvoiceList>
         </Container>
-      </>
+      </div>
     )
   }
 }

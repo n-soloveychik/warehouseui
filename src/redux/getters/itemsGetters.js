@@ -3,7 +3,7 @@ export const checkItemsGetter = (state) => {
   const items =
     state.invoices?.length && state.currentInvoice
       ? state.invoices.find(
-          (invoice) => invoice.invoice_code === state.currentInvoice,
+          (invoice) => invoice.invoice_id === state.currentInvoice,
         )?.items
       : null
   if (!items || !(items instanceof Array)) {

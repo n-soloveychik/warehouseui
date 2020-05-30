@@ -23,7 +23,7 @@ const Lists = (props) => (
       props.orders.find((order) => order.order_num === props.currentOrder) && (
         <Grid className={classes.column} item xs={6}>
           <CList
-            title='Артикул'
+            title='Ведомость'
             loading={props.loading}
             items={
               props.orders.find(
@@ -33,7 +33,7 @@ const Lists = (props) => (
             handleItemClick={props.selectInvoice}
             currentItem={props.currentInvoice}
             keyToRender='invoice_code'
-            keyDetectCurrent='invoice_code'
+            keyDetectCurrent='invoice_id'
           ></CList>
         </Grid>
       )}
@@ -44,11 +44,8 @@ function mapStateToProps(state) {
   state = state.warehouse
   return {
     orders: state.orders,
-    // invoices: state.currentOrder ? list[state.currentOrder] : [],
-    // products: state.table,
     currentOrder: state.currentOrder,
     currentInvoice: state.currentInvoice,
-    // loading: state.isCallingGetOrders,
   }
 }
 

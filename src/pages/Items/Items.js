@@ -30,9 +30,9 @@ class Items extends Component {
 
   async componentDidMount() {
     const order_num = this.props.match.params.order
-    const invoice_code = this.props.match.params.invoice
-    if (order_num && invoice_code) {
-      await this.props.setCurrentParams(order_num, invoice_code)
+    const invoice_id = this.props.match.params.invoice
+    if (order_num && invoice_id) {
+      await this.props.setCurrentParams(order_num, invoice_id)
     } else {
       await this.props.getOrders()
     }
@@ -136,13 +136,28 @@ class Items extends Component {
     })
   }
 
+  menuItems = [
+    {
+      name: 'Конструктор заказов',
+      link: '/constructor/orders',
+    },
+    {
+      name: 'Конструктор комплектовочных ведомостей',
+      link: '/constructor/invoices',
+    },
+  ]
+
   render() {
     const headerText = this.props.currentInvoice
-      ? `${this.props.currentOrder} / ${this.props.currentInvoice}`
-      : 'Открыть артикул'
+      ? `${this.props.currentOrder} / ${this.props.currentInvoiceCode}`
+      : 'Открыть комплектовочную ведомость'
     return (
       <div className='page'>
-        <CHeader text={headerText} onTextClick={this.openSidebar}></CHeader>
+        <CHeader
+          menuItems={this.menuItems}
+          text={headerText}
+          onTextClick={this.openSidebar}
+        ></CHeader>
         <CheckItemsTable
           contextMenuButtonClick={this.openContextMenu}
           updateStatus={({ itemId, statusId }) =>
@@ -196,6 +211,9 @@ function mapStateToProps(state) {
       (order) => order.order_num === state.warehouse.currentOrder,
     )?.order_id,
     currentInvoice: state.warehouse.currentInvoice,
+    currentInvoiceCode: state.warehouse.invoices.find(
+      (invoice) => invoice.invoice_id === +state.warehouse.currentInvoice,
+    )?.invoice_code,
     table: checkItemsGetter(state),
     isOrder: (orderNum) =>
       !!state.warehouse.invoices.find(
@@ -208,16 +226,11 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    // selectOrder: (id) => selectOrder(dispatch, id),
-    // selectInvoice: (id) => selectInvoice(dispatch, id),
     getOrders: () => getOrders(dispatch),
     getInvoicesByOrder: (orderId) => getInvoicesByOrder(dispatch, orderId),
     showError: (title, text) => errorActions.showError(dispatch, title, text),
-    setCurrentParams: (order_num, invoice_code) =>
-      setCurrentParams(dispatch, order_num, invoice_code),
-    // getItemsByInvoice: () => getItemsByInvoice(dispatch, 1),
-    // updateItemStatus: ({ itemId, statusId }) =>
-    // updateItemStatus(dispatch, { statusId, itemId }),
+    setCurrentParams: (order_num, invoice_id) =>
+      setCurrentParams(dispatch, order_num, invoice_id),
   }
 }
 

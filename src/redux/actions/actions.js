@@ -26,7 +26,7 @@ export function getOrders(dispatch) {
 export const selectInvoice = (dispatch, invoice) => {
   dispatch({
     type: SELECT_CURRENT_INVOICE,
-    invoice: invoice.invoice_code,
+    invoice: invoice.invoice_id,
   })
   dispatch({
     type: API.ITEMS.SET_BY_INVOICE,
@@ -52,8 +52,8 @@ export const getInvoicesByOrder = (dispatch, orderId) =>
     REQUEST.getInvoicesAndItemsByOrder.bind(null, orderId),
   )
 
-export const setCurrentParams = (dispatch, order_num, invoice_code) => {
-  setCurrentOrderInvoiceAction(dispatch, order_num, invoice_code)
+export const setCurrentParams = (dispatch, order_num, invoice_id) => {
+  setCurrentOrderInvoiceAction(dispatch, order_num, invoice_id)
 }
 
 export const templateActions = {
