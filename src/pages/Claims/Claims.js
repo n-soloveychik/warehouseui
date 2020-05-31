@@ -21,8 +21,9 @@ class Claims extends Component {
       await this.props.setCurrentParams(order, invoice)
     }
     const claims = this.props.invoices
-      .find((inv) => inv.invoice_code === invoice)
+      .find((inv) => inv.invoice_id === +invoice)
       ?.items?.find((i) => i.item_id === +item)?.claims
+    console.log(this.props)
     this.setState({ claims })
   }
 
@@ -66,8 +67,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    setCurrentParams: async (order_num, invoice_code) =>
-      await setCurrentOrderInvoiceAction(dispatch, order_num, invoice_code),
+    setCurrentParams: async (order_num, invoice_id) =>
+      await setCurrentOrderInvoiceAction(dispatch, order_num, invoice_id),
   }
 }
 
