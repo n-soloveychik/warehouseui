@@ -17,6 +17,7 @@ import {
   getCategoriesAction,
   createCategoryAction,
   createItemAction,
+  updateItemImageAction,
 } from './apiActions/templateAction'
 
 export function getOrders(dispatch) {
@@ -73,6 +74,8 @@ export const templateActions = {
       getItemsByInvoiceAction(dispatch, invoiceId),
     create: (dispatch, item) => createItemAction(dispatch, item),
     clear: (dispatch) => dispatch({ type: TEMPLATES.INVOICE_PAGE_CLEAR_ITEMS }),
+    updateImage: (dispatch, { invoiceId, itemId, image }) =>
+      updateItemImageAction(dispatch, { invoiceId, itemId, image }),
   },
   itemPage: {
     setCurrentInvoice: (dispatch, invoiceId) => {

@@ -1,5 +1,5 @@
 import { REQUEST } from '@/api'
-import { API, ERROR } from '../actionNames'
+import { API, ERROR, ROUTER } from '../actionNames'
 import { apiCoreAction } from './apiCoreAction'
 
 export const getInvoiceTemplatesAction = async (dispatch) => {
@@ -66,4 +66,26 @@ export const createItemAction = async (dispatch, item) => {
     REQUEST.createTemplateItem(item),
     item,
   )
+}
+
+export const updateItemImageAction = async (
+  dispatch,
+  { itemId, image, invoiceId },
+) => {
+  const response = await REQUEST.updateTemplateItemImage(itemId, {
+    image: image,
+  })
+  if (response.status === 401) {
+    dispatch({ type: ROUTER.UNAUTHORIZED })
+    return
+  }
+  if (response.status > 199 && response.status < 300) {
+    getItemsByInvoiceAction(dispatch, invoiceId)
+    return
+  }
+  dispatch({
+    type: ERROR.OPEN,
+    title: response.status,
+    text: response.data?.message,
+  })
 }

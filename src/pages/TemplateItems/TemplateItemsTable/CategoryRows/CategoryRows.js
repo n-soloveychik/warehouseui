@@ -6,6 +6,7 @@ import AddItemRows from './AddItemRows/AddItemRows'
 import classes from './CategoryRows.module.scss'
 import { templateActions, errorActions } from '@/redux/actions/actions'
 import { REQUEST } from '@/api'
+import SendImage from './SendImage/SendImage'
 
 const removeItem = async (invoiceId, itemId, updateItems, showError) => {
   let response = await REQUEST.removeTemplateItemFromInvoice(invoiceId, itemId)
@@ -42,7 +43,9 @@ const CategoryRows = (props) => {
                 key={`${item.item_num}-${cellIndex}`}
               >
                 {cell.name === 'image' ? (
-                  <img
+                  <SendImage
+                    invoiceId={props.invoiceId}
+                    item={item}
                     className={classes.image}
                     src={item[cell.name]}
                     alt={item.item_num}

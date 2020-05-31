@@ -42,6 +42,8 @@ export const URI = {
         CATEGORIES: `${HOST_NAME}/v1/item/categories`,
         GET_OF_CATEGORY: (categoryId) =>
           `${HOST_NAME}/v1/template/items?filter[category_id]=${categoryId}`,
+        UPDATE_IMAGE: (itemId) =>
+          `${HOST_NAME}/v1/template/item/${itemId}/image`,
       },
     },
   },
