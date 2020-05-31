@@ -23,7 +23,6 @@ class Claims extends Component {
     const claims = this.props.invoices
       .find((inv) => inv.invoice_id === +invoice)
       ?.items?.find((i) => i.item_id === +item)?.claims
-    console.log(this.props)
     this.setState({ claims })
   }
 

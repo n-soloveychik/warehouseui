@@ -22,10 +22,8 @@ const CHeader = (props) => {
   return (
     <AppBar position='fixed'>
       <Toolbar style={{ display: 'flex', justifyContent: 'space-between' }}>
-        <Button style={{ color: 'white' }}>
-          <Typography onClick={props.onTextClick} variant='h6'>
-            {props.text}
-          </Typography>
+        <Button onClick={props.onTextClick} style={{ color: 'white' }}>
+          <Typography variant='h6'>{props.text}</Typography>
         </Button>
         <IconButton onClick={() => setOpened(true)} style={{ color: 'white' }}>
           <MenuOpenIcon />
