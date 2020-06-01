@@ -12,7 +12,7 @@ const initialState = {
   isCallingGetItems: false,
   currentOrder: null,
   currentInvoice: null,
-  loadingItems: [],
+  loadingItems: {},
 }
 
 const selectOrder = (state, orderNum) => {
@@ -39,6 +39,45 @@ const selectInvoice = (state, invoice) => {
   return Object.assign({}, state, {
     currentInvoice: invoice,
   })
+}
+
+const callUpdateItemStatus = (state, itemId, newStatusId) => {
+  const newState = { ...state }
+  newState.loadingItems[itemId] = newStatusId
+  const items =
+    newState.invoices.find(
+      (invoice) => invoice.invoice_id === newState.currentInvoice,
+    )?.items || []
+  const item = items.find((item) => item.item_id === itemId) || {}
+  Object.assign(item, { loading: true, newStatusId })
+  return newState
+}
+
+const successUpdateItemStatus = (state, itemId, newStatusId) => {
+  const newState = { ...state }
+  delete newState.loadingItems[itemId]
+  const items =
+    newState.invoices.find(
+      (invoice) => invoice.invoice_id === newState.currentInvoice,
+    )?.items || []
+  const item = items.find((item) => item.item_id === itemId) || {}
+  delete item.loading
+  item.status_id = newStatusId
+  delete item.newStatusId
+  return newState
+}
+
+const failureUpdateItemStatus = (state, itemId, newStatusId) => {
+  const newState = { ...state }
+  delete newState.loadingItems[itemId]
+  const items =
+    newState.invoices.find(
+      (invoice) => invoice.invoice_id === newState.currentInvoice,
+    )?.items || []
+  const item = items.find((item) => item.item_id === itemId) || {}
+  delete item.loading
+  delete item.newStatusId
+  return newState
 }
 
 const obj = {
@@ -74,6 +113,18 @@ const obj = {
     item.statusId = data.statusId
     return newState
   },
+  [API.ITEMS.SET_STATUS_IN_STOCK.CALL]: (state, { itemId }) =>
+    callUpdateItemStatus(state, itemId, 2),
+  [API.ITEMS.SET_STATUS_IN_STOCK.SUCCESS]: (state, { itemId }) =>
+    successUpdateItemStatus(state, itemId, 2),
+  [API.ITEMS.SET_STATUS_IN_STOCK.FAILURE]: (state, { itemId }) =>
+    failureUpdateItemStatus(state, itemId, 2),
+  [API.ITEMS.SET_STATUS_AWAIT_DELIVERY.CALL]: (state, { itemId }) =>
+    callUpdateItemStatus(state, itemId, 1),
+  [API.ITEMS.SET_STATUS_AWAIT_DELIVERY.SUCCESS]: (state, { itemId }) =>
+    successUpdateItemStatus(state, itemId, 1),
+  [API.ITEMS.SET_STATUS_AWAIT_DELIVERY.FAILURE]: (state, { itemId }) =>
+    failureUpdateItemStatus(state, itemId, 1),
   [APP.SET.ORDERS_INVOICES_CURRENT_ORDER_INVOICE]: (
     state,
     { orders, invoices, currentOrder, currentInvoice },

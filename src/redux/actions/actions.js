@@ -1,10 +1,4 @@
-import {
-  SELECT_CURRENT_ORDER,
-  SELECT_CURRENT_INVOICE,
-  API,
-  TEMPLATES,
-  ERROR,
-} from './actionNames'
+import { API, TEMPLATES, ERROR } from './actionNames'
 import { getOrdersAction, selectOrderAction } from './apiActions/orderActions'
 import { REQUEST } from '@/api/index'
 import { login, checkToken } from './apiActions/loginAction'
@@ -40,8 +34,20 @@ export const warehouseActions = {
   },
   items: {
     status: {
-      setInStock: (dispatch) => itemUpdateStatusAction(),
-      setAwaitDelivery: (dispatch) => itemUpdateStatusAction(),
+      setInStock: (dispatch, itemId) =>
+        itemUpdateStatusAction(
+          dispatch,
+          API.ITEMS.SET_STATUS_IN_STOCK,
+          REQUEST.setItemStatusInStock.bind(null, itemId),
+          itemId,
+        ),
+      setAwaitDelivery: (dispatch, itemId) =>
+        itemUpdateStatusAction(
+          dispatch,
+          API.ITEMS.SET_STATUS_AWAIT_DELIVERY,
+          REQUEST.setItemStatusAwaitDelivery.bind(null, itemId),
+          itemId,
+        ),
     },
   },
 }

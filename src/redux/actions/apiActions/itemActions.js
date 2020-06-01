@@ -1,4 +1,5 @@
 import { apiCoreAction } from './apiCoreAction'
+import { ERROR } from '../actionNames'
 
 export const getItemsAction = async (
   dispatch,
@@ -13,6 +14,22 @@ export const itemUpdateStatusAction = async (
   dispatch,
   actionNameObj,
   requestFn,
+  itemId,
 ) => {
-  await apiCoreAction(dispatch, actionNameObj, requestFn)
+  dispatch({ type: actionNameObj.CALL, itemId })
+  let response = await requestFn()
+  if (response.status === 401) {
+    dispatch({ type: response.status, title: response.data?.message })
+    return
+  }
+  if (response.status === 200) {
+    dispatch({ type: actionNameObj.SUCCESS, itemId })
+    return
+  }
+  dispatch({
+    type: ERROR.OPEN,
+    title: response.status,
+    text: response.data?.message,
+  })
+  dispatch({ type: actionNameObj.FAILURE, itemId })
 }

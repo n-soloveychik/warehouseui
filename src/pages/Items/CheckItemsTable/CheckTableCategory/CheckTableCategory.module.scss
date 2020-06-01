@@ -1,0 +1,21 @@
+.single-cell {
+  background-color: rgba(170, 116, 0, 0.363);
+  text-align: center;
+}
+
+.loading {
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+.status {
+  &--await-delivery {
+    background-color: #ffffff20;
+  }
+  &--in-stock {
+    background-color: #00ff0020;
+  }
+  &--claim {
+    background-color: #ff000020;
+  }
+}

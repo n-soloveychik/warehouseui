@@ -6,112 +6,11 @@ import {
   TableCell,
   TableHead,
   TableRow,
-  IconButton,
-  Typography,
-  Badge,
 } from '@material-ui/core'
-import classes from './CheckItemsTable.module.scss'
-import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank'
-import CheckBoxIcon from '@material-ui/icons/CheckBox'
-import ReportProblemIcon from '@material-ui/icons/ReportProblem'
 import { checkItemsGetter } from '@/redux/getters/itemsGetters'
+import CheckTableCategory from './CheckTableCategory/CheckTableCategory'
 
-const styles = {
-  1: {
-    backgroundColor: '#ffffff20',
-  },
-  2: {
-    backgroundColor: '#00ff0020',
-  },
-  3: {
-    backgroundColor: '#ff000020',
-  },
-}
 const CTable = (props) => {
-  const tableBody =
-    props.table &&
-    props.table.map((category, index) => {
-      const titleRow = (
-        <TableRow style={{ position: 'sticky' }} key={index}>
-          <TableCell
-            style={{ padding: 0, textAlign: 'center' }}
-            className={classes['single-cell']}
-            colSpan='9'
-          >
-            <Typography variant='subtitle1'>{category.category}</Typography>
-          </TableCell>
-        </TableRow>
-      )
-      const categoryRows = category.lots.map((lot, index) =>
-        lot.items.map((item, itemIndex) => (
-          <TableRow
-            style={styles[item.status_id]}
-            key={`${index}-${itemIndex}`}
-          >
-            {itemIndex === 0 && (
-              <TableCell
-                rowSpan={lot.items.length}
-                style={{ textAlign: 'center', background: 'white' }}
-              >
-                {lot.name}
-              </TableCell>
-            )}
-            <TableCell style={{ textAlign: 'center' }}>
-              {item.item_num}
-            </TableCell>
-            <TableCell style={{ textAlign: 'center' }}>
-              <img
-                style={{ width: 100, height: 100, objectFit: 'contain' }}
-                alt='продукт'
-                src={item.image}
-              />
-            </TableCell>
-            <TableCell style={{ textAlign: 'center' }}>{item.size}</TableCell>
-            <TableCell style={{ textAlign: 'center' }}>{item.count}</TableCell>
-            <TableCell style={{ textAlign: 'center' }}>
-              {Math.round(item.weight * 1000) / 1000}
-            </TableCell>
-            <TableCell>
-              <Typography variant={'caption'}>{item.description}</Typography>
-            </TableCell>
-            <TableCell style={{ padding: '6px 6px', maxWidth: 51 }}>
-              {item.status_id !== 2 ? (
-                <IconButton
-                  onClick={() => props.setStatusInStock(item.item_id)}
-                  size={'small'}
-                >
-                  <CheckBoxOutlineBlankIcon></CheckBoxOutlineBlankIcon>
-                </IconButton>
-              ) : (
-                <IconButton
-                  onClick={() => props.setStatusAwaitDelivery(item.item_id)}
-                  size={'small'}
-                >
-                  <CheckBoxIcon></CheckBoxIcon>
-                </IconButton>
-              )}
-            </TableCell>
-            <TableCell style={{ padding: '6px 6px', maxWidth: 51 }}>
-              <IconButton
-                onClick={(e) => props.contextMenuButtonClick(item, e.target)}
-                size={'small'}
-              >
-                <Badge
-                  badgeContent={
-                    item.claims?.filter((claim) => !claim.closed)?.length || 0
-                  }
-                  color='error'
-                >
-                  <ReportProblemIcon />
-                </Badge>
-              </IconButton>
-            </TableCell>
-          </TableRow>
-        )),
-      )
-      const res = [titleRow, categoryRows].flat(Infinity)
-      return res
-    })
   return (
     <>
       <Table style={{ height: 'auto' }} size='small'>
@@ -135,7 +34,11 @@ const CTable = (props) => {
             <TableCell></TableCell>
           </TableRow>
         </TableHead>
-        <TableBody>{tableBody}</TableBody>
+        <TableBody>
+          {props.table?.map((category, index) => (
+            <CheckTableCategory category={category} key={index} />
+          ))}
+        </TableBody>
       </Table>
     </>
   )
@@ -148,9 +51,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return {
-    // updateStatusInStock:
-  }
+  return {}
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(CTable)
