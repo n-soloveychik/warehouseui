@@ -7,9 +7,7 @@ import { templateActions } from '@/redux/actions/actions'
 class TemplateItems extends Component {
   componentDidMount = async () => {
     const invoiceId = this.props.match.params.invoice
-    console.log('cdm', this.props.currentInvoice(invoiceId))
     if (!this.props.currentInvoice(invoiceId)) {
-      console.log('getInvoices')
       await this.props.getInvoices()
     }
     await this.props.getCategories()
