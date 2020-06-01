@@ -36,7 +36,11 @@ const CTable = (props) => {
         </TableHead>
         <TableBody>
           {props.table?.map((category, index) => (
-            <CheckTableCategory category={category} key={index} />
+            <CheckTableCategory
+              contextMenuButtonClick={props.contextMenuButtonClick}
+              category={category}
+              key={index}
+            />
           ))}
         </TableBody>
       </Table>

@@ -12,7 +12,6 @@ const initialState = {
   isCallingGetItems: false,
   currentOrder: null,
   currentInvoice: null,
-  loadingItems: {},
 }
 
 const selectOrder = (state, orderNum) => {
@@ -43,7 +42,6 @@ const selectInvoice = (state, invoice) => {
 
 const callUpdateItemStatus = (state, itemId, newStatusId) => {
   const newState = { ...state }
-  newState.loadingItems[itemId] = newStatusId
   const items =
     newState.invoices.find(
       (invoice) => invoice.invoice_id === newState.currentInvoice,
@@ -55,7 +53,6 @@ const callUpdateItemStatus = (state, itemId, newStatusId) => {
 
 const successUpdateItemStatus = (state, itemId, newStatusId) => {
   const newState = { ...state }
-  delete newState.loadingItems[itemId]
   const items =
     newState.invoices.find(
       (invoice) => invoice.invoice_id === newState.currentInvoice,
@@ -69,7 +66,6 @@ const successUpdateItemStatus = (state, itemId, newStatusId) => {
 
 const failureUpdateItemStatus = (state, itemId, newStatusId) => {
   const newState = { ...state }
-  delete newState.loadingItems[itemId]
   const items =
     newState.invoices.find(
       (invoice) => invoice.invoice_id === newState.currentInvoice,
@@ -77,6 +73,51 @@ const failureUpdateItemStatus = (state, itemId, newStatusId) => {
   const item = items.find((item) => item.item_id === itemId) || {}
   delete item.loading
   delete item.newStatusId
+  return newState
+}
+
+const callMultipleUpdateItemsStatus = (state, itemIds, newStatusId) => {
+  const newState = { ...state }
+  const items =
+    newState.invoices.find(
+      (invoice) => invoice.invoice_id === newState.currentInvoice,
+    )?.items || []
+  const itemsToUpdate =
+    items.filter((item) => itemIds.includes(item.item_id)) || {}
+  itemsToUpdate.forEach((item) =>
+    Object.assign(item, { loading: true, newStatusId }),
+  )
+  return newState
+}
+
+const successMultipleUpdateItemsStatus = (state, resultItems) => {
+  const newState = { ...state }
+  const items =
+    newState.invoices.find(
+      (invoice) => invoice.invoice_id === newState.currentInvoice,
+    )?.items || []
+  items.forEach((item) => {
+    const resultItem = resultItems.find((i) => i.item_id === item.item_id)
+    if (!resultItem) return
+    item.status_id = resultItem.status_id
+    delete item.loading
+    delete item.newStatusId
+  })
+  return newState
+}
+
+const failureMultipleUpdateItemsStatus = (state, itemIds) => {
+  const newState = { ...state }
+  const items =
+    newState.invoices.find(
+      (invoice) => invoice.invoice_id === newState.currentInvoice,
+    )?.items || []
+  const itemsToUpdate =
+    items.filter((item) => itemIds.includes(item.item_id)) || {}
+  itemsToUpdate.forEach((item) => {
+    delete item.loading
+    delete item.newStatusId
+  })
   return newState
 }
 
@@ -113,18 +154,24 @@ const obj = {
     item.statusId = data.statusId
     return newState
   },
-  [API.ITEMS.SET_STATUS_IN_STOCK.CALL]: (state, { itemId }) =>
+  [API.ITEM.SET_STATUS_IN_STOCK.CALL]: (state, { itemId }) =>
     callUpdateItemStatus(state, itemId, 2),
-  [API.ITEMS.SET_STATUS_IN_STOCK.SUCCESS]: (state, { itemId }) =>
+  [API.ITEM.SET_STATUS_IN_STOCK.SUCCESS]: (state, { itemId }) =>
     successUpdateItemStatus(state, itemId, 2),
-  [API.ITEMS.SET_STATUS_IN_STOCK.FAILURE]: (state, { itemId }) =>
+  [API.ITEM.SET_STATUS_IN_STOCK.FAILURE]: (state, { itemId }) =>
     failureUpdateItemStatus(state, itemId, 2),
-  [API.ITEMS.SET_STATUS_AWAIT_DELIVERY.CALL]: (state, { itemId }) =>
+  [API.ITEM.SET_STATUS_AWAIT_DELIVERY.CALL]: (state, { itemId }) =>
     callUpdateItemStatus(state, itemId, 1),
-  [API.ITEMS.SET_STATUS_AWAIT_DELIVERY.SUCCESS]: (state, { itemId }) =>
+  [API.ITEM.SET_STATUS_AWAIT_DELIVERY.SUCCESS]: (state, { itemId }) =>
     successUpdateItemStatus(state, itemId, 1),
-  [API.ITEMS.SET_STATUS_AWAIT_DELIVERY.FAILURE]: (state, { itemId }) =>
+  [API.ITEM.SET_STATUS_AWAIT_DELIVERY.FAILURE]: (state, { itemId }) =>
     failureUpdateItemStatus(state, itemId, 1),
+  [API.ITEMS.MULTIPLE_SET_STATUS_IN_STOCK.CALL]: (state, { itemIds }) =>
+    callMultipleUpdateItemsStatus(state, itemIds, 2),
+  [API.ITEMS.MULTIPLE_SET_STATUS_IN_STOCK.SUCCESS]: (state, { resultItems }) =>
+    successMultipleUpdateItemsStatus(state, resultItems, 2),
+  [API.ITEMS.MULTIPLE_SET_STATUS_IN_STOCK.FAILURE]: (state, { itemIds }) =>
+    failureMultipleUpdateItemsStatus(state, itemIds),
   [APP.SET.ORDERS_INVOICES_CURRENT_ORDER_INVOICE]: (
     state,
     { orders, invoices, currentOrder, currentInvoice },

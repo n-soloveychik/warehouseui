@@ -3,7 +3,6 @@ import { SELECT_CURRENT_INVOICE, API } from '../actionNames'
 import { REQUEST } from '@/api'
 
 export const getInvoicesByOrderAction = async (dispatch, orderId) => {
-  console.log(orderId)
   await apiCoreAction(
     dispatch,
     API.INVOICES.GET,

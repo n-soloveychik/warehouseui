@@ -35,6 +35,22 @@ const CheckTableCategory = (props) => {
     return result.join(' ')
   }
 
+  const clickUpdateStatusHandler = (e, item) => {
+    e.stopPropagation()
+    updateItemStatus(item)
+  }
+
+  const clickMultipleUpdateStatusHandler = (e, lot) => {
+    const itemIds = lot.items.map((item) => item.item_id)
+    e.stopPropagation()
+    props.setMultipleInStock(itemIds)
+  }
+
+  const clickContextMenuHandler = (e, item) => {
+    e.stopPropagation()
+    props.contextMenuButtonClick(item, e.target)
+  }
+
   const titleRow = (
     <TableRow key={props.category.category} style={{ position: 'sticky' }}>
       <TableCell
@@ -48,42 +64,73 @@ const CheckTableCategory = (props) => {
   )
   const categoryRows = props.category.lots.map((lot, index) =>
     lot.items.map((item, itemIndex) => (
-      <TableRow key={`${props.category.category}-${index}-${itemIndex}`}>
+      <TableRow
+        className={classes.table_row}
+        key={`${props.category.category}-${index}-${itemIndex}`}
+      >
         {itemIndex === 0 && (
           <TableCell
+            onClick={(e) => clickMultipleUpdateStatusHandler(e, lot)}
             rowSpan={lot.items.length}
             style={{ textAlign: 'center', background: 'white', opacity: 1 }}
           >
             {lot.name}
           </TableCell>
         )}
-        <TableCell className={itemClass(item)} style={{ textAlign: 'center' }}>
+        <TableCell
+          onClick={(e) => clickUpdateStatusHandler(e, item)}
+          className={itemClass(item)}
+          style={{ textAlign: 'center' }}
+        >
           {item.item_num}
         </TableCell>
-        <TableCell className={itemClass(item)} style={{ textAlign: 'center' }}>
+        <TableCell
+          onClick={(e) => clickUpdateStatusHandler(e, item)}
+          className={itemClass(item)}
+          style={{ textAlign: 'center' }}
+        >
           <img
             style={{ width: 100, height: 100, objectFit: 'contain' }}
             alt='продукт'
             src={item.image}
           />
         </TableCell>
-        <TableCell className={itemClass(item)} style={{ textAlign: 'center' }}>
+        <TableCell
+          onClick={(e) => clickUpdateStatusHandler(e, item)}
+          className={itemClass(item)}
+          style={{ textAlign: 'center' }}
+        >
           {item.size}
         </TableCell>
-        <TableCell className={itemClass(item)} style={{ textAlign: 'center' }}>
+        <TableCell
+          onClick={(e) => clickUpdateStatusHandler(e, item)}
+          className={itemClass(item)}
+          style={{ textAlign: 'center' }}
+        >
           {item.count}
         </TableCell>
-        <TableCell className={itemClass(item)} style={{ textAlign: 'center' }}>
+        <TableCell
+          onClick={(e) => clickUpdateStatusHandler(e, item)}
+          className={itemClass(item)}
+          style={{ textAlign: 'center' }}
+        >
           {item.weight}
         </TableCell>
-        <TableCell className={itemClass(item)}>
+        <TableCell
+          onClick={(e) => clickUpdateStatusHandler(e, item)}
+          className={itemClass(item)}
+        >
           <Typography variant={'caption'}>{item.description}</Typography>
         </TableCell>
         <TableCell
+          onClick={(e) => clickUpdateStatusHandler(e, item)}
           className={itemClass(item)}
           style={{ padding: '6px 6px', maxWidth: 51 }}
         >
-          <IconButton onClick={() => updateItemStatus(item)} size={'small'}>
+          <IconButton
+            onClick={(e) => clickUpdateStatusHandler(e, item)}
+            size={'small'}
+          >
             {(item.newStatusId || item.status_id) !== 2 ? (
               <CheckBoxOutlineBlankIcon></CheckBoxOutlineBlankIcon>
             ) : (
@@ -92,11 +139,12 @@ const CheckTableCategory = (props) => {
           </IconButton>
         </TableCell>
         <TableCell
+          onClick={(e) => clickContextMenuHandler(e, item)}
           className={itemClass(item)}
           style={{ padding: '6px 6px', maxWidth: 51 }}
         >
           <IconButton
-            onClick={(e) => props.contextMenuButtonClick(item, e.target)}
+            onClick={(e) => clickContextMenuHandler(e, item)}
             size={'small'}
           >
             <Badge
@@ -116,17 +164,15 @@ const CheckTableCategory = (props) => {
   return res
 }
 
-function mapStateToProps(state) {
-  return {}
-}
-
 function mapDispatchToProps(dispatch) {
   return {
     setStatusInStock: (itemId) =>
-      warehouseActions.items.status.setInStock(dispatch, itemId),
+      warehouseActions.item.status.setInStock(dispatch, itemId),
     setStatusAwaitDelivery: (itemId) =>
-      warehouseActions.items.status.setAwaitDelivery(dispatch, itemId),
+      warehouseActions.item.status.setAwaitDelivery(dispatch, itemId),
+    setMultipleInStock: (itemIds) =>
+      warehouseActions.items.status.setMultipleInStocks(dispatch, itemIds),
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CheckTableCategory)
+export default connect(null, mapDispatchToProps)(CheckTableCategory)

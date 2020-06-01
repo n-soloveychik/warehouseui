@@ -16,7 +16,10 @@ import {
   createItemAction,
   updateItemImageAction,
 } from './apiActions/templateAction'
-import { itemUpdateStatusAction } from './apiActions/itemActions'
+import {
+  itemUpdateStatusAction,
+  itemsMultipleUpdateStatusAction,
+} from './apiActions/itemActions'
 
 export const warehouseActions = {
   orders: {
@@ -32,21 +35,32 @@ export const warehouseActions = {
       setCurrentOrderInvoiceAction(dispatch, order_num, invoice_id)
     },
   },
-  items: {
+  item: {
     status: {
       setInStock: (dispatch, itemId) =>
         itemUpdateStatusAction(
           dispatch,
-          API.ITEMS.SET_STATUS_IN_STOCK,
+          API.ITEM.SET_STATUS_IN_STOCK,
           REQUEST.setItemStatusInStock.bind(null, itemId),
           itemId,
         ),
       setAwaitDelivery: (dispatch, itemId) =>
         itemUpdateStatusAction(
           dispatch,
-          API.ITEMS.SET_STATUS_AWAIT_DELIVERY,
+          API.ITEM.SET_STATUS_AWAIT_DELIVERY,
           REQUEST.setItemStatusAwaitDelivery.bind(null, itemId),
           itemId,
+        ),
+    },
+  },
+  items: {
+    status: {
+      setMultipleInStocks: (dispatch, itemIds) =>
+        itemsMultipleUpdateStatusAction(
+          dispatch,
+          API.ITEMS.MULTIPLE_SET_STATUS_IN_STOCK,
+          REQUEST.setItemsMultipleStatusInStock,
+          itemIds,
         ),
     },
   },

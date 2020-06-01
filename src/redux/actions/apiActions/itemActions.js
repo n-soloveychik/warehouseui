@@ -33,3 +33,27 @@ export const itemUpdateStatusAction = async (
   })
   dispatch({ type: actionNameObj.FAILURE, itemId })
 }
+
+export const itemsMultipleUpdateStatusAction = async (
+  dispatch,
+  actionNameObj,
+  requestFn,
+  itemIds,
+) => {
+  dispatch({ type: actionNameObj.CALL, itemIds })
+  let response = await requestFn(itemIds)
+  if (response.status === 401) {
+    dispatch({ type: response.status, title: response.data?.message })
+    return
+  }
+  if (response.status === 200) {
+    dispatch({ type: actionNameObj.SUCCESS, resultItems: response.data })
+    return
+  }
+  dispatch({
+    type: ERROR.OPEN,
+    title: response.status,
+    text: response.data?.message,
+  })
+  dispatch({ type: actionNameObj.FAILURE, itemIds })
+}
