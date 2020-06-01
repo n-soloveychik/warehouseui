@@ -1,4 +1,5 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import {
   Table,
   TableBody,
@@ -13,6 +14,7 @@ import classes from './CheckItemsTable.module.scss'
 import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank'
 import CheckBoxIcon from '@material-ui/icons/CheckBox'
 import ReportProblemIcon from '@material-ui/icons/ReportProblem'
+import { checkItemsGetter } from '@/redux/getters/itemsGetters'
 
 const styles = {
   1: {
@@ -27,8 +29,8 @@ const styles = {
 }
 const CTable = (props) => {
   const tableBody =
-    props.data &&
-    props.data.map((category, index) => {
+    props.table &&
+    props.table.map((category, index) => {
       const titleRow = (
         <TableRow style={{ position: 'sticky' }} key={index}>
           <TableCell
@@ -139,4 +141,16 @@ const CTable = (props) => {
   )
 }
 
-export default CTable
+function mapStateToProps(state) {
+  return {
+    table: checkItemsGetter(state),
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    // updateStatusInStock:
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(CTable)

@@ -12,6 +12,7 @@ const initialState = {
   isCallingGetItems: false,
   currentOrder: null,
   currentInvoice: null,
+  loadingItems: [],
 }
 
 const selectOrder = (state, orderNum) => {

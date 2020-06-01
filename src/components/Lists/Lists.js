@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import classes from './Lists.module.scss'
 import CList from './CList/CList'
 import { Grid } from '@material-ui/core'
-import { selectInvoice, selectOrder } from '@/redux/actions/actions'
+import { warehouseActions } from '@/redux/actions/actions'
 
 const Lists = (props) => (
   <Grid container className={classes.lists} spacing={3}>
@@ -51,8 +51,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    selectOrder: (id) => selectOrder(dispatch, id),
-    selectInvoice: (id) => selectInvoice(dispatch, id),
+    selectOrder: (id) => warehouseActions.orders.select(dispatch, id),
+    selectInvoice: (id) => warehouseActions.invoices.select(dispatch, id),
   }
 }
 

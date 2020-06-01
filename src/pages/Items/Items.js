@@ -7,15 +7,8 @@ import classes from './Items.module.scss'
 import { IconButton, SwipeableDrawer } from '@material-ui/core'
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos'
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos'
-import {
-  getOrders,
-  getInvoicesByOrder,
-  errorActions,
-  setCurrentParams,
-} from '@/redux/actions/actions'
-import { checkItemsGetter } from '@/redux/getters/itemsGetters'
+import { warehouseActions } from '@/redux/actions/actions'
 import ContextMenu from './ContextMenu/ContextMenu'
-import { REQUEST } from '@/api'
 
 class Items extends Component {
   state = {
@@ -98,25 +91,6 @@ class Items extends Component {
     })
   }
 
-  setItemStatus = {
-    inStock: (itemId) => {
-      this.updateItemStatus(REQUEST.setItemStatusInStock.bind(null, itemId))
-    },
-    awaitDelivery: (itemId) =>
-      this.updateItemStatus(
-        REQUEST.setItemStatusAwaitDelivery.bind(null, itemId),
-      ),
-  }
-
-  updateItemStatus = async (requestFn) => {
-    const response = await requestFn()
-    if (response.status === 200) {
-      this.props.getInvoicesByOrder(this.props.currentOrderId)
-    } else {
-      this.props.showError(response.status, response.data.message || 'Ошибка')
-    }
-  }
-
   openCreateClaim = (itemId) => {
     this.props.history.push(
       `${this.props.location.pathname}/item/${itemId}/new-claim`,
@@ -159,14 +133,6 @@ class Items extends Component {
         ></CHeader>
         <CheckItemsTable
           contextMenuButtonClick={this.openContextMenu}
-          updateStatus={({ itemId, statusId }) =>
-            this.props.updateItemStatus({ itemId, statusId })
-          }
-          data={this.props.table}
-          setStatusInStock={(itemId) => this.setItemStatus.inStock(itemId)}
-          setStatusAwaitDelivery={(itemId) =>
-            this.setItemStatus.awaitDelivery(itemId)
-          }
         ></CheckItemsTable>
         <IconButton
           style={{ position: 'fixed' }}
@@ -213,7 +179,6 @@ function mapStateToProps(state) {
     currentInvoiceCode: state.warehouse.invoices.find(
       (invoice) => invoice.invoice_id === +state.warehouse.currentInvoice,
     )?.invoice_code,
-    table: checkItemsGetter(state),
     isOrder: (orderNum) =>
       !!state.warehouse.invoices.find(
         (invoice) => invoice.orderNum === orderNum,
@@ -225,11 +190,13 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    getOrders: () => getOrders(dispatch),
-    getInvoicesByOrder: (orderId) => getInvoicesByOrder(dispatch, orderId),
-    showError: (title, text) => errorActions.showError(dispatch, title, text),
+    getOrders: () => warehouseActions.orders.get(dispatch),
+    getInvoicesByOrder: (orderId) =>
+      warehouseActions.invoices.get(dispatch, orderId),
+    showError: (title, text) =>
+      warehouseActions.errorActions.showError(dispatch, title, text),
     setCurrentParams: (order_num, invoice_id) =>
-      setCurrentParams(dispatch, order_num, invoice_id),
+      warehouseActions.uriParams.set(dispatch, order_num, invoice_id),
   }
 }
 

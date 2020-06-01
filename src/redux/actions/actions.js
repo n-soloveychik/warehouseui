@@ -5,10 +5,13 @@ import {
   TEMPLATES,
   ERROR,
 } from './actionNames'
-import { getOrdersAction } from './apiActions/orderActions'
+import { getOrdersAction, selectOrderAction } from './apiActions/orderActions'
 import { REQUEST } from '@/api/index'
 import { login, checkToken } from './apiActions/loginAction'
-import { getInvoicesByOrderAction } from './apiActions/invoiceAction'
+import {
+  getInvoicesByOrderAction,
+  selectInvoiceAction,
+} from './apiActions/invoiceAction'
 import { setCurrentOrderInvoiceAction } from './apiActions/appAction'
 import {
   getInvoiceTemplatesAction,
@@ -19,42 +22,28 @@ import {
   createItemAction,
   updateItemImageAction,
 } from './apiActions/templateAction'
+import { itemUpdateStatusAction } from './apiActions/itemActions'
 
-export function getOrders(dispatch) {
-  return getOrdersAction(dispatch, API.ORDERS.GET, REQUEST.getAvailableOrders)
-}
-
-export const selectInvoice = (dispatch, invoice) => {
-  dispatch({
-    type: SELECT_CURRENT_INVOICE,
-    invoice: invoice.invoice_id,
-  })
-  dispatch({
-    type: API.ITEMS.SET_BY_INVOICE,
-  })
-}
-
-export const selectOrder = async (dispatch, order) => {
-  dispatch({
-    type: SELECT_CURRENT_ORDER,
-    order: order.order_num,
-  })
-  await getInvoicesByOrderAction(
-    dispatch,
-    API.INVOICES.GET,
-    REQUEST.getInvoicesAndItemsByOrder.bind(null, order.order_id),
-  )
-}
-
-export const getInvoicesByOrder = (dispatch, orderId) =>
-  getInvoicesByOrderAction(
-    dispatch,
-    API.INVOICES.GET,
-    REQUEST.getInvoicesAndItemsByOrder.bind(null, orderId),
-  )
-
-export const setCurrentParams = (dispatch, order_num, invoice_id) => {
-  setCurrentOrderInvoiceAction(dispatch, order_num, invoice_id)
+export const warehouseActions = {
+  orders: {
+    get: (dispatch) => getOrdersAction(dispatch),
+    select: async (dispatch, order) => selectOrderAction(dispatch, order),
+  },
+  invoices: {
+    select: (dispatch, invoice) => selectInvoiceAction(dispatch, invoice),
+    get: (dispatch, orderId) => getInvoicesByOrderAction(dispatch, orderId),
+  },
+  uriParams: {
+    set: (dispatch, order_num, invoice_id) => {
+      setCurrentOrderInvoiceAction(dispatch, order_num, invoice_id)
+    },
+  },
+  items: {
+    status: {
+      setInStock: (dispatch) => itemUpdateStatusAction(),
+      setAwaitDelivery: (dispatch) => itemUpdateStatusAction(),
+    },
+  },
 }
 
 export const templateActions = {

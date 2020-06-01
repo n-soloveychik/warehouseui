@@ -15,6 +15,8 @@ export const API = {
     GET: api('GET', 'ITEMS'),
     UPDATE: api('UPDATE', 'ITEM'),
     SET_BY_INVOICE: 'SET_ITEM_BY_INVOICE',
+    SET_STATUS_IN_STOCK: api('SET_STATUS_IN_STOCK', 'ITEM'),
+    SET_STATUS_AWAIT_DELIVERY: api('SET_STATUS_AWAIT_DELIVERY', 'ITEM'),
   },
   INVOICES: {
     GET: api('GET', 'INVOICES'),
