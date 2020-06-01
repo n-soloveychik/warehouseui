@@ -1,16 +1,10 @@
-import { ERROR, ROUTER } from '../actionNames'
+import { ROUTER } from '../actionNames'
 
 export const login = async (dispatch, requestFn, requestData) => {
   let response = await requestFn(requestData)
-  if (response.status !== 201) {
-    dispatch({
-      type: ERROR.OPEN,
-      title: response.status,
-      text: response.message,
-    })
-  } else {
+  if (response.status === 201) {
     localStorage.setItem('token', response.data.token)
-    dispatch({ type: ROUTER.AUTHORIZED })
+    await dispatch({ type: ROUTER.AUTHORIZED })
   }
 }
 

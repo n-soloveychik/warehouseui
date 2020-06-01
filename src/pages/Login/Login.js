@@ -12,34 +12,37 @@ class Login extends Component {
     }
     this.inputEmail = createRef()
     this.state = {
-      email: {
-        value: '',
-        touched: false,
-        valid: true,
-        element: createRef(),
-        errors: {
-          valueMissing: 'Введите email',
-          typeMismatch: 'Неправильный email',
+      showError: false,
+      fields: {
+        email: {
+          value: '',
+          touched: false,
+          valid: true,
+          element: createRef(),
+          errors: {
+            valueMissing: 'Введите email',
+            typeMismatch: 'Неправильный email',
+          },
+          errorMessage: ' ',
         },
-        errorMessage: ' ',
-      },
-      password: {
-        value: '',
-        touched: false,
-        valid: true,
-        element: createRef(),
-        errors: {
-          valueMissing: 'Введите пароль',
-          tooShort: 'Минимальная длина пароля - 5 символов',
-          tooLong: 'Максимальная длина пароля - 150 символов',
+        password: {
+          value: '',
+          touched: false,
+          valid: true,
+          element: createRef(),
+          errors: {
+            valueMissing: 'Введите пароль',
+            tooShort: 'Минимальная длина пароля - 5 символов',
+            tooLong: 'Максимальная длина пароля - 150 символов',
+          },
+          errorMessage: ' ',
         },
-        errorMessage: ' ',
       },
     }
   }
 
   disableButton = () => {
-    return !Object.values(this.state).reduce(
+    return !Object.values(this.state.fields).reduce(
       (bool, control) => bool && control.valid,
       true,
     )
@@ -49,17 +52,20 @@ class Login extends Component {
     e.preventDefault()
     const device = `${window.navigator.appCodeName}-${window.navigator.platform}`
     if (this.validateAll()) {
-      this.props.login({
-        email: this.state.email.value,
-        password: this.state.password.value,
+      await this.props.login({
+        email: this.state.fields.email.value,
+        password: this.state.fields.password.value,
         device,
       })
+      if (!localStorage.getItem('token')) {
+        this.setState({ showError: true })
+      }
     }
   }
 
   validateAll = () => {
     const newState = { ...this.state }
-    const controls = Object.values(newState)
+    const controls = Object.values(newState.fields)
 
     const result = controls.reduce((bool, control) => {
       this.checkValidation(control)
@@ -73,7 +79,7 @@ class Login extends Component {
   handleBlur = (e) => {
     const newState = { ...this.state }
     const name = e.target.name
-    const control = newState[name]
+    const control = newState.fields[name]
     control.touched = true
     this.checkValidation(control)
     this.setState(newState)
@@ -95,7 +101,8 @@ class Login extends Component {
 
   handleChange = (e) => {
     const newState = { ...this.state }
-    const control = newState[e.target.name]
+    newState.showError = false
+    const control = newState.fields[e.target.name]
     control.value = e.target.value
 
     if (control.touched) {
@@ -115,17 +122,25 @@ class Login extends Component {
         >
           Вход
         </Typography>
+        {this.state.showError && (
+          <Typography
+            variant='body2'
+            style={{ color: 'red', textAlign: 'center', marginBottom: 30 }}
+          >
+            Неверный логин или пароль
+          </Typography>
+        )}
         <TextField
           label='email'
           name='email'
           type='email'
           required
-          inputRef={this.state.email.element}
-          value={this.state.email.value}
+          inputRef={this.state.fields.email.element}
+          value={this.state.fields.email.value}
           onChange={(e) => this.handleChange(e)}
           onBlur={(e) => this.handleBlur(e)}
-          helperText={this.state.email.errorMessage}
-          error={!this.state.email.valid}
+          helperText={this.state.fields.email.errorMessage}
+          error={!this.state.fields.email.valid}
           className={classes.input}
         />
         <TextField
@@ -134,12 +149,12 @@ class Login extends Component {
           type='password'
           required
           inputProps={{ minLength: 5, maxLength: 150 }}
-          inputRef={this.state.password.element}
-          value={this.state.password.value}
+          inputRef={this.state.fields.password.element}
+          value={this.state.fields.password.value}
           onChange={(e) => this.handleChange(e)}
           onBlur={(e) => this.handleBlur(e)}
-          helperText={this.state.password.errorMessage}
-          error={!this.state.password.valid}
+          helperText={this.state.fields.password.errorMessage}
+          error={!this.state.fields.password.valid}
           className={classes.input}
         />
         <Button

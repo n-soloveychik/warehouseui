@@ -30,7 +30,7 @@ export const apiCoreAction = async (
     const response = await apiRequest(data)
     if (response.status === 401) {
       dispatch(unauthorized)
-      return null
+      return { status: 401 }
     } else {
       dispatch(success(actionNameObj.SUCCESS, response.data))
       return response

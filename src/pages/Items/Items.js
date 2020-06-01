@@ -8,14 +8,10 @@ import { IconButton, SwipeableDrawer } from '@material-ui/core'
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos'
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos'
 import {
-  // selectOrder,
-  // selectInvoice,
   getOrders,
   getInvoicesByOrder,
   errorActions,
   setCurrentParams,
-  // getItemsByInvoice,
-  // updateItemStatus,
 } from '@/redux/actions/actions'
 import { checkItemsGetter } from '@/redux/getters/itemsGetters'
 import ContextMenu from './ContextMenu/ContextMenu'
@@ -36,12 +32,15 @@ class Items extends Component {
     } else {
       await this.props.getOrders()
     }
-    if (!this.props.currentOrder || !this.props.currentInvoice) {
+    if (
+      (!this.props.currentOrder || !this.props.currentInvoice) &&
+      this.props.currentOrderId
+    ) {
       this.openSidebar()
     }
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate(prevProps) {
     this.setURLParams()
     if (
       this.props.currentInvoice &&
