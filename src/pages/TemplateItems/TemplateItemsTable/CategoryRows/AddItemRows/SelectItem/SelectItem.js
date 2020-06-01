@@ -29,12 +29,6 @@ class SelectItem extends Component {
     }
     let response = await REQUEST.getItemsOfCategory(this.props.category_id)
     let options = response.data
-    options = options.filter(
-      (item) =>
-        !this.props.items.find(
-          (i) => i.item_num === item.item_num || i.item_id === item.item_id,
-        ),
-    )
     this.setState({ options })
   }
 

@@ -7,6 +7,11 @@ import { templateActions } from '@/redux/actions/actions'
 class TemplateItems extends Component {
   componentDidMount = async () => {
     const invoiceId = this.props.match.params.invoice
+    console.log('cdm', this.props.currentInvoice(invoiceId))
+    if (!this.props.currentInvoice(invoiceId)) {
+      console.log('getInvoices')
+      await this.props.getInvoices()
+    }
     await this.props.getCategories()
     await this.props.setCurrentInvoice(invoiceId)
     await this.props.getItems(invoiceId)
@@ -32,12 +37,24 @@ class TemplateItems extends Component {
       <div className='page'>
         <CHeader
           menuItems={this.menuItems}
-          text='Назад'
+          text={
+            this.props.currentInvoice(this.props.match.params.invoice)
+              ?.invoice_code
+          }
           onTextClick={this.goBack}
         />
         <TemplateItemsTable invoiceId={this.props.match.params.invoice} />
       </div>
     )
+  }
+}
+
+function mapStateToProps(state) {
+  return {
+    currentInvoice: (invoiceId) =>
+      state.templates.invoices.find(
+        (invoice) => invoice.invoice_id === +invoiceId,
+      ),
   }
 }
 
@@ -48,7 +65,8 @@ function mapDispatchToProps(dispatch) {
     getItems: (invoiceId) =>
       templateActions.items.getByInvoice(dispatch, invoiceId),
     getCategories: () => templateActions.categories.get(dispatch),
+    getInvoices: () => templateActions.invoices.get(dispatch),
   }
 }
 
-export default connect(null, mapDispatchToProps)(TemplateItems)
+export default connect(mapStateToProps, mapDispatchToProps)(TemplateItems)
