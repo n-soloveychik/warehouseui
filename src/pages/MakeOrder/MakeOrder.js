@@ -146,6 +146,7 @@ class MakeOrder extends Component {
               label='Номер заказа'
               value={this.state.name}
               onChange={(e) => this.setState({ name: e.target.value })}
+              style={{ marginRight: 20 }}
             />
             <Button
               disabled={
@@ -212,7 +213,7 @@ class MakeOrder extends Component {
                     renderInput={(params) => (
                       <TextField
                         {...params}
-                        label='Выбрать комплектовочную ведомость'
+                        label='Комплектовочная ведомость'
                         variant='outlined'
                       />
                     )}

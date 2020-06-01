@@ -8,6 +8,12 @@ import { errorActions, templateActions } from '@/redux/actions/actions'
 import { ROUTER } from '@/redux/actions/actionNames'
 
 const style = {
+  div: {
+    display: 'flex',
+    justifyContent: 'center',
+    maxHeight: 200,
+    maxWidth: 200,
+  },
   image: {
     position: 'relative',
     display: 'block',
@@ -62,7 +68,7 @@ class SendImage extends Component {
 
   render() {
     return (
-      <div className={this.props.className}>
+      <div style={style.div} title='Нажмите, чтобы изменить'>
         <input
           style={{ display: 'none' }}
           accept='image/*'

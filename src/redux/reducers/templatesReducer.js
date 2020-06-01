@@ -3,14 +3,14 @@ import { API, TEMPLATES } from '../actions/actionNames'
 const initialState = {
   cells: [
     {
-      title: 'Лот',
+      title: 'Место',
       name: 'lot',
       type: 'string',
       required: true,
       default: '',
       minLength: 1,
       maxLength: 100,
-      style: {},
+      style: { whiteSpace: 'nowrap', textAlign: 'center' },
     },
     {
       title: 'Артикул',
@@ -20,7 +20,7 @@ const initialState = {
       default: '',
       minLength: 0,
       maxLength: 100,
-      style: {},
+      style: { textAlign: 'center' },
     },
     {
       title: 'Изображение',
@@ -38,7 +38,7 @@ const initialState = {
       default: '',
       minLength: 0,
       maxLength: 100,
-      style: {},
+      style: { textAlign: 'center' },
     },
     {
       title: 'Кол-во',
@@ -48,7 +48,7 @@ const initialState = {
       default: 0,
       min: 1,
       max: 10000,
-      style: {},
+      style: { textAlign: 'center' },
     },
     {
       title: 'Масса',
@@ -58,7 +58,7 @@ const initialState = {
       default: 0,
       min: 0.001,
       max: 10000,
-      style: {},
+      style: { textAlign: 'center' },
       output: (float) => Math.round(parseFloat(float) * 1000) / 1000,
     },
     {
@@ -69,7 +69,7 @@ const initialState = {
       default: '',
       minLength: 0,
       maxLength: 256,
-      style: { fontSize: 12, maxWidth: 200 },
+      style: { fontSize: 12, maxWidth: 200, textAlign: 'center' },
     },
   ],
   invoices: [],

@@ -23,7 +23,7 @@ const InvoiceList = (props) => {
   const [currentPage, setCurrentPage] = useState(1)
 
   const searchedInvoiceTemplates = props.invoiceTemplates.filter((invoice) =>
-    invoice.invoice_code.includes(props.search),
+    invoice.invoice_code.toLowerCase().includes(props.search.toLowerCase()),
   )
 
   const pages = Math.ceil(searchedInvoiceTemplates.length / perPage)

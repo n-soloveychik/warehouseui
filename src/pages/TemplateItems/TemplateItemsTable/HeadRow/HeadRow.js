@@ -8,7 +8,9 @@ const HeadRow = (props) => {
       <TableRow>
         {props.cells &&
           props.cells.map((cell, index) => (
-            <TableCell key={index}>{cell.title}</TableCell>
+            <TableCell style={{ textAlign: 'center' }} key={index}>
+              {cell.title}
+            </TableCell>
           ))}
       </TableRow>
     </TableHead>

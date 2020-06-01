@@ -3,7 +3,6 @@ import { TableRow, TableCell, Typography, IconButton } from '@material-ui/core'
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever'
 import { connect } from 'react-redux'
 import AddItemRows from './AddItemRows/AddItemRows'
-import classes from './CategoryRows.module.scss'
 import { templateActions, errorActions } from '@/redux/actions/actions'
 import { REQUEST } from '@/api'
 import SendImage from './SendImage/SendImage'
@@ -46,7 +45,6 @@ const CategoryRows = (props) => {
                   <SendImage
                     invoiceId={props.invoiceId}
                     item={item}
-                    className={classes.image}
                     src={item[cell.name]}
                     alt={item.item_num}
                   />
