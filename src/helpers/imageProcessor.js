@@ -42,20 +42,22 @@ function compressImage(base64) {
   })
 }
 
-let BASE64_MARKER = ';base64,'
-function convertDataURIToBinaryFF(dataURI) {
-  let base64Index = dataURI.indexOf(BASE64_MARKER) + BASE64_MARKER.length
-  let raw = window.atob(dataURI.substring(base64Index))
-  return Uint8Array.from(
-    Array.prototype.map.call(raw, function (x) {
-      return x.charCodeAt(0)
-    }),
-  )
+function dataURLtoFile(dataurl, filename) {
+  var arr = dataurl.split(','),
+    mime = arr[0].match(/:(.*?);/)[1],
+    bstr = atob(arr[1]),
+    n = bstr.length,
+    u8arr = new Uint8Array(n)
+
+  while (n--) {
+    u8arr[n] = bstr.charCodeAt(n)
+  }
+
+  return new File([u8arr], filename, { type: mime })
 }
 
 export default async (file) => {
   const base64 = await getBase64(file)
   const compressedBase64 = await compressImage(base64)
-  const bi = convertDataURIToBinaryFF(compressedBase64)
-  return { base64: compressedBase64, binary: bi }
+  return dataURLtoFile(compressedBase64, 'Inspiration flame')
 }

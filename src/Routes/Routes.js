@@ -1,36 +1,66 @@
 import React from 'react'
-import { Route, Switch } from 'react-router-dom'
+import { Route, Switch, Redirect } from 'react-router-dom'
 import Items from '@/pages/Items/Items'
 import CreateClaim from '@/pages/CreateClaim/CreateClaim'
 import Claims from '@/pages/Claims/Claims'
-import EditVendorCodes from '@/pages/EditVendorCodes/EditVendorCodes'
-import EditItems from '@/pages/EditItems/EditItems'
+import TemplateInvoices from '@/pages/TemplateInvoices/TemplateInvoices'
+import TemplateItems from '@/pages/TemplateItems/TemplateItems'
+import Login from '@/pages/Login/Login'
+import { connect } from 'react-redux'
+import PrivateRoute from './PrivateRoute'
+import MakeOrder from '@/pages/MakeOrder/MakeOrder'
 
-export default function () {
+const Routes = ({ authorized }) => {
   return (
     <Switch>
-      <Route exact path='/' component={Items} />
-      <Route exact path='/order' component={Items} />
-      <Route exact path='/order/:order/' component={Items} />
-      <Route exact path='/order/:order/vendor-code' component={Items} />
-      <Route exact path='/order/:order/vendor-code/:vendor' component={Items} />
-      <Route
+      <PrivateRoute exact path='/' component={Items} />
+      <PrivateRoute exact path='/order/' component={Items} />
+      <PrivateRoute exact path='/order/:order/' component={Items} />
+      <PrivateRoute
         exact
-        path='/order/:order/vendor-code/:vendor/item/:item/new-claim'
-        component={CreateClaim}
+        path='/order/:order/invoice/:invoice'
+        component={Items}
       />
-      <Route
+      <PrivateRoute
         exact
-        path='/order/:order/vendor-code/:vendor/item/:item/claims'
+        path='/order/:order/invoice/:invoice/item/:item/claims'
         component={Claims}
       />
-      <Route exact path='/edit-vendor-codes' component={EditVendorCodes} />
+      <PrivateRoute
+        exact
+        path='/order/:order/invoice/:invoice/item/:item/new-claim'
+        component={CreateClaim}
+      />
+      <PrivateRoute
+        exact
+        path='/constructor/invoices'
+        component={TemplateInvoices}
+      />
+      <PrivateRoute
+        exact
+        path='/constructor/invoices/:invoice/items'
+        component={TemplateItems}
+      />
+      <PrivateRoute exact path='/constructor/orders' component={MakeOrder} />
+      <PrivateRoute
+        exact
+        path='/constructor/orders/:order'
+        component={MakeOrder}
+      />
       <Route
         exact
-        path='/edit-vendor-codes/:vendor/edit-items'
-        component={EditItems}
+        path='/login'
+        render={() => (authorized ? <Redirect to='/' /> : <Login />)}
       />
-      <Route component={Items} />
+      <PrivateRoute component={Items} />
     </Switch>
   )
 }
+
+function mapStateToProps(state) {
+  return {
+    authorized: state.router.authorized,
+  }
+}
+
+export default connect(mapStateToProps)(Routes)

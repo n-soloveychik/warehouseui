@@ -16,18 +16,16 @@ import ReportProblemIcon from '@material-ui/icons/ReportProblem'
 
 const styles = {
   1: {
-    backgroundColor: '#00ff0020',
+    backgroundColor: '#ffffff20',
   },
   2: {
-    backgroundColor: '#ffffff20',
+    backgroundColor: '#00ff0020',
   },
   3: {
     backgroundColor: '#ff000020',
   },
 }
-
 const CTable = (props) => {
-  console.log(props)
   const tableBody =
     props.data &&
     props.data.map((category, index) => {
@@ -44,7 +42,10 @@ const CTable = (props) => {
       )
       const categoryRows = category.lots.map((lot, index) =>
         lot.items.map((item, itemIndex) => (
-          <TableRow style={styles[item.statusId]} key={`${index}-${itemIndex}`}>
+          <TableRow
+            style={styles[item.status_id]}
+            key={`${index}-${itemIndex}`}
+          >
             {itemIndex === 0 && (
               <TableCell
                 rowSpan={lot.items.length}
@@ -54,48 +55,51 @@ const CTable = (props) => {
               </TableCell>
             )}
             <TableCell style={{ textAlign: 'center' }}>
-              {item.itemNum}
+              {item.item_num}
             </TableCell>
             <TableCell style={{ textAlign: 'center' }}>
               <img
                 style={{ width: 100, height: 100, objectFit: 'contain' }}
                 alt='продукт'
-                src={'http://iopk.in' + item.image}
+                src={item.image}
               />
             </TableCell>
             <TableCell style={{ textAlign: 'center' }}>{item.size}</TableCell>
             <TableCell style={{ textAlign: 'center' }}>{item.count}</TableCell>
-            <TableCell style={{ textAlign: 'center' }}>{item.weight}</TableCell>
+            <TableCell style={{ textAlign: 'center' }}>
+              {Math.round(item.weight * 1000) / 1000}
+            </TableCell>
             <TableCell>
               <Typography variant={'caption'}>{item.description}</Typography>
             </TableCell>
-            <TableCell style={{ padding: '6px 0', maxWidth: 51 }}>
-              {item.statusId !== 1 ? (
+            <TableCell style={{ padding: '6px 6px', maxWidth: 51 }}>
+              {item.status_id !== 2 ? (
                 <IconButton
-                  onClick={() =>
-                    props.updateStatus({ itemId: item.itemId, statusId: 1 })
-                  }
+                  onClick={() => props.setStatusInStock(item.item_id)}
                   size={'small'}
                 >
                   <CheckBoxOutlineBlankIcon></CheckBoxOutlineBlankIcon>
                 </IconButton>
               ) : (
                 <IconButton
-                  onClick={() =>
-                    props.updateStatus({ itemId: item.itemId, statusId: 2 })
-                  }
+                  onClick={() => props.setStatusAwaitDelivery(item.item_id)}
                   size={'small'}
                 >
                   <CheckBoxIcon></CheckBoxIcon>
                 </IconButton>
               )}
             </TableCell>
-            <TableCell style={{ padding: '6px 0', maxWidth: 51 }}>
+            <TableCell style={{ padding: '6px 6px', maxWidth: 51 }}>
               <IconButton
                 onClick={(e) => props.contextMenuButtonClick(item, e.target)}
                 size={'small'}
               >
-                <Badge badgeContent={item.itemclaimsList.length} color='error'>
+                <Badge
+                  badgeContent={
+                    item.claims?.filter((claim) => !claim.closed)?.length || 0
+                  }
+                  color='error'
+                >
                   <ReportProblemIcon />
                 </Badge>
               </IconButton>

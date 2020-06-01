@@ -1,4 +1,14 @@
-export const checkItemsGetter = (items) => {
+export const checkItemsGetter = (state) => {
+  state = state.warehouse
+  const items =
+    state.invoices?.length && state.currentInvoice
+      ? state.invoices.find(
+          (invoice) => invoice.invoice_id === state.currentInvoice,
+        )?.items
+      : null
+  if (!items || !(items instanceof Array)) {
+    return []
+  }
   const groupedItems = items.reduce((acc, cur) => {
     const category = acc.find((obj) => obj.category === cur.category)
     if (category) {
@@ -26,25 +36,25 @@ export const checkItemsGetter = (items) => {
   return groupedItems
 }
 
-export const editItemsGetter = (items, categories) => {
+export const templateItemsGetter = (items, categories) => {
   const groupedItems = items.reduce((acc, cur) => {
-    const category = acc.find((obj) => obj.categoryId === cur.categoryId)
+    const category = acc.find((obj) => obj.category_id === cur.category_id)
     if (category) {
       category.items.push(cur)
       return acc
     }
     acc.push({
       category: cur.category,
-      categoryId: cur.categoryId,
+      category_id: cur.category_id,
       items: [cur],
     })
     return acc
   }, [])
   groupedItems.forEach(
     (category) =>
-      (category.category = categories.find(
-        (c) => c.categoryId === category.categoryId,
-      )?.category),
+      (category.category_name = categories.find(
+        (c) => c.category_id === category.category_id,
+      )?.category_name),
   )
   return groupedItems
 }

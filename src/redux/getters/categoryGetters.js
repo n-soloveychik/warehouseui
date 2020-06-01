@@ -1,5 +1,5 @@
-export const categoryOptionsGetter = (all, inVendor) => {
+export const categoryOptionsGetter = (all, inInvoice) => {
   return all.filter(
-    (cat) => !inVendor.find((c) => c.categoryId === cat.categoryId),
+    (cat) => !inInvoice.find((c) => c.category_id === cat.category_id),
   )
 }

@@ -8,64 +8,47 @@ import { IconButton, SwipeableDrawer } from '@material-ui/core'
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos'
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos'
 import {
-  selectOrder,
-  selectVendorCode,
+  // selectOrder,
+  // selectInvoice,
   getOrders,
-  getItemsByVendorCode,
-  updateItemStatus,
+  getInvoicesByOrder,
+  errorActions,
+  setCurrentParams,
+  // getItemsByInvoice,
+  // updateItemStatus,
 } from '@/redux/actions/actions'
 import { checkItemsGetter } from '@/redux/getters/itemsGetters'
 import ContextMenu from './ContextMenu/ContextMenu'
+import { REQUEST } from '@/api'
 
 class Items extends Component {
   state = {
     sideOpened: false,
-    shouldUpdate: false,
     menuAnchorEl: null,
     menuItem: null,
   }
 
   async componentDidMount() {
-    await this.props.getOrders()
-    await this.props.getItemsByVendorCode()
-    await this.setStateFromURLParams()
-    this.setState({ shouldUpdate: true })
-    await this.openDrawerOnStart()
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return nextState.shouldUpdate
+    const order_num = this.props.match.params.order
+    const invoice_id = this.props.match.params.invoice
+    if (order_num && invoice_id) {
+      await this.props.setCurrentParams(order_num, invoice_id)
+    } else {
+      await this.props.getOrders()
+    }
+    if (!this.props.currentOrder || !this.props.currentInvoice) {
+      this.openSidebar()
+    }
   }
 
   componentDidUpdate(prevProps, prevState) {
     this.setURLParams()
     if (
-      this.props.currentVendorCode &&
-      prevProps.currentVendorCode !== this.props.currentVendorCode
+      this.props.currentInvoice &&
+      prevProps.currentInvoice !== this.props.currentInvoice
     ) {
       this.closeSidebar()
     }
-  }
-
-  openDrawerOnStart() {
-    if (!this.props.match.params.order || !this.props.match.params.vendor) {
-      this.setState({ sideOpened: true })
-    }
-  }
-
-  setStateFromURLParams() {
-    let order = this.props.match.params.order
-    let vendor = this.props.match.params.vendor
-    if (!order || !this.props.isOrder(order)) {
-      this.props.history.push('/')
-      return
-    }
-    this.props.selectOrder(order)
-    if (!vendor || !this.props.isVendor(vendor)) {
-      this.props.history.push(`/order/${order}`)
-      return
-    }
-    this.props.selectVendorCode(vendor)
   }
 
   setURLParams() {
@@ -73,7 +56,7 @@ class Items extends Component {
       // eslint-disable-next-line
       this.props.match.params.order == this.props.currentOrder &&
       // eslint-disable-next-line
-      this.props.match.params.vendor == this.props.currentVendorCode
+      this.props.match.params.invoice == this.props.currentInvoice
     ) {
       return
     }
@@ -81,22 +64,26 @@ class Items extends Component {
       ? `/order/${this.props.currentOrder}/`
       : '/'
     path +=
-      this.props.currentOrder && this.props.currentVendorCode
-        ? `vendor-code/${this.props.currentVendorCode}`
+      this.props.currentOrder && this.props.currentInvoice
+        ? `invoice/${this.props.currentInvoice}`
         : ''
     this.props.history.push(path)
   }
 
-  toggleSidebar = () => {
+  toggleSidebar = async () => {
     this.setState({
       sideOpened: !this.state.sideOpened,
     })
+    if (!this.state.sideOpened) {
+      await this.props.getOrders()
+    }
   }
 
-  openSidebar = () => {
+  openSidebar = async () => {
     this.setState({
       sideOpened: true,
     })
+    await this.props.getOrders()
   }
 
   closeSidebar = () => {
@@ -110,6 +97,25 @@ class Items extends Component {
       menuAnchorEl: element,
       menuItem: item,
     })
+  }
+
+  setItemStatus = {
+    inStock: (itemId) => {
+      this.updateItemStatus(REQUEST.setItemStatusInStock.bind(null, itemId))
+    },
+    awaitDelivery: (itemId) =>
+      this.updateItemStatus(
+        REQUEST.setItemStatusAwaitDelivery.bind(null, itemId),
+      ),
+  }
+
+  updateItemStatus = async (requestFn) => {
+    const response = await requestFn()
+    if (response.status === 200) {
+      this.props.getInvoicesByOrder(this.props.currentOrderId)
+    } else {
+      this.props.showError(response.status, response.data.message || 'Ошибка')
+    }
   }
 
   openCreateClaim = (itemId) => {
@@ -130,19 +136,38 @@ class Items extends Component {
     })
   }
 
+  menuItems = [
+    {
+      name: 'Конструктор заказов',
+      link: '/constructor/orders',
+    },
+    {
+      name: 'Конструктор комплектовочных ведомостей',
+      link: '/constructor/invoices',
+    },
+  ]
+
   render() {
-    const headerText = this.props.currentVendorCode
-      ? `${this.props.currentOrder} / ${this.props.currentVendorCode}`
-      : 'Открыть артикул'
+    const headerText = this.props.currentInvoice
+      ? `${this.props.currentOrder} / ${this.props.currentInvoiceCode}`
+      : 'Открыть комплектовочную ведомость'
     return (
       <div className='page'>
-        <CHeader text={headerText} onTextClick={this.openSidebar}></CHeader>
+        <CHeader
+          menuItems={this.menuItems}
+          text={headerText}
+          onTextClick={this.openSidebar}
+        ></CHeader>
         <CheckItemsTable
           contextMenuButtonClick={this.openContextMenu}
           updateStatus={({ itemId, statusId }) =>
             this.props.updateItemStatus({ itemId, statusId })
           }
           data={this.props.table}
+          setStatusInStock={(itemId) => this.setItemStatus.inStock(itemId)}
+          setStatusAwaitDelivery={(itemId) =>
+            this.setItemStatus.awaitDelivery(itemId)
+          }
         ></CheckItemsTable>
         <IconButton
           style={{ position: 'fixed' }}
@@ -182,27 +207,30 @@ class Items extends Component {
 function mapStateToProps(state) {
   return {
     currentOrder: state.warehouse.currentOrder,
-    currentVendorCode: state.warehouse.currentVendorCode,
-    table: checkItemsGetter(state.warehouse.items),
+    currentOrderId: state.warehouse.orders.find(
+      (order) => order.order_num === state.warehouse.currentOrder,
+    )?.order_id,
+    currentInvoice: state.warehouse.currentInvoice,
+    currentInvoiceCode: state.warehouse.invoices.find(
+      (invoice) => invoice.invoice_id === +state.warehouse.currentInvoice,
+    )?.invoice_code,
+    table: checkItemsGetter(state),
     isOrder: (orderNum) =>
-      !!state.warehouse.vendorCodes.find(
-        (vendor) => vendor.orderNum === orderNum,
+      !!state.warehouse.invoices.find(
+        (invoice) => invoice.orderNum === orderNum,
       ),
-    isVendor: (vendorCode) =>
-      !!state.warehouse.vendorCodes.find(
-        (vendor) => vendor.vendorCode === vendorCode,
-      ),
+    isInvoice: (invoice) =>
+      !!state.warehouse.invoices.find((invoice) => invoice.invoice === invoice),
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    selectOrder: (id) => selectOrder(dispatch, id),
-    selectVendorCode: (id) => selectVendorCode(dispatch, id),
     getOrders: () => getOrders(dispatch),
-    getItemsByVendorCode: () => getItemsByVendorCode(dispatch, 1),
-    updateItemStatus: ({ itemId, statusId }) =>
-      updateItemStatus(dispatch, { statusId, itemId }),
+    getInvoicesByOrder: (orderId) => getInvoicesByOrder(dispatch, orderId),
+    showError: (title, text) => errorActions.showError(dispatch, title, text),
+    setCurrentParams: (order_num, invoice_id) =>
+      setCurrentParams(dispatch, order_num, invoice_id),
   }
 }
 

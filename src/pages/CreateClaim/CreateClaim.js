@@ -10,7 +10,8 @@ import {
 } from '@material-ui/core'
 import classes from './CreateClaim.module.scss'
 import Photo from './Photo/Photo'
-import { grpc } from '@/grpc/index'
+import { REQUEST } from '@/api'
+import { errorActions } from '@/redux/actions/actions'
 
 class CreateClaim extends Component {
   state = {
@@ -33,9 +34,7 @@ class CreateClaim extends Component {
 
   goBack = () => {
     const params = this.props.match.params
-    this.props.history.push(
-      `/order/${params.order}/vendor-code/${params.vendor}`,
-    )
+    this.props.history.push(`/order/${params.order}/invoice/${params.invoice}`)
   }
 
   countPhotoSend = () => {
@@ -57,24 +56,34 @@ class CreateClaim extends Component {
   }
 
   takePhotos = async (photos) => {
-    this.setState({ photos: [...this.state.photos, ...photos] })
-    for (const photo of photos) {
-      try {
-        if (!photo.serverName) {
-          photo.serverName = await grpc.image.upload(photo.binary)
-        }
-      } catch (err) {
-        console.error(err)
-      }
+    const formData = new FormData()
+    for (let i = 0; i < photos.length; i++) {
+      formData.append('photo' + i, photos[i])
     }
+    const response = await REQUEST.insertImage(formData)
+    this.setState({
+      photos: response.data.map((photo) => ({ src: photo })),
+    })
   }
 
   createClaim = async () => {
     const itemId = this.props.match.params.item
-    const images = this.state.photos.map((photo) => photo.serverName)
-    const description = this.state.description
-    await grpc.claim.create({ itemId, images, description })
-    this.goBack()
+    const images = this.state.photos
+      .filter((photo) => !photo.cancelled)
+      .map((photo) => photo.src)
+    const claim_description = this.state.description
+    const response = await REQUEST.createClaim(itemId, {
+      images,
+      claim_description,
+    })
+    if (response.status === 201) {
+      this.goBack()
+    } else {
+      this.props.showError(
+        response.status,
+        response.data?.message || response.message || 'Ошибка',
+      )
+    }
   }
 
   render() {
@@ -83,7 +92,7 @@ class CreateClaim extends Component {
         alt='Фото претензии'
         className={classes.photo}
         key={index}
-        src={photo.base64}
+        src={photo.src}
         cancelled={photo.cancelled}
         cancelHandler={this.cancelPhoto.bind(this, index)}
         returnPhotoHandler={this.returnPhoto.bind(this, index)}
@@ -146,7 +155,9 @@ class CreateClaim extends Component {
 }
 
 function mapDispatchToProps(dispatch) {
-  return {}
+  return {
+    showError: (title, text) => errorActions.showError(dispatch, title, text),
+  }
 }
 
 export default connect(null, mapDispatchToProps)(CreateClaim)

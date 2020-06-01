@@ -1,80 +1,85 @@
 import {
   SELECT_CURRENT_ORDER,
-  SELECT_CURRENT_VENDOR_CODE,
-  GRPC,
+  SELECT_CURRENT_INVOICE,
+  API,
   TEMPLATES,
+  ERROR,
 } from './actionNames'
-import { getOrdersAction } from './grpcActions/orderActions'
+import { getOrdersAction } from './apiActions/orderActions'
+import { REQUEST } from '@/api/index'
+import { login, checkToken } from './apiActions/loginAction'
+import { getInvoicesByOrderAction } from './apiActions/invoiceAction'
+import { setCurrentOrderInvoiceAction } from './apiActions/appAction'
 import {
-  getItemsAction,
-  updateItemStatusAction,
-} from './grpcActions/itemActions'
-import { grpc } from '@/grpc/index'
-import {
-  getVendorTemplatesAction,
-  createVendorTemplateAction,
-  getItemsByVendorAction,
+  getInvoiceTemplatesAction,
+  createInvoiceTemplateAction,
+  getItemsByInvoiceAction,
   getCategoriesAction,
   createCategoryAction,
   createItemAction,
-  addItemToVendorAction,
-} from './grpcActions/templateAction'
+  updateItemImageAction,
+} from './apiActions/templateAction'
 
 export function getOrders(dispatch) {
-  return getOrdersAction(dispatch, GRPC.ORDERS.GET, grpc.orders.get)
+  return getOrdersAction(dispatch, API.ORDERS.GET, REQUEST.getAvailableOrders)
 }
 
-export function getItemsByVendorCode(dispatch, vendorCode) {
-  return getItemsAction(dispatch, GRPC.ITEMS.GET, grpc.items.get, vendorCode)
+export const selectInvoice = (dispatch, invoice) => {
+  dispatch({
+    type: SELECT_CURRENT_INVOICE,
+    invoice: invoice.invoice_id,
+  })
+  dispatch({
+    type: API.ITEMS.SET_BY_INVOICE,
+  })
 }
 
-export function updateItemStatus(dispatch, { statusId, itemId }) {
-  return updateItemStatusAction(
+export const selectOrder = async (dispatch, order) => {
+  dispatch({
+    type: SELECT_CURRENT_ORDER,
+    order: order.order_num,
+  })
+  await getInvoicesByOrderAction(
     dispatch,
-    GRPC.ITEMS.UPDATE,
-    grpc.items.updateStatus,
-    { itemId, statusId },
+    API.INVOICES.GET,
+    REQUEST.getInvoicesAndItemsByOrder.bind(null, order.order_id),
   )
 }
 
-export const selectVendorCode = (dispatch, vendorCode) => {
-  dispatch({
-    type: SELECT_CURRENT_VENDOR_CODE,
-    vendorCode,
-  })
-  getItemsByVendorCode(dispatch, vendorCode)
-}
+export const getInvoicesByOrder = (dispatch, orderId) =>
+  getInvoicesByOrderAction(
+    dispatch,
+    API.INVOICES.GET,
+    REQUEST.getInvoicesAndItemsByOrder.bind(null, orderId),
+  )
 
-export const selectOrder = (dispatch, order) => {
-  dispatch({
-    type: SELECT_CURRENT_ORDER,
-    order,
-  })
+export const setCurrentParams = (dispatch, order_num, invoice_id) => {
+  setCurrentOrderInvoiceAction(dispatch, order_num, invoice_id)
 }
 
 export const templateActions = {
-  vendor: {
-    get: (dispatch) => getVendorTemplatesAction(dispatch),
-    create: (dispatch, vendorCode) =>
-      createVendorTemplateAction(dispatch, vendorCode),
-    addItem: (dispatch, itemId, vendorId) =>
-      addItemToVendorAction(dispatch, { itemId, vendorId }),
+  invoices: {
+    get: (dispatch) => getInvoiceTemplatesAction(dispatch),
+    create: (dispatch, invoice) =>
+      createInvoiceTemplateAction(dispatch, invoice),
   },
-  vendorPage: {
-    showCreateVendor: (dispatch) =>
-      dispatch({ type: TEMPLATES.VENDOR_PAGE_SHOW_ADD_VENDOR }),
-    hideCreateVendor: (dispatch) =>
-      dispatch({ type: TEMPLATES.VENDOR_PAGE_HIDE_ADD_VENDOR }),
+  invoicePage: {
+    showCreateInvoice: (dispatch) =>
+      dispatch({ type: TEMPLATES.INVOICE_PAGE_SHOW_ADD_INVOICE }),
+    hideCreateInvoice: (dispatch) =>
+      dispatch({ type: TEMPLATES.INVOICE_PAGE_HIDE_ADD_INVOICE }),
   },
   items: {
-    getByVendor: (dispatch, vendorId) =>
-      getItemsByVendorAction(dispatch, vendorId),
+    getByInvoice: (dispatch, invoiceId) =>
+      getItemsByInvoiceAction(dispatch, invoiceId),
     create: (dispatch, item) => createItemAction(dispatch, item),
-    clear: (dispatch) => dispatch({ type: TEMPLATES.VENDOR_PAGE_CLEAR_ITEMS }),
+    clear: (dispatch) => dispatch({ type: TEMPLATES.INVOICE_PAGE_CLEAR_ITEMS }),
+    updateImage: (dispatch, { invoiceId, itemId, image }) =>
+      updateItemImageAction(dispatch, { invoiceId, itemId, image }),
   },
   itemPage: {
-    setCurrentVendor: (dispatch, vendorId) => {
-      dispatch({ type: TEMPLATES.ITEM_PAGE_SET_CURRENT_VENDOR, vendorId })
+    setCurrentInvoice: (dispatch, invoiceId) => {
+      dispatch({ type: TEMPLATES.ITEM_PAGE_SET_CURRENT_INVOICE, invoiceId })
     },
     showCategoryCreate: (dispatch) => {
       dispatch({ type: TEMPLATES.ITEM_PAGE_SHOW_CATEGORY_CREATE })
@@ -101,4 +106,15 @@ export const templateActions = {
       dispatch({ type: TEMPLATES.ITEM_PAGE_HIDE_CATEGORY_CREATE })
     },
   },
+}
+
+export const errorActions = {
+  showError: (dispatch, title, text) =>
+    dispatch({ type: ERROR.OPEN, title, text }),
+  hideError: (dispatch) => dispatch({ type: ERROR.CLOSE }),
+}
+
+export const loginActions = {
+  login: (dispatch, requestData) => login(dispatch, REQUEST.login, requestData),
+  checkToken: (dispatch) => checkToken(dispatch, REQUEST.checkToken),
 }

@@ -2,11 +2,10 @@
   cursor: pointer;
   transition: background-color 0s ease-in-out;
   &:not(&--current):hover {
-    background-color: rgba(0, 0, 255, 0.13);
+    box-shadow: inset 0 0 0px 5px rgba(0, 0, 255, 0.13);
   }
   &--current {
-    background-color: blue;
-    color: white;
+    box-shadow: inset 0 0 0px 5px blue;
   }
 }
 

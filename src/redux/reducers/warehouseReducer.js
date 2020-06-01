@@ -1,100 +1,93 @@
 import {
   SELECT_CURRENT_ORDER,
-  SELECT_CURRENT_VENDOR_CODE,
-  GRPC,
+  SELECT_CURRENT_INVOICE,
+  API,
+  APP,
 } from '@/redux/actions/actionNames'
 
 const initialState = {
-  vendorCodes: [],
-  items: [],
+  orders: [],
+  invoices: [],
   isCallingGetOrders: false,
   isCallingGetItems: false,
   currentOrder: null,
-  currentVendorCode: null,
+  currentInvoice: null,
 }
 
 const selectOrder = (state, orderNum) => {
-  if (!state.vendorCodes.find((vendor) => vendor.orderNum === orderNum))
+  if (!state.orders.find((order) => order.order_num === orderNum))
     return Object.assign({}, state)
   return Object.assign({}, state, {
     currentOrder: orderNum,
-    currentVendorCode:
-      state.currentOrder === orderNum ? state.currentVendorCode : null,
+    currentInvoice:
+      state.currentOrder === orderNum ? state.currentInvoice : null,
   })
 }
 
-const selectVendorCode = (state, vendorCode) => {
+const selectInvoice = (state, invoice) => {
   if (
     !state.currentOrder ||
-    !state.vendorCodes.find(
-      (vendor) => vendor.orderNum === state.currentOrder,
-    ) ||
-    !vendorCode ||
-    !state.vendorCodes.find((vendor) => vendor.vendorCode === vendorCode)
+    !state.orders.find((order) => order.order_num === state.currentOrder) ||
+    !invoice ||
+    !state.orders
+      .find((order) => order.order_num === state.currentOrder)
+      .invoices?.find((inv) => inv.invoice_id === invoice)
   ) {
     return Object.assign({}, state)
   }
   return Object.assign({}, state, {
-    currentVendorCode: vendorCode,
+    currentInvoice: invoice,
   })
 }
 
+const obj = {
+  [SELECT_CURRENT_ORDER]: (state, { order }) => selectOrder(state, order),
+  [SELECT_CURRENT_INVOICE]: (state, { invoice }) =>
+    selectInvoice(state, invoice),
+  [API.ORDERS.GET.CALL]: (state) => ({ ...state, isCallingGetOrders: true }),
+  [API.ORDERS.GET.FAILURE]: (state) => ({
+    ...state,
+    isCallingGetOrders: false,
+  }),
+  [API.ORDERS.GET.SUCCESS]: (state, { data }) => ({
+    ...state,
+    isCallingGetOrders: false,
+    orders: data,
+  }),
+  [API.INVOICES.GET.SUCCESS]: (state, { data }) => ({
+    ...state,
+    invoices: data,
+  }),
+  [API.ITEMS.GET.CALL]: (state) => ({ ...state, isCallingGetItems: true }),
+  [API.ITEMS.GET.FAILURE]: (state) => ({ ...state, isCallingGetItems: false }),
+  [API.ITEMS.GET.SUCCESS]: (state, { data }) => ({
+    ...state,
+    isCallingGetItems: false,
+    items: data,
+  }),
+  [API.ITEMS.UPDATE.CALL]: (state) => ({ ...state }),
+  [API.ITEMS.UPDATE.FAILURE]: (state) => ({ ...state }),
+  [API.ITEMS.UPDATE.SUCCESS]: (state, { data }) => {
+    const newState = { ...state }
+    const item = newState.items.find((item) => item.itemId === data.itemId)
+    item.statusId = data.statusId
+    return newState
+  },
+  [APP.SET.ORDERS_INVOICES_CURRENT_ORDER_INVOICE]: (
+    state,
+    { orders, invoices, currentOrder, currentInvoice },
+  ) => {
+    return {
+      ...state,
+      orders,
+      invoices,
+      currentOrder,
+      currentInvoice: parseInt(currentInvoice),
+    }
+  },
+  DEFAULT: (state) => ({ ...state }),
+}
+
 export default function (state = initialState, action) {
-  switch (action.type) {
-    case SELECT_CURRENT_ORDER: {
-      return selectOrder(state, action.order)
-    }
-    case SELECT_CURRENT_VENDOR_CODE: {
-      return selectVendorCode(state, action.vendorCode)
-    }
-    case GRPC.ORDERS.GET.CALL: {
-      return Object.assign({}, state, {
-        isCallingGetOrders: true,
-      })
-    }
-    case GRPC.ORDERS.GET.FAILURE: {
-      return Object.assign({}, state, {
-        isCallingGetOrders: false,
-      })
-    }
-    case GRPC.ORDERS.GET.SUCCESS: {
-      return Object.assign({}, state, {
-        isCallingGetOrders: false,
-        vendorCodes: action.data,
-      })
-    }
-    case GRPC.ITEMS.GET.CALL: {
-      return Object.assign({}, state, {
-        isCallingGetItems: true,
-      })
-    }
-    case GRPC.ITEMS.GET.FAILURE: {
-      return Object.assign({}, state, {
-        isCallingGetItems: false,
-      })
-    }
-    case GRPC.ITEMS.GET.SUCCESS: {
-      return Object.assign({}, state, {
-        isCallingGetItems: false,
-        items: action.data,
-      })
-    }
-    case GRPC.ITEMS.UPDATE.CALL: {
-      return state
-    }
-    case GRPC.ITEMS.UPDATE.FAILURE: {
-      return state
-    }
-    case GRPC.ITEMS.UPDATE.SUCCESS: {
-      const newState = Object.assign({}, state)
-      const item = newState.items.find(
-        (item) => item.itemId === action.data.itemId,
-      )
-      item.statusId = action.data.statusId
-      return newState
-    }
-    default: {
-      return state
-    }
-  }
+  return obj[action.type] ? obj[action.type](state, action) : obj.DEFAULT(state)
 }

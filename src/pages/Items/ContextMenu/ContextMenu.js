@@ -8,12 +8,12 @@ const ContextMenu = (props) => {
       open={props.open}
       anchorEl={props.anchorEl}
     >
-      <MenuItem onClick={() => props.createClaim(props.item.itemId)}>
+      <MenuItem onClick={() => props.createClaim(props.item?.item_id)}>
         Новая претензия
       </MenuItem>
-      {!!props.item && !!props.item.itemclaimsList.length && (
-        <MenuItem onClick={() => props.openClaims(props.item.itemId)}>
-          Все претензии ({props.item.itemclaimsList.length})
+      {!!props.item?.claims?.length && (
+        <MenuItem onClick={() => props.openClaims(props.item?.item_id)}>
+          Все претензии ({props.item?.claims?.length || 0})
         </MenuItem>
       )}
     </Menu>

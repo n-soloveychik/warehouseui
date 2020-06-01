@@ -3,35 +3,39 @@ import { connect } from 'react-redux'
 import CHeader from '@/components/CHeader/CHeader'
 import { Container } from '@material-ui/core'
 import CardClaim from './CardClaim/CardClaim'
-import { getItemsByVendorCode } from '@/redux/actions/actions'
+import { setCurrentOrderInvoiceAction } from '@/redux/actions/apiActions/appAction'
+import { REQUEST } from '@/api'
 
 class Claims extends Component {
-  constructor(props) {
-    super(props)
-    const claims = this.props.items.find(
-      (item) => item.itemId === this.props.match.params.item,
-    )?.itemclaimsList
-    if (!claims) {
-      this.props.getItemsByVendorCode(this.props.match.params.vendor)
-    }
-    this.state = { claims }
+  state = {
+    claims: [],
   }
 
-  static getDerivedStateFromProps(props, state) {
-    const claims = props.items.find(
-      (item) => item.itemId === +props.match.params.item,
-    )?.itemclaimsList
-    if (!state.claims && claims) {
-      state = { claims }
+  componentDidMount = async () => {
+    await this.setCurrentParams()
+  }
+
+  setCurrentParams = async (toSet = false) => {
+    const { order, invoice, item } = this.props.match.params
+    if (!this.props.invoices?.length || toSet) {
+      await this.props.setCurrentParams(order, invoice)
     }
-    return state
+    const claims = this.props.invoices
+      .find((inv) => inv.invoice_id === +invoice)
+      ?.items?.find((i) => i.item_id === +item)?.claims
+    this.setState({ claims })
   }
 
   goBack = () => {
     const params = this.props.match.params
-    this.props.history.push(
-      `/order/${params.order}/vendor-code/${params.vendor}`,
-    )
+    this.props.history.push(`/order/${params.order}/invoice/${params.invoice}`)
+  }
+
+  closeClaim = async (claimId) => {
+    const response = await REQUEST.closeClaim(claimId)
+    if (response.status === 200) {
+      await this.setCurrentParams(true)
+    }
   }
 
   render() {
@@ -41,7 +45,11 @@ class Claims extends Component {
         {!!this.state.claims?.length && (
           <Container maxWidth='sm'>
             {this.state.claims?.map((claim, index) => (
-              <CardClaim key={index} claim={claim} />
+              <CardClaim
+                key={index}
+                closeClaim={this.closeClaim}
+                claim={claim}
+              />
             ))}
           </Container>
         )}
@@ -52,15 +60,14 @@ class Claims extends Component {
 
 function mapStateToProps(state) {
   return {
-    items: state.warehouse.items,
+    invoices: state.warehouse.invoices,
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    getItemsByVendorCode: (vendorCode) => {
-      getItemsByVendorCode(dispatch, vendorCode)
-    },
+    setCurrentParams: async (order_num, invoice_id) =>
+      await setCurrentOrderInvoiceAction(dispatch, order_num, invoice_id),
   }
 }
 
