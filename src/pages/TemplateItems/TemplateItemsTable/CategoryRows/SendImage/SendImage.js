@@ -6,6 +6,7 @@ import imageProcessor from '@/helpers/imageProcessor'
 import { REQUEST } from '@/api'
 import { errorActions, templateActions } from '@/redux/actions/actions'
 import { ROUTER } from '@/redux/actions/actionNames'
+import classes from './SendImage.module.scss'
 
 const style = {
   div: {
@@ -17,8 +18,6 @@ const style = {
   image: {
     position: 'relative',
     display: 'block',
-    width: '100%',
-    height: '100%',
     objectFit: 'contain',
   },
 }
@@ -79,8 +78,9 @@ class SendImage extends Component {
         />
         {this.state.photo ? (
           <Button
+            className={classes.button}
             onClick={this.handleButtonClick}
-            style={{ maxWidth: 200, maxHeight: 300 }}
+            style={{ maxWidth: 200, maxHeight: 300, display: 'flex' }}
           >
             <img
               style={style.image}
