@@ -37,11 +37,25 @@ class Claims extends Component {
       await this.setCurrentParams(true)
     }
   }
+  menuItems = [
+    {
+      name: 'Конструктор заказов',
+      link: '/constructor/orders',
+    },
+    {
+      name: 'Конструктор комплектовочных ведомостей',
+      link: '/constructor/invoices',
+    },
+  ]
 
   render() {
     return (
       <div className='page'>
-        <CHeader text='Назад' onTextClick={this.goBack}></CHeader>
+        <CHeader
+          menuItems={this.menuItems}
+          text='Назад'
+          onTextClick={this.goBack}
+        ></CHeader>
         {!!this.state.claims?.length && (
           <Container maxWidth='sm'>
             {this.state.claims?.map((claim, index) => (

@@ -13,7 +13,6 @@ class UploadButton extends Component {
   }
 
   handleInputChange = async (event) => {
-    console.log(event.target.files)
     const photos = []
     for (const photo of event.target.files) {
       photos.push(await imagePropcessor(photo))
