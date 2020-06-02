@@ -38,6 +38,7 @@ export const API = {
       GET_BY_INVOICE: api('GET_BY_INVOICE', 'ITEM_TEMPLATES'),
       GET_BY_CATEGORY: api('GET_BY_CATEGORY', 'ITEM_TEMPLATES'),
       CREATE: api('CREATE', 'ITEM_TEMPLATE'),
+      UPDATE_FIELD: api('UPDATE_FIELD', 'ITEM_TEMPLATE'),
     },
   },
 }

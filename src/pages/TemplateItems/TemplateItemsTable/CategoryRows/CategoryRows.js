@@ -5,6 +5,7 @@ import { connect } from 'react-redux'
 import AddItemRows from './AddItemRows/AddItemRows'
 import { templateActions, errorActions } from '@/redux/actions/actions'
 import { REQUEST } from '@/api'
+import EditShow from './EditShow/EditShow'
 import SendImage from './SendImage/SendImage'
 
 const removeItem = async (invoiceId, itemId, updateItems, showError) => {
@@ -41,17 +42,19 @@ const CategoryRows = (props) => {
                 style={cell.style}
                 key={`${item.item_num}-${cellIndex}`}
               >
-                {cell.name === 'image' ? (
+                {cell.type === 'image' ? (
                   <SendImage
+                    itemId={item.item_id}
                     invoiceId={props.invoiceId}
-                    item={item}
-                    src={item[cell.name]}
+                    src={item.image}
                     alt={item.item_num}
                   />
-                ) : cell.output ? (
-                  cell.output(item[cell.name])
                 ) : (
-                  item[cell.name]
+                  <EditShow
+                    invoiceId={+props.invoiceId}
+                    item={item}
+                    cell={cell}
+                  />
                 )}
               </TableCell>
             ))}

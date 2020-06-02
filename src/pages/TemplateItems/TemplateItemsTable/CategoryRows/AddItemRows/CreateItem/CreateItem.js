@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { TableRow, TableCell, Button } from '@material-ui/core'
-import InputText from './InputText/InputText'
-import InputImage from './InputImage/InputImage'
-import InputNumber from './InputNumber/InputNumber'
-import InputFloat from './InputFloat/InputFloat'
+import InputText from '@/components/InputText/InputText'
+import InputImage from '@/components/InputImage/InputImage'
+import InputNumber from '@/components/InputNumber/InputNumber'
+import InputFloat from '@/components/InputFloat/InputFloat'
 
 const typeComponent = {
   string: (ready, notReady, { minLength, maxLength, title }) => (

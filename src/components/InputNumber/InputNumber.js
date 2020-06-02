@@ -16,7 +16,7 @@ const handleChange = (setValue, value, { ready, notReady, min, max }) => {
 }
 
 const InputNumber = (props) => {
-  const [value, setValue] = useState('')
+  const [value, setValue] = useState(props.defaultValue || '')
   return (
     <TextField
       type='number'

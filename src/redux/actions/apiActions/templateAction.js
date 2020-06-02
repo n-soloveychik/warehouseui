@@ -89,3 +89,53 @@ export const updateItemImageAction = async (
     text: response.data?.message,
   })
 }
+
+export const updateFieldAction = async (
+  dispatch,
+  { field, itemId, invoiceId, newValue },
+) => {
+  dispatch({
+    type: API.TEMPLATES.ITEMS.UPDATE_FIELD.CALL,
+    invoiceId,
+    itemId,
+    field,
+    value: newValue,
+  })
+  const response = await new Promise((resolve) => {
+    setTimeout(
+      () =>
+        resolve({
+          status: 500,
+          data: { message: 'Не реализовано на сервере' },
+        }),
+      1000,
+    )
+  })
+  if (response.status === 401) {
+    dispatch({ type: ROUTER.UNAUTHORIZED })
+    return
+  }
+  if (response.status === 200) {
+    dispatch({
+      type: API.TEMPLATES.ITEMS.UPDATE_FIELD.SUCCESS,
+      invoiceId,
+      itemId,
+      field,
+      value: newValue,
+    })
+    return
+  }
+
+  dispatch({
+    type: API.TEMPLATES.ITEMS.UPDATE_FIELD.FAILURE,
+    invoiceId,
+    itemId,
+    field,
+    oldValue: newValue,
+  })
+  dispatch({
+    type: ERROR.OPEN,
+    title: response.status,
+    text: response.data?.message,
+  })
+}

@@ -3,8 +3,8 @@ import { connect } from 'react-redux'
 import { TableRow, TableCell, Button, TextField } from '@material-ui/core'
 import Autocomplete from '@material-ui/lab/Autocomplete'
 import { REQUEST } from '@/api'
-import InputNumber from '../CreateItem/InputNumber/InputNumber'
-import InputText from '../CreateItem/InputText/InputText'
+import InputNumber from '@/components/InputNumber/InputNumber'
+import InputText from '@/components/InputText/InputText'
 
 class SelectItem extends Component {
   state = {

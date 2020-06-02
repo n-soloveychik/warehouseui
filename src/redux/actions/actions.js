@@ -15,6 +15,7 @@ import {
   createCategoryAction,
   createItemAction,
   updateItemImageAction,
+  updateFieldAction,
 } from './apiActions/templateAction'
 import {
   itemUpdateStatusAction,
@@ -85,6 +86,13 @@ export const templateActions = {
     clear: (dispatch) => dispatch({ type: TEMPLATES.INVOICE_PAGE_CLEAR_ITEMS }),
     updateImage: (dispatch, { invoiceId, itemId, image }) =>
       updateItemImageAction(dispatch, { invoiceId, itemId, image }),
+    updateField: (dispatch, { field, itemId, invoiceId, newValue }) =>
+      updateFieldAction(dispatch, {
+        field,
+        itemId,
+        invoiceId,
+        newValue,
+      }),
   },
   itemPage: {
     setCurrentInvoice: (dispatch, invoiceId) => {

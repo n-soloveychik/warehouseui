@@ -82,6 +82,58 @@ const initialState = {
   itemPageShowCategorySelect: false,
 }
 
+const callUpdateItemField = (state, { invoiceId, itemId, field, value }) => {
+  if (state.currentInvoiceId !== invoiceId) return state
+  const newState = { ...state }
+  const itemIndex = newState.itemsOfCurrentInvoice.findIndex(
+    (item) => item.item_id === itemId,
+  )
+  if (!~itemIndex) return state
+  newState.itemsOfCurrentInvoice[itemIndex] = {
+    ...newState.itemsOfCurrentInvoice[itemIndex],
+  }
+  const item = newState.itemsOfCurrentInvoice[itemIndex]
+  item[`new_${field}`] = value
+  item[`${field}_loading`] = true
+  return newState
+}
+
+const successUpdateItemField = (state, { invoiceId, itemId, field, value }) => {
+  if (state.currentInvoiceId !== invoiceId) return state
+  const newState = { ...state }
+  const itemIndex = newState.itemsOfCurrentInvoice.findIndex(
+    (item) => item.item_id === itemId,
+  )
+  if (!~itemIndex) return state
+  newState.itemsOfCurrentInvoice[itemIndex] = {
+    ...newState.itemsOfCurrentInvoice[itemIndex],
+  }
+  const item = newState.itemsOfCurrentInvoice[itemIndex]
+  item[field] = item[`new_${field}`] || value
+  delete item[`new_${field}`]
+  delete item[`${field}_loading`]
+  return newState
+}
+
+const failureUpdateItemField = (
+  state,
+  { invoiceId, itemId, field, oldValue },
+) => {
+  if (state.currentInvoiceId !== invoiceId) return state
+  const newState = { ...state }
+  const itemIndex = newState.itemsOfCurrentInvoice.findIndex(
+    (item) => item.item_id === itemId,
+  )
+  if (!~itemIndex) return state
+  newState.itemsOfCurrentInvoice[itemIndex] = {
+    ...newState.itemsOfCurrentInvoice[itemIndex],
+  }
+  const item = newState.itemsOfCurrentInvoice[itemIndex]
+  delete item[`new_${field}`]
+  delete item[`${field}_loading`]
+  return newState
+}
+
 const obj = {
   [API.TEMPLATES.INVOICES.GET.SUCCESS]: (state, { data }) => ({
     ...state,
@@ -115,6 +167,18 @@ const obj = {
   [API.TEMPLATES.ITEMS.GET_BY_CATEGORY.SUCCESS]: (state) => state,
   [API.TEMPLATES.ITEMS.CREATE.SUCCESS]: (state) => state,
   [API.TEMPLATES.ITEMS.ADD_TO_INVOICE]: (state) => state,
+  [API.TEMPLATES.ITEMS.UPDATE_FIELD.CALL]: (
+    state,
+    { invoiceId, itemId, field, value },
+  ) => callUpdateItemField(state, { invoiceId, itemId, field, value }),
+  [API.TEMPLATES.ITEMS.UPDATE_FIELD.SUCCESS]: (
+    state,
+    { invoiceId, itemId, field, value },
+  ) => successUpdateItemField(state, { invoiceId, itemId, field, value }),
+  [API.TEMPLATES.ITEMS.UPDATE_FIELD.FAILURE]: (
+    state,
+    { invoiceId, itemId, field, oldValue },
+  ) => failureUpdateItemField(state, { invoiceId, itemId, field, oldValue }),
   [TEMPLATES.INVOICE_PAGE_SHOW_ADD_INVOICE]: (state) => ({
     ...state,
     invoicePageShowAddInvoice: true,

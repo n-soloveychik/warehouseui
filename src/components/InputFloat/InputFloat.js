@@ -16,7 +16,7 @@ const handleChange = (setValue, value, { ready, notReady, min, max }) => {
 }
 
 const InputFloat = (props) => {
-  const [value, setValue] = useState('')
+  const [value, setValue] = useState(props.defaultValue || '')
   return (
     <TextField
       label={props.label}
