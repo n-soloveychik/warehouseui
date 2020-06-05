@@ -4,12 +4,19 @@ import classes from './Lists.module.scss'
 import CList from './CList/CList'
 import { Grid } from '@material-ui/core'
 import { warehouseActions } from '@/redux/actions/actions'
+import { isMobile } from 'react-device-detect'
 
 const Lists = (props) => (
-  <Grid container className={classes.lists} spacing={3}>
+  <Grid
+    container
+    className={[classes.lists, isMobile ? classes['lists--mobile'] : ''].join(
+      ' ',
+    )}
+    spacing={3}
+  >
     <Grid className={classes.column} item xs={6}>
       <CList
-        title={'Счет - договор'}
+        title={'Заказ'}
         loading={props.loading}
         items={props.orders}
         handleItemClick={props.selectOrder}

@@ -9,6 +9,8 @@ import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos'
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos'
 import { warehouseActions } from '@/redux/actions/actions'
 import ContextMenu from './ContextMenu/ContextMenu'
+import { BrowserView, MobileView, isMobile } from 'react-device-detect'
+import CheckItemsCard from './CheckItemsCards/CheckItemsCards'
 
 class Items extends Component {
   state = {
@@ -124,16 +126,23 @@ class Items extends Component {
     const headerText = this.props.currentInvoice
       ? `${this.props.currentOrder} / ${this.props.currentInvoiceCode}`
       : 'Открыть комплектовочную ведомость'
+    const mobileHeaderText = this.props.currentInvoice
+      ? `${this.props.currentOrder} / ${this.props.currentInvoiceCode}`
+      : 'Ведомость'
     return (
       <div className='page'>
         <CHeader
           menuItems={this.menuItems}
           text={headerText}
+          mobileText={mobileHeaderText}
           onTextClick={this.openSidebar}
         ></CHeader>
-        <CheckItemsTable
-          contextMenuButtonClick={this.openContextMenu}
-        ></CheckItemsTable>
+        <BrowserView>
+          <CheckItemsTable contextMenuButtonClick={this.openContextMenu} />
+        </BrowserView>
+        <MobileView>
+          <CheckItemsCard contextMenuButtonClick={this.openContextMenu} />
+        </MobileView>
         <IconButton
           style={{ position: 'fixed' }}
           className={classes.IconButton}
@@ -144,8 +153,9 @@ class Items extends Component {
         <SwipeableDrawer
           onOpen={this.openSidebar}
           onClose={this.closeSidebar}
-          className={classes.Side}
+          className={`${classes.Side} ${isMobile && classes['Side--mobile']}`}
           open={this.state.sideOpened}
+          PaperProps={{ className: isMobile ? classes.Side__paper : '' }}
         >
           <Lists></Lists>
           <IconButton
