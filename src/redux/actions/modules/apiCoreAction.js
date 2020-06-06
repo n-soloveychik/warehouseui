@@ -22,7 +22,7 @@ export const apiCoreAction = async (
   dispatch,
   actionNameObj,
   apiRequest,
-  data,
+  data
 ) => {
   if (!dispatch) return
   dispatch(request(actionNameObj.CALL))

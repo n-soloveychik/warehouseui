@@ -8,7 +8,11 @@ const CheckItemsCard = (props) => {
   return (
     <div className={classes.cards}>
       {props.categories.map((category) => (
-        <CheckItemsCategoryCards key={category.category} category={category} />
+        <CheckItemsCategoryCards
+          contextMenuButtonClick={props.contextMenuButtonClick}
+          key={category.category}
+          category={category}
+        />
       ))}
     </div>
   )

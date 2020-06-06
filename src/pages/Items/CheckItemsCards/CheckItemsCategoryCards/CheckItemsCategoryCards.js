@@ -5,7 +5,6 @@ import classes from './CheckItemsCategoryCards.module.scss'
 
 class CheckItemsCategoryCards extends Component {
   render() {
-    console.log(this.props.category)
     return (
       <div>
         <Typography variant='subtitle1' className={classes['category-title']}>
@@ -18,6 +17,7 @@ class CheckItemsCategoryCards extends Component {
             </Typography>
             {lot.items.map((item) => (
               <CheckItemsCard
+                contextMenuButtonClick={this.props.contextMenuButtonClick}
                 key={`${item.item_id}-${item.item_num}`}
                 item={item}
               />

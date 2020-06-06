@@ -95,13 +95,13 @@ class Items extends Component {
 
   openCreateClaim = (itemId) => {
     this.props.history.push(
-      `${this.props.location.pathname}/item/${itemId}/new-claim`,
+      `${this.props.location.pathname}/item/${itemId}/new-claim`
     )
   }
 
   openClaims = (itemId) => {
     this.props.history.push(
-      `${this.props.location.pathname}/item/${itemId}/claims`,
+      `${this.props.location.pathname}/item/${itemId}/claims`
     )
   }
 
@@ -143,13 +143,15 @@ class Items extends Component {
         <MobileView>
           <CheckItemsCard contextMenuButtonClick={this.openContextMenu} />
         </MobileView>
-        <IconButton
-          style={{ position: 'fixed' }}
-          className={classes.IconButton}
-          onClick={this.toggleSidebar}
-        >
-          <ArrowForwardIosIcon />
-        </IconButton>
+        <BrowserView>
+          <IconButton
+            style={{ position: 'fixed' }}
+            className={classes.IconButton}
+            onClick={this.toggleSidebar}
+          >
+            <ArrowForwardIosIcon />
+          </IconButton>
+        </BrowserView>
         <SwipeableDrawer
           onOpen={this.openSidebar}
           onClose={this.closeSidebar}
@@ -168,8 +170,8 @@ class Items extends Component {
         </SwipeableDrawer>
         <ContextMenu
           open={!!this.state.menuAnchorEl}
-          anchorEl={this.state.menuAnchorEl}
           item={this.state.menuItem}
+          anchorEl={this.state.menuAnchorEl}
           handleClose={this.closeContextMenu}
           createClaim={this.openCreateClaim}
           openClaims={this.openClaims}
@@ -183,15 +185,15 @@ function mapStateToProps(state) {
   return {
     currentOrder: state.warehouse.currentOrder,
     currentOrderId: state.warehouse.orders.find(
-      (order) => order.order_num === state.warehouse.currentOrder,
+      (order) => order.order_num === state.warehouse.currentOrder
     )?.order_id,
     currentInvoice: state.warehouse.currentInvoice,
     currentInvoiceCode: state.warehouse.invoices.find(
-      (invoice) => invoice.invoice_id === +state.warehouse.currentInvoice,
+      (invoice) => invoice.invoice_id === +state.warehouse.currentInvoice
     )?.invoice_code,
     isOrder: (orderNum) =>
       !!state.warehouse.invoices.find(
-        (invoice) => invoice.orderNum === orderNum,
+        (invoice) => invoice.orderNum === orderNum
       ),
     isInvoice: (invoice) =>
       !!state.warehouse.invoices.find((invoice) => invoice.invoice === invoice),

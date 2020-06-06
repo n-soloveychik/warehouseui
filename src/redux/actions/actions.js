@@ -1,12 +1,12 @@
 import { API, TEMPLATES, ERROR } from './actionNames'
-import { getOrdersAction, selectOrderAction } from './apiActions/orderActions'
+import { getOrdersAction, selectOrderAction } from './modules/orderActions'
 import { REQUEST } from '@/api/index'
-import { login, checkToken } from './apiActions/loginAction'
+import { login, checkToken } from './modules/loginAction'
 import {
   getInvoicesByOrderAction,
   selectInvoiceAction,
-} from './apiActions/invoiceAction'
-import { setCurrentOrderInvoiceAction } from './apiActions/appAction'
+} from './modules/invoiceAction'
+import { setCurrentOrderInvoiceAction } from './modules/appAction'
 import {
   getInvoiceTemplatesAction,
   createInvoiceTemplateAction,
@@ -16,11 +16,12 @@ import {
   createItemAction,
   updateItemImageAction,
   updateFieldAction,
-} from './apiActions/templateAction'
+} from './modules/templateAction'
 import {
-  itemUpdateStatusAction,
+  setItemNewCountInStockAction,
+  setItemCountInStockAction,
   itemsMultipleUpdateStatusAction,
-} from './apiActions/itemActions'
+} from './modules/itemActions'
 
 export const warehouseActions = {
   orders: {
@@ -37,32 +38,24 @@ export const warehouseActions = {
     },
   },
   item: {
-    status: {
-      setInStock: (dispatch, itemId) =>
-        itemUpdateStatusAction(
-          dispatch,
-          API.ITEM.SET_STATUS_IN_STOCK,
-          REQUEST.setItemStatusInStock.bind(null, itemId),
-          itemId,
-        ),
-      setAwaitDelivery: (dispatch, itemId) =>
-        itemUpdateStatusAction(
-          dispatch,
-          API.ITEM.SET_STATUS_AWAIT_DELIVERY,
-          REQUEST.setItemStatusAwaitDelivery.bind(null, itemId),
-          itemId,
-        ),
+    countInStock: {
+      set: (dispatch, itemId, countInStock) =>
+        setItemCountInStockAction(dispatch, itemId, countInStock),
     },
-  },
-  items: {
-    status: {
-      setMultipleInStocks: (dispatch, itemIds) =>
-        itemsMultipleUpdateStatusAction(
-          dispatch,
-          API.ITEMS.MULTIPLE_SET_STATUS_IN_STOCK,
-          REQUEST.setItemsMultipleStatusInStock,
-          itemIds,
-        ),
+    newCountInStock: {
+      set: (dispatch, itemId, newCountInStock) =>
+        setItemNewCountInStockAction(dispatch, itemId, newCountInStock),
+    },
+    items: {
+      status: {
+        setMultipleInStocks: (dispatch, itemIds) =>
+          itemsMultipleUpdateStatusAction(
+            dispatch,
+            API.ITEMS.MULTIPLE_SET_STATUS_IN_STOCK,
+            REQUEST.setItemsMultipleStatusInStock,
+            itemIds
+          ),
+      },
     },
   },
 }

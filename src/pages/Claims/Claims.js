@@ -3,8 +3,8 @@ import { connect } from 'react-redux'
 import CHeader from '@/components/CHeader/CHeader'
 import { Container } from '@material-ui/core'
 import CardClaim from './CardClaim/CardClaim'
-import { setCurrentOrderInvoiceAction } from '@/redux/actions/apiActions/appAction'
 import { REQUEST } from '@/api'
+import { warehouseActions } from '@/redux/actions/actions'
 
 class Claims extends Component {
   state = {
@@ -81,7 +81,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     setCurrentParams: async (order_num, invoice_id) =>
-      await setCurrentOrderInvoiceAction(dispatch, order_num, invoice_id),
+      await warehouseActions.uriParams.set(dispatch, order_num, invoice_id),
   }
 }
 

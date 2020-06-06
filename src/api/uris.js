@@ -19,10 +19,8 @@ export const URI = {
       },
     },
     ITEM: {
-      SET_STATUS: {
-        IN_STOCK: (itemId) => `${HOST_NAME}/v1/item/${itemId}/status-in-stock`,
-        AWAIT_DELIVERY: (itemId) =>
-          `${HOST_NAME}/v1/item/${itemId}/status-await-delivery`,
+      COUNT_IN_STOCK: {
+        SET: (itemId) => `${HOST_NAME}/v1/item/${itemId}/count-in-stock`,
       },
       CLAIM: {
         CREATE: (itemId) => `${HOST_NAME}/v1/item/${itemId}/claim`,
