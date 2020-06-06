@@ -1,5 +1,5 @@
 import React from 'react'
-import { List, ListItem, Typography } from '@material-ui/core'
+import { List, ListItem, Typography, Badge } from '@material-ui/core'
 import classes from './CList.module.scss'
 import { isMobile } from 'react-device-detect'
 
@@ -43,9 +43,16 @@ const CList = (props) => {
         onClick={() => props.handleItemClick(item)}
         className={className.join(' ')}
         key={index}
-        style={statusColors[item.status_id]}
+        style={{ ...statusColors[item.status_id], paddingRight: 30 }}
       >
         {item[props.keyToRender]}
+        {item.count > 1 && (
+          <Badge
+            color='primary'
+            style={{ right: 16, position: 'absolute' }}
+            badgeContent={item.count}
+          />
+        )}
       </ListItem>
     )
   })
