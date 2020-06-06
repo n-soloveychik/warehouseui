@@ -13,9 +13,8 @@ export const URI = {
       GET: (orderId) => `${HOST_NAME}/v1/order/${orderId}/invoices`,
     },
     ITEMS: {
-      SET_STATUS: {
-        IN_STOCK: `${HOST_NAME}/v1/items/status-in-stock`,
-        AWAIT_DELIVERY: `${HOST_NAME}/v1/items/status-await-delivery`,
+      SET_MULTIPLE: {
+        FULL_IN_STOCK: `${HOST_NAME}/v1/items/status-in-stock`,
       },
     },
     ITEM: {

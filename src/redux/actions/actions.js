@@ -1,4 +1,4 @@
-import { API, TEMPLATES, ERROR } from './actionNames'
+import { TEMPLATES, ERROR } from './actionNames'
 import { getOrdersAction, selectOrderAction } from './modules/orderActions'
 import { REQUEST } from '@/api/index'
 import { login, checkToken } from './modules/loginAction'
@@ -46,17 +46,10 @@ export const warehouseActions = {
       set: (dispatch, itemId, newCountInStock) =>
         setItemNewCountInStockAction(dispatch, itemId, newCountInStock),
     },
-    items: {
-      status: {
-        setMultipleInStocks: (dispatch, itemIds) =>
-          itemsMultipleUpdateStatusAction(
-            dispatch,
-            API.ITEMS.MULTIPLE_SET_STATUS_IN_STOCK,
-            REQUEST.setItemsMultipleStatusInStock,
-            itemIds
-          ),
-      },
-    },
+  },
+  items: {
+    setMultipleFullInStocks: (dispatch, itemIds) =>
+      itemsMultipleUpdateStatusAction(dispatch, itemIds),
   },
 }
 

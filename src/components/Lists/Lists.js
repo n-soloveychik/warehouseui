@@ -4,14 +4,15 @@ import classes from './Lists.module.scss'
 import CList from './CList/CList'
 import { Grid } from '@material-ui/core'
 import { warehouseActions } from '@/redux/actions/actions'
-import { isMobile } from 'react-device-detect'
+import { isMobileOnly } from 'react-device-detect'
 
 const Lists = (props) => (
   <Grid
     container
-    className={[classes.lists, isMobile ? classes['lists--mobile'] : ''].join(
-      ' ',
-    )}
+    className={[
+      classes.lists,
+      isMobileOnly ? classes['lists--mobile'] : '',
+    ].join(' ')}
     spacing={3}
   >
     <Grid className={classes.column} item xs={6}>
@@ -34,7 +35,7 @@ const Lists = (props) => (
             loading={props.loading}
             items={
               props.orders.find(
-                (order) => order.order_num === props.currentOrder,
+                (order) => order.order_num === props.currentOrder
               ).invoices || []
             }
             handleItemClick={props.selectInvoice}

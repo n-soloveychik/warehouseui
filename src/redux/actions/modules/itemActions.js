@@ -35,14 +35,11 @@ export const itemUpdateStatusAction = async (
   dispatch({ type: actionNameObj.FAILURE, itemId })
 }
 
-export const itemsMultipleUpdateStatusAction = async (
-  dispatch,
-  actionNameObj,
-  requestFn,
-  itemIds
-) => {
+export const itemsMultipleUpdateStatusAction = async (dispatch, itemIds) => {
+  const actionNameObj = API.ITEMS.MULTIPLE_SET_FULL_IN_STOCK
+  const requestFn = REQUEST.setMultipleItemsFullInStock
   dispatch({ type: actionNameObj.CALL, itemIds })
-  let response = await requestFn(itemIds)
+  let response = await requestFn({ item_ids: itemIds })
   if (response.status === 401) {
     dispatch({ type: response.status, title: response.data?.message })
     return

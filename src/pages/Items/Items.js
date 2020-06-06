@@ -9,7 +9,7 @@ import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos'
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos'
 import { warehouseActions } from '@/redux/actions/actions'
 import ContextMenu from './ContextMenu/ContextMenu'
-import { BrowserView, MobileView, isMobile } from 'react-device-detect'
+import { isMobileOnly } from 'react-device-detect'
 import CheckItemsCard from './CheckItemsCards/CheckItemsCards'
 
 class Items extends Component {
@@ -137,27 +137,28 @@ class Items extends Component {
           mobileText={mobileHeaderText}
           onTextClick={this.openSidebar}
         ></CHeader>
-        <BrowserView>
-          <CheckItemsTable contextMenuButtonClick={this.openContextMenu} />
-        </BrowserView>
-        <MobileView>
+        {isMobileOnly ? (
           <CheckItemsCard contextMenuButtonClick={this.openContextMenu} />
-        </MobileView>
-        <BrowserView>
-          <IconButton
-            style={{ position: 'fixed' }}
-            className={classes.IconButton}
-            onClick={this.toggleSidebar}
-          >
-            <ArrowForwardIosIcon />
-          </IconButton>
-        </BrowserView>
+        ) : (
+          <>
+            <CheckItemsTable contextMenuButtonClick={this.openContextMenu} />
+            <IconButton
+              style={{ position: 'fixed' }}
+              className={classes.IconButton}
+              onClick={this.toggleSidebar}
+            >
+              <ArrowForwardIosIcon />
+            </IconButton>
+          </>
+        )}
         <SwipeableDrawer
           onOpen={this.openSidebar}
           onClose={this.closeSidebar}
-          className={`${classes.Side} ${isMobile && classes['Side--mobile']}`}
+          className={`${classes.Side} ${
+            isMobileOnly && classes['Side--mobile']
+          }`}
           open={this.state.sideOpened}
-          PaperProps={{ className: isMobile ? classes.Side__paper : '' }}
+          PaperProps={{ className: isMobileOnly ? classes.Side__paper : '' }}
         >
           <Lists></Lists>
           <IconButton

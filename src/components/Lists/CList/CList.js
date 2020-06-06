@@ -1,7 +1,7 @@
 import React from 'react'
 import { List, ListItem, Typography, Badge } from '@material-ui/core'
 import classes from './CList.module.scss'
-import { isMobile } from 'react-device-detect'
+import { isMobileOnly } from 'react-device-detect'
 
 const statusColors = {
   1: {
@@ -35,7 +35,7 @@ const CList = (props) => {
     ) {
       className.push(classes['item--current'])
     }
-    if (isMobile) {
+    if (isMobileOnly) {
       className.push(classes['item--mobile'])
     }
     return (
@@ -59,7 +59,10 @@ const CList = (props) => {
 
   return (
     <>
-      <Typography variant={isMobile ? 'subtitle1' : 'h5'} style={style.title}>
+      <Typography
+        variant={isMobileOnly ? 'subtitle1' : 'h5'}
+        style={style.title}
+      >
         {props.title}
       </Typography>
       <List className={classes.paper}>{items}</List>

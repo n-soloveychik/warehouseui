@@ -10,6 +10,8 @@ export const REQUEST = {
     await HTTPS.get(URI.V1.INVOICES.GET(orderId)),
   setItemCountInStock: async (itemId, data) =>
     await HTTPS.put(URI.V1.ITEM.COUNT_IN_STOCK.SET(itemId), data),
+  setMultipleItemsFullInStock: async (data) =>
+    await HTTPS.put(URI.V1.ITEMS.SET_MULTIPLE.FULL_IN_STOCK, data),
   insertImage: async (formData) =>
     await HTTPS.postFormData(URI.V1.PHOTOS.INSERT, formData),
   createClaim: async (itemId, data) =>

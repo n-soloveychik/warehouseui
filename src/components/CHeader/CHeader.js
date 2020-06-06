@@ -11,7 +11,7 @@ import {
 } from '@material-ui/core'
 import { Link } from 'react-router-dom'
 import MenuOpenIcon from '@material-ui/icons/MenuOpen'
-import { isMobile } from 'react-device-detect'
+import { isMobileOnly } from 'react-device-detect'
 
 const CHeader = (props) => {
   const [opened, setOpened] = useState(false)
@@ -20,7 +20,7 @@ const CHeader = (props) => {
       {item.name}
     </ListItem>
   ))
-  const text = isMobile ? props.mobileText : props.text
+  const text = isMobileOnly ? props.mobileText : props.text
   return (
     <AppBar position='fixed'>
       <Toolbar style={{ display: 'flex', justifyContent: 'space-between' }}>

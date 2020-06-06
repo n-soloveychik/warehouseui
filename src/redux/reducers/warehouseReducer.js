@@ -40,7 +40,7 @@ const selectInvoice = (state, invoice) => {
   })
 }
 
-const callMultipleUpdateItemsStatus = (state, itemIds, newStatusId) => {
+const callMultipleUpdateItemsStatus = (state, itemIds) => {
   const newState = { ...state }
   const items =
     newState.invoices.find(
@@ -48,9 +48,7 @@ const callMultipleUpdateItemsStatus = (state, itemIds, newStatusId) => {
     )?.items || []
   const itemsToUpdate =
     items.filter((item) => itemIds.includes(item.item_id)) || {}
-  itemsToUpdate.forEach((item) =>
-    Object.assign(item, { loading: true, newStatusId })
-  )
+  itemsToUpdate.forEach((item) => Object.assign(item, { loading: true }))
   return newState
 }
 
@@ -60,12 +58,11 @@ const successMultipleUpdateItemsStatus = (state, resultItems) => {
     newState.invoices.find(
       (invoice) => invoice.invoice_id === newState.currentInvoice
     )?.items || []
-  items.forEach((item) => {
+  Object.keys(items).forEach((key) => {
+    const item = items[key]
     const resultItem = resultItems.find((i) => i.item_id === item.item_id)
     if (!resultItem) return
-    item.status_id = resultItem.status_id
-    delete item.loading
-    delete item.newStatusId
+    items[key] = { ...resultItem }
   })
   return newState
 }
@@ -151,11 +148,11 @@ const obj = {
   [API.ITEM.COUNT_IN_STOCK.SET.SUCCESS]: (state, { data }) =>
     successUpdateCountInStockAndStatus(state, data),
   [API.ITEM.COUNT_IN_STOCK.SET.FAILURE]: (state) => state,
-  [API.ITEMS.MULTIPLE_SET_STATUS_IN_STOCK.CALL]: (state, { itemIds }) =>
+  [API.ITEMS.MULTIPLE_SET_FULL_IN_STOCK.CALL]: (state, { itemIds }) =>
     callMultipleUpdateItemsStatus(state, itemIds, 2),
-  [API.ITEMS.MULTIPLE_SET_STATUS_IN_STOCK.SUCCESS]: (state, { resultItems }) =>
+  [API.ITEMS.MULTIPLE_SET_FULL_IN_STOCK.SUCCESS]: (state, { resultItems }) =>
     successMultipleUpdateItemsStatus(state, resultItems, 2),
-  [API.ITEMS.MULTIPLE_SET_STATUS_IN_STOCK.FAILURE]: (state, { itemIds }) =>
+  [API.ITEMS.MULTIPLE_SET_FULL_IN_STOCK.FAILURE]: (state, { itemIds }) =>
     failureMultipleUpdateItemsStatus(state, itemIds),
   [APP.SET.ORDERS_INVOICES_CURRENT_ORDER_INVOICE]: (
     state,

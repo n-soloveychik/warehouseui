@@ -5,19 +5,14 @@ import {
   CardHeader,
   CardActions,
   CardMedia,
-  // CardContent,
-  // Paper,
   IconButton,
-  Typography,
   Badge,
 } from '@material-ui/core'
 import classes from './CheckItemsCard.module.scss'
-import AddIcon from '@material-ui/icons/Add'
-import RemoveIcon from '@material-ui/icons/Remove'
-import DoneIcon from '@material-ui/icons/Done'
 import ReportProblemIcon from '@material-ui/icons/ReportProblem'
-import ClearIcon from '@material-ui/icons/Clear'
 import { warehouseActions } from '@/redux/actions/actions'
+import { itemStatusColors } from '@/configs/itemStatusColors'
+import CountCell from '@/components/CountCell/CountCell'
 
 const style = {
   card: {
@@ -27,34 +22,10 @@ const style = {
   image: {
     backgroundSize: 'contain',
   },
-  doneButton: {
-    position: 'absolute',
-    right: 16,
-  },
-  report: {},
-  status: {
-    1: {},
-    2: { backgroundColor: '#ffff0020' },
-    3: { backgroundColor: '#00ff0020' },
-    4: { backgroundColor: '#ff000020' },
-  },
+  status: itemStatusColors,
 }
 
 const CheckItemsCard = (props) => {
-  const disabledIncrease =
-    props.item.new_count_in_stock !== undefined
-      ? props.item.new_count_in_stock >= props.item.count
-      : props.item.count_in_stock >= props.item.count
-  const disabledDecrease =
-    props.item.new_count_in_stock !== undefined
-      ? Boolean(
-          props.item.new_count_in_stock === 0 ||
-            (props.item.new_count_in_stock === 1 && props.item.claims.length)
-        )
-      : Boolean(
-          props.item.count_in_stock === 0 ||
-            (props.item.count_in_stock === 1 && props.item.claims.length)
-        )
   const handleImageClick = () => {
     if (props.item.new_count_in_stock === props.item.count) {
       props.setItemNewCountInStock(
@@ -91,65 +62,7 @@ const CheckItemsCard = (props) => {
         image={props.item.image}
       />
       <CardActions>
-        <IconButton
-          onClick={() =>
-            props.setItemNewCountInStock(
-              props.item.item_id,
-              (props.item.new_count_in_stock ?? props.item.count_in_stock) - 1
-            )
-          }
-          disabled={disabledDecrease}
-          color='primary'
-        >
-          <RemoveIcon />
-        </IconButton>
-        <Typography variant='h4'>{`${
-          props.item.new_count_in_stock ?? props.item.count_in_stock
-        } / ${props.item.count}`}</Typography>
-        <IconButton
-          onClick={() =>
-            props.setItemNewCountInStock(
-              props.item.item_id,
-              (props.item.new_count_in_stock ?? props.item.count_in_stock) + 1
-            )
-          }
-          disabled={disabledIncrease}
-          color='primary'
-        >
-          <AddIcon />
-        </IconButton>
-        <div style={style.doneButton}>
-          <IconButton
-            color='primary'
-            disabled={
-              props.item.new_count_in_stock === undefined ||
-              props.item.new_count_in_stock === props.item.count_in_stock
-            }
-            onClick={() =>
-              props.setItemNewCountInStock(
-                props.item.item_id,
-                props.item.count_in_stock
-              )
-            }
-          >
-            <ClearIcon />
-          </IconButton>
-          <IconButton
-            disabled={
-              props.item.new_count_in_stock === undefined ||
-              props.item.new_count_in_stock === props.item.count_in_stock
-            }
-            onClick={() =>
-              props.setItemCountInStock(
-                props.item.item_id,
-                props.item.new_count_in_stock
-              )
-            }
-            color='primary'
-          >
-            <DoneIcon />
-          </IconButton>
-        </div>
+        <CountCell item={props.item} />
       </CardActions>
     </Card>
   )
