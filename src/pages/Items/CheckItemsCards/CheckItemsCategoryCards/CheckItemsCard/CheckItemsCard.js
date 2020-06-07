@@ -36,11 +36,6 @@ const CheckItemsCard = (props) => {
     }
     props.setItemNewCountInStock(props.item.item_id, props.item.count)
   }
-  let img = new Image()
-  img.onload = function () {
-    console.log(this.width, this.height)
-  }
-  img.src = props.item.image
   return (
     <Card style={{ ...style.card, ...style.status[props.item.status_id] }}>
       <CardHeader
