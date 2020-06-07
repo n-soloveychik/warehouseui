@@ -7,43 +7,34 @@ import {
   IconButton,
   Badge,
 } from '@material-ui/core'
-import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank'
-import CheckBoxIcon from '@material-ui/icons/CheckBox'
 import ReportProblemIcon from '@material-ui/icons/ReportProblem'
 import classes from './CheckTableCategory.module.scss'
 import { warehouseActions } from '@/redux/actions/actions'
+import CountCell from '../../../../components/CountCell/CountCell'
+import { itemStatusColors } from '@/configs/itemStatusColors'
+
+const style = {
+  statusColor: itemStatusColors,
+}
 
 const CheckTableCategory = (props) => {
-  const updateItemStatus = (item) => {
-    if (item.status_id === 2) {
-      props.setStatusAwaitDelivery(item.item_id)
-    }
-    if (item.status_id === 1) {
-      props.setStatusInStock(item.item_id)
-    }
-  }
-
   const itemClass = (item) => {
-    const statusClasses = {
-      1: 'status--await-delivery',
-      2: 'status--in-stock',
-      3: 'status--claim',
-    }
-    let result = []
-    item.loading && result.push(classes.loading)
-    result.push(classes[statusClasses[item.newStatusId || item.status_id]])
-    return result.join(' ')
+    return item.loading ? classes.loading : ''
   }
 
   const clickUpdateStatusHandler = (e, item) => {
     e.stopPropagation()
-    updateItemStatus(item)
+    if (item.new_count_in_stock === item.count) {
+      props.setItemNewCountInStock(item.item_id, item.count_in_stock)
+      return
+    }
+    props.setItemNewCountInStock(item.item_id, item.count)
   }
 
   const clickMultipleUpdateStatusHandler = (e, lot) => {
     const itemIds = lot.items.map((item) => item.item_id)
     e.stopPropagation()
-    props.setMultipleInStock(itemIds)
+    props.setMultipleFullInStock(itemIds)
   }
 
   const clickContextMenuHandler = (e, item) => {
@@ -66,6 +57,7 @@ const CheckTableCategory = (props) => {
     lot.items.map((item, itemIndex) => (
       <TableRow
         className={classes.table_row}
+        style={style.statusColor[item.status_id]}
         key={`${props.category.category}-${index}-${itemIndex}`}
       >
         {itemIndex === 0 && (
@@ -102,12 +94,8 @@ const CheckTableCategory = (props) => {
         >
           {item.size}
         </TableCell>
-        <TableCell
-          onClick={(e) => clickUpdateStatusHandler(e, item)}
-          className={itemClass(item)}
-          style={{ textAlign: 'center' }}
-        >
-          {item.count}
+        <TableCell className={itemClass(item)} style={{ textAlign: 'center' }}>
+          <CountCell item={item} />
         </TableCell>
         <TableCell
           onClick={(e) => clickUpdateStatusHandler(e, item)}
@@ -126,18 +114,7 @@ const CheckTableCategory = (props) => {
           onClick={(e) => clickUpdateStatusHandler(e, item)}
           className={itemClass(item)}
           style={{ padding: '6px 6px', maxWidth: 51 }}
-        >
-          <IconButton
-            onClick={(e) => clickUpdateStatusHandler(e, item)}
-            size={'small'}
-          >
-            {(item.newStatusId || item.status_id) !== 2 ? (
-              <CheckBoxOutlineBlankIcon></CheckBoxOutlineBlankIcon>
-            ) : (
-              <CheckBoxIcon></CheckBoxIcon>
-            )}
-          </IconButton>
-        </TableCell>
+        ></TableCell>
         <TableCell
           onClick={(e) => clickContextMenuHandler(e, item)}
           className={itemClass(item)}
@@ -158,7 +135,7 @@ const CheckTableCategory = (props) => {
           </IconButton>
         </TableCell>
       </TableRow>
-    )),
+    ))
   )
   const res = [titleRow, categoryRows].flat(Infinity)
   return res
@@ -166,12 +143,14 @@ const CheckTableCategory = (props) => {
 
 function mapDispatchToProps(dispatch) {
   return {
-    setStatusInStock: (itemId) =>
-      warehouseActions.item.status.setInStock(dispatch, itemId),
-    setStatusAwaitDelivery: (itemId) =>
-      warehouseActions.item.status.setAwaitDelivery(dispatch, itemId),
-    setMultipleInStock: (itemIds) =>
-      warehouseActions.items.status.setMultipleInStocks(dispatch, itemIds),
+    setItemNewCountInStock: (itemId, newCountInStock) =>
+      warehouseActions.item.newCountInStock.set(
+        dispatch,
+        itemId,
+        newCountInStock
+      ),
+    setMultipleFullInStock: (itemIds) =>
+      warehouseActions.items.setMultipleFullInStocks(dispatch, itemIds),
   }
 }
 

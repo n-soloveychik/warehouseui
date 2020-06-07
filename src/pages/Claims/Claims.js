@@ -3,8 +3,8 @@ import { connect } from 'react-redux'
 import CHeader from '@/components/CHeader/CHeader'
 import { Container } from '@material-ui/core'
 import CardClaim from './CardClaim/CardClaim'
-import { setCurrentOrderInvoiceAction } from '@/redux/actions/apiActions/appAction'
 import { REQUEST } from '@/api'
+import { warehouseActions } from '@/redux/actions/actions'
 
 class Claims extends Component {
   state = {
@@ -37,11 +37,25 @@ class Claims extends Component {
       await this.setCurrentParams(true)
     }
   }
+  menuItems = [
+    {
+      name: 'Конструктор заказов',
+      link: '/constructor/orders',
+    },
+    {
+      name: 'Конструктор комплектовочных ведомостей',
+      link: '/constructor/invoices',
+    },
+  ]
 
   render() {
     return (
       <div className='page'>
-        <CHeader text='Назад' onTextClick={this.goBack}></CHeader>
+        <CHeader
+          menuItems={this.menuItems}
+          text='Назад'
+          onTextClick={this.goBack}
+        ></CHeader>
         {!!this.state.claims?.length && (
           <Container maxWidth='sm'>
             {this.state.claims?.map((claim, index) => (
@@ -67,7 +81,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     setCurrentParams: async (order_num, invoice_id) =>
-      await setCurrentOrderInvoiceAction(dispatch, order_num, invoice_id),
+      await warehouseActions.uriParams.set(dispatch, order_num, invoice_id),
   }
 }
 

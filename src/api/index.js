@@ -8,12 +8,10 @@ export const REQUEST = {
   createOrder: async (order) => await HTTPS.post(URI.V1.ORDER.CREATE, order),
   getInvoicesAndItemsByOrder: async (orderId) =>
     await HTTPS.get(URI.V1.INVOICES.GET(orderId)),
-  setItemStatusInStock: async (itemId) =>
-    await HTTPS.put(URI.V1.ITEM.SET_STATUS.IN_STOCK(itemId)),
-  setItemStatusAwaitDelivery: async (itemId) =>
-    await HTTPS.put(URI.V1.ITEM.SET_STATUS.AWAIT_DELIVERY(itemId)),
-  setItemsMultipleStatusInStock: async (item_ids) =>
-    await HTTPS.put(URI.V1.ITEMS.SET_STATUS.IN_STOCK, { item_ids }),
+  setItemCountInStock: async (itemId, data) =>
+    await HTTPS.put(URI.V1.ITEM.COUNT_IN_STOCK.SET(itemId), data),
+  setMultipleItemsFullInStock: async (data) =>
+    await HTTPS.put(URI.V1.ITEMS.SET_MULTIPLE.FULL_IN_STOCK, data),
   insertImage: async (formData) =>
     await HTTPS.postFormData(URI.V1.PHOTOS.INSERT, formData),
   createClaim: async (itemId, data) =>

@@ -9,6 +9,8 @@ import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos'
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos'
 import { warehouseActions } from '@/redux/actions/actions'
 import ContextMenu from './ContextMenu/ContextMenu'
+import { isMobileOnly } from 'react-device-detect'
+import CheckItemsCard from './CheckItemsCards/CheckItemsCards'
 
 class Items extends Component {
   state = {
@@ -93,13 +95,13 @@ class Items extends Component {
 
   openCreateClaim = (itemId) => {
     this.props.history.push(
-      `${this.props.location.pathname}/item/${itemId}/new-claim`,
+      `${this.props.location.pathname}/item/${itemId}/new-claim`
     )
   }
 
   openClaims = (itemId) => {
     this.props.history.push(
-      `${this.props.location.pathname}/item/${itemId}/claims`,
+      `${this.props.location.pathname}/item/${itemId}/claims`
     )
   }
 
@@ -124,28 +126,39 @@ class Items extends Component {
     const headerText = this.props.currentInvoice
       ? `${this.props.currentOrder} / ${this.props.currentInvoiceCode}`
       : 'Открыть комплектовочную ведомость'
+    const mobileHeaderText = this.props.currentInvoice
+      ? `${this.props.currentOrder} / ${this.props.currentInvoiceCode}`
+      : 'Ведомость'
     return (
       <div className='page'>
         <CHeader
           menuItems={this.menuItems}
           text={headerText}
+          mobileText={mobileHeaderText}
           onTextClick={this.openSidebar}
         ></CHeader>
-        <CheckItemsTable
-          contextMenuButtonClick={this.openContextMenu}
-        ></CheckItemsTable>
-        <IconButton
-          style={{ position: 'fixed' }}
-          className={classes.IconButton}
-          onClick={this.toggleSidebar}
-        >
-          <ArrowForwardIosIcon />
-        </IconButton>
+        {isMobileOnly ? (
+          <CheckItemsCard contextMenuButtonClick={this.openContextMenu} />
+        ) : (
+          <>
+            <CheckItemsTable contextMenuButtonClick={this.openContextMenu} />
+            <IconButton
+              style={{ position: 'fixed' }}
+              className={classes.IconButton}
+              onClick={this.toggleSidebar}
+            >
+              <ArrowForwardIosIcon />
+            </IconButton>
+          </>
+        )}
         <SwipeableDrawer
           onOpen={this.openSidebar}
           onClose={this.closeSidebar}
-          className={classes.Side}
+          className={`${classes.Side} ${
+            isMobileOnly && classes['Side--mobile']
+          }`}
           open={this.state.sideOpened}
+          PaperProps={{ className: isMobileOnly ? classes.Side__paper : '' }}
         >
           <Lists></Lists>
           <IconButton
@@ -158,8 +171,8 @@ class Items extends Component {
         </SwipeableDrawer>
         <ContextMenu
           open={!!this.state.menuAnchorEl}
-          anchorEl={this.state.menuAnchorEl}
           item={this.state.menuItem}
+          anchorEl={this.state.menuAnchorEl}
           handleClose={this.closeContextMenu}
           createClaim={this.openCreateClaim}
           openClaims={this.openClaims}
@@ -173,15 +186,15 @@ function mapStateToProps(state) {
   return {
     currentOrder: state.warehouse.currentOrder,
     currentOrderId: state.warehouse.orders.find(
-      (order) => order.order_num === state.warehouse.currentOrder,
+      (order) => order.order_num === state.warehouse.currentOrder
     )?.order_id,
     currentInvoice: state.warehouse.currentInvoice,
     currentInvoiceCode: state.warehouse.invoices.find(
-      (invoice) => invoice.invoice_id === +state.warehouse.currentInvoice,
+      (invoice) => invoice.invoice_id === +state.warehouse.currentInvoice
     )?.invoice_code,
     isOrder: (orderNum) =>
       !!state.warehouse.invoices.find(
-        (invoice) => invoice.orderNum === orderNum,
+        (invoice) => invoice.orderNum === orderNum
       ),
     isInvoice: (invoice) =>
       !!state.warehouse.invoices.find((invoice) => invoice.invoice === invoice),

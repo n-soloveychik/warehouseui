@@ -61,8 +61,11 @@ class CreateClaim extends Component {
       formData.append('photo' + i, photos[i])
     }
     const response = await REQUEST.insertImage(formData)
+    const statePhotos = [...this.state.photos]
+    const photoSrcs = response.data.map((photo) => ({ src: photo }))
+    statePhotos.push(...photoSrcs)
     this.setState({
-      photos: response.data.map((photo) => ({ src: photo })),
+      photos: statePhotos,
     })
   }
 
@@ -86,6 +89,17 @@ class CreateClaim extends Component {
     }
   }
 
+  menuItems = [
+    {
+      name: 'Конструктор заказов',
+      link: '/constructor/orders',
+    },
+    {
+      name: 'Конструктор комплектовочных ведомостей',
+      link: '/constructor/invoices',
+    },
+  ]
+
   render() {
     const photos = this.state.photos.map((photo, index) => (
       <Photo
@@ -100,7 +114,11 @@ class CreateClaim extends Component {
     ))
     return (
       <div className='page'>
-        <CHeader text='Назад' onTextClick={this.goBack}></CHeader>
+        <CHeader
+          menuItems={this.menuItems}
+          text='Назад'
+          onTextClick={this.goBack}
+        ></CHeader>
         <div className={classes.content}>
           <Typography style={{ marginTop: 30 }} align='center' variant='h4'>
             Претензии
