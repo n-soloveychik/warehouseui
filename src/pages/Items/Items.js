@@ -27,7 +27,7 @@ class Items extends Component {
     }
     if (
       (!this.props.currentOrder || !this.props.currentInvoice) &&
-      this.props.currentOrderId
+      this.props.currentOrder
     ) {
       this.openSidebar()
     }
@@ -126,10 +126,10 @@ class Items extends Component {
 
   render() {
     const headerText = this.props.currentInvoice
-      ? `${this.props.currentOrder} / ${this.props.currentInvoiceCode}`
+      ? `${this.props.currentOrderNum} / ${this.props.currentInvoiceCode}`
       : 'Открыть комплектовочную ведомость'
     const mobileHeaderText = this.props.currentInvoice
-      ? `${this.props.currentOrder} / ${this.props.currentInvoiceCode}`
+      ? `${this.props.currentOrderNum} / ${this.props.currentInvoiceCode}`
       : 'Ведомость'
     return (
       <div className='page'>
@@ -173,16 +173,16 @@ class Items extends Component {
 function mapStateToProps(state) {
   return {
     currentOrder: state.warehouse.currentOrder,
-    currentOrderId: state.warehouse.orders.find(
+    currentOrderNum: state.warehouse.orders.find(
       (order) => order.order_id === state.warehouse.currentOrder
-    )?.order_id,
+    )?.order_num,
     currentInvoice: state.warehouse.currentInvoice,
     currentInvoiceCode: state.warehouse.invoices.find(
       (invoice) => invoice.invoice_id === +state.warehouse.currentInvoice
     )?.invoice_code,
-    isOrder: (orderNum) =>
-      !!state.warehouse.invoices.find(
-        (invoice) => invoice.orderNum === orderNum
+    isOrder: (order_id) =>
+      !!state.warehouse?.invoices?.find(
+        (invoice) => invoice.order_id === order_id
       ),
     isInvoice: (invoice) =>
       !!state.warehouse.invoices.find((invoice) => invoice.invoice === invoice),
@@ -193,11 +193,11 @@ function mapDispatchToProps(dispatch) {
   return {
     getOrders: () => warehouseActions.orders.get(dispatch),
     getInvoicesByOrder: (orderId) =>
-      warehouseActions.invoices.get(dispatch, orderId),
+      warehouseActions.invoices.get(dispatch, +orderId),
     showError: (title, text) =>
       warehouseActions.errorActions.showError(dispatch, title, text),
     setCurrentParams: (order_id, invoice_id) =>
-      warehouseActions.uriParams.set(dispatch, order_id, invoice_id),
+      warehouseActions.uriParams.set(dispatch, +order_id, +invoice_id),
   }
 }
 
