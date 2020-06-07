@@ -2,7 +2,8 @@ import React from 'react'
 import { Route, Switch, Redirect } from 'react-router-dom'
 import Items from '@/pages/Items/Items'
 import CreateClaim from '@/pages/CreateClaim/CreateClaim'
-import Claims from '@/pages/Claims/Claims'
+import ItemClaims from '@/pages/ItemClaims/ItemClaims'
+import OrderClaims from '@/pages/OrderClaims/OrderClaims'
 import TemplateInvoices from '@/pages/TemplateInvoices/TemplateInvoices'
 import TemplateItems from '@/pages/TemplateItems/TemplateItems'
 import Login from '@/pages/Login/Login'
@@ -16,6 +17,9 @@ const Routes = ({ authorized }) => {
       <PrivateRoute exact path='/' component={Items} />
       <PrivateRoute exact path='/order/' component={Items} />
       <PrivateRoute exact path='/order/:order/' component={Items} />
+      <PrivateRoute exact path='/claims' component={OrderClaims} />
+      <PrivateRoute exact path='/claims/order' component={OrderClaims} />
+      <PrivateRoute exact path='/claims/order/:order' component={OrderClaims} />
       <PrivateRoute
         exact
         path='/order/:order/invoice/:invoice'
@@ -24,7 +28,7 @@ const Routes = ({ authorized }) => {
       <PrivateRoute
         exact
         path='/order/:order/invoice/:invoice/item/:item/claims'
-        component={Claims}
+        component={ItemClaims}
       />
       <PrivateRoute
         exact

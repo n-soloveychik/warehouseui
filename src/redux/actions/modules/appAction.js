@@ -3,8 +3,8 @@ import { ROUTER, APP } from '../actionNames'
 
 export const setCurrentOrderInvoiceAction = async (
   dispatch,
-  order_num,
-  invoice_id,
+  order_id,
+  invoice_id
 ) => {
   let response = await REQUEST.getAvailableOrders()
   if (!checkAuth(dispatch, response)) {
@@ -12,7 +12,7 @@ export const setCurrentOrderInvoiceAction = async (
   }
   const orders = response.data
   response = await REQUEST.getInvoicesAndItemsByOrder(
-    orders.find((order) => order.order_num === order_num)?.order_id,
+    orders.find((order) => order.order_id === order_id)?.order_id
   )
   if (!checkAuth(dispatch, response)) {
     return
@@ -22,7 +22,7 @@ export const setCurrentOrderInvoiceAction = async (
     type: APP.SET.ORDERS_INVOICES_CURRENT_ORDER_INVOICE,
     orders,
     invoices,
-    currentOrder: order_num,
+    currentOrder: order_id,
     currentInvoice: invoice_id,
   })
 }

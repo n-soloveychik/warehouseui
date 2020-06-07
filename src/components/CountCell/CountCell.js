@@ -31,14 +31,9 @@ const CountCell = (props) => {
       : props.item.count_in_stock >= props.item.count
   const disabledDecrease =
     props.item.new_count_in_stock !== undefined
-      ? Boolean(
-          props.item.new_count_in_stock === 0 ||
-            (props.item.new_count_in_stock === 1 && props.item.claims.length)
-        )
-      : Boolean(
-          props.item.count_in_stock === 0 ||
-            (props.item.count_in_stock === 1 && props.item.claims.length)
-        )
+      ? props.item.new_count_in_stock === 0 ||
+        props.item.new_count_in_stock === 0
+      : props.item.count_in_stock === 0 || props.item.count_in_stock === 0
   return (
     <div className={config().mainContainerClass}>
       <div className={classes.row}>

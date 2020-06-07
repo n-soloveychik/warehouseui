@@ -5,7 +5,10 @@ export const REQUEST = {
   login: async (data) => await HTTPS.post(URI.V1.LOGIN, data),
   checkToken: async () => await HTTPS.post(URI.V1.CHECK_TOKEN),
   getAvailableOrders: async () => await HTTPS.get(URI.V1.ORDER.AVAILABLE(1)),
+  getClaimsOrders: async () => await HTTPS.get(URI.V1.ORDER.ALL(1)),
   createOrder: async (order) => await HTTPS.post(URI.V1.ORDER.CREATE, order),
+  getOrderClaims: async (order_id) =>
+    await HTTPS.get(URI.V1.ORDER.CLAIMS(order_id)),
   getInvoicesAndItemsByOrder: async (orderId) =>
     await HTTPS.get(URI.V1.INVOICES.GET(orderId)),
   setItemCountInStock: async (itemId, data) =>

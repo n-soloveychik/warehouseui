@@ -21,7 +21,12 @@ const CardClaim = ({ claim, closeClaim }) => {
       <div className={classes['image-container']}>
         <Carousel className={classes.carousel}>
           {claim.images.map((link, index) => (
-            <CardMedia className={classes.img} key={index} image={link} />
+            <CardMedia
+              style={{ backgroundSize: 'contain' }}
+              className={classes.img}
+              key={index}
+              image={link}
+            />
           ))}
         </Carousel>
       </div>

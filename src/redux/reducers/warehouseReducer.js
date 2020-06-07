@@ -1,9 +1,4 @@
-import {
-  SELECT_CURRENT_ORDER,
-  SELECT_CURRENT_INVOICE,
-  API,
-  APP,
-} from '@/redux/actions/actionNames'
+import { API, APP } from '@/redux/actions/actionNames'
 
 const initialState = {
   orders: [],
@@ -14,23 +9,23 @@ const initialState = {
   currentInvoice: null,
 }
 
-const selectOrder = (state, orderNum) => {
-  if (!state.orders.find((order) => order.order_num === orderNum))
+const selectOrder = (state, orderId) => {
+  if (!state.orders.find((order) => order.order_id === orderId))
     return Object.assign({}, state)
   return Object.assign({}, state, {
-    currentOrder: orderNum,
+    currentOrder: orderId,
     currentInvoice:
-      state.currentOrder === orderNum ? state.currentInvoice : null,
+      state.currentOrder === orderId ? state.currentInvoice : null,
   })
 }
 
 const selectInvoice = (state, invoice) => {
   if (
     !state.currentOrder ||
-    !state.orders.find((order) => order.order_num === state.currentOrder) ||
+    !state.orders.find((order) => order.order_id === state.currentOrder) ||
     !invoice ||
     !state.orders
-      .find((order) => order.order_num === state.currentOrder)
+      .find((order) => order.order_id === state.currentOrder)
       .invoices?.find((inv) => inv.invoice_id === invoice)
   ) {
     return Object.assign({}, state)
@@ -113,15 +108,19 @@ const setItemNewCountInStock = (state, itemId, value) => {
 }
 
 const obj = {
-  [SELECT_CURRENT_ORDER]: (state, { order }) => selectOrder(state, order),
-  [SELECT_CURRENT_INVOICE]: (state, { invoice }) =>
+  [APP.AVAILABLE_ORDER.CURRENT.SELECT]: (state, { order }) =>
+    selectOrder(state, order),
+  [APP.INVOICE.CURRENT.SELECT]: (state, { invoice }) =>
     selectInvoice(state, invoice),
-  [API.ORDERS.GET.CALL]: (state) => ({ ...state, isCallingGetOrders: true }),
-  [API.ORDERS.GET.FAILURE]: (state) => ({
+  [API.AVAILABLE_ORDERS.GET.CALL]: (state) => ({
+    ...state,
+    isCallingGetOrders: true,
+  }),
+  [API.AVAILABLE_ORDERS.GET.FAILURE]: (state) => ({
     ...state,
     isCallingGetOrders: false,
   }),
-  [API.ORDERS.GET.SUCCESS]: (state, { data }) => ({
+  [API.AVAILABLE_ORDERS.GET.SUCCESS]: (state, { data }) => ({
     ...state,
     isCallingGetOrders: false,
     orders: data,

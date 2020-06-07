@@ -8,6 +8,9 @@ export const URI = {
       AVAILABLE: (warehouseId) =>
         `${HOST_NAME}/v1/warehouse/${warehouseId}/order/available`,
       CREATE: `${HOST_NAME}/v1/order`,
+      CLAIMS: (order_id) => `${HOST_NAME}/v1/order/${order_id}/claims`,
+      ALL: (warehouseId) =>
+        `${HOST_NAME}/v1/warehouse/${warehouseId}/orders-with-claims`,
     },
     INVOICES: {
       GET: (orderId) => `${HOST_NAME}/v1/order/${orderId}/invoices`,

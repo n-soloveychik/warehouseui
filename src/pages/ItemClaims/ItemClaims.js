@@ -2,11 +2,11 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import CHeader from '@/components/CHeader/CHeader'
 import { Container } from '@material-ui/core'
-import CardClaim from './CardClaim/CardClaim'
+import CardClaim from '@/components/CardClaim/CardClaim'
 import { REQUEST } from '@/api'
 import { warehouseActions } from '@/redux/actions/actions'
 
-class Claims extends Component {
+class ItemClaims extends Component {
   state = {
     claims: [],
   }
@@ -80,9 +80,9 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    setCurrentParams: async (order_num, invoice_id) =>
-      await warehouseActions.uriParams.set(dispatch, order_num, invoice_id),
+    setCurrentParams: async (order_id, invoice_id) =>
+      await warehouseActions.uriParams.set(dispatch, order_id, invoice_id),
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Claims)
+export default connect(mapStateToProps, mapDispatchToProps)(ItemClaims)

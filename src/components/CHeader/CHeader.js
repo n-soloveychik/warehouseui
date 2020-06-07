@@ -20,7 +20,7 @@ const CHeader = (props) => {
       {item.name}
     </ListItem>
   ))
-  const text = isMobileOnly ? props.mobileText : props.text
+  const text = isMobileOnly && props.mobileText ? props.mobileText : props.text
   return (
     <AppBar position='fixed'>
       <Toolbar style={{ display: 'flex', justifyContent: 'space-between' }}>

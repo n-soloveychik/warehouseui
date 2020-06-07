@@ -31,10 +31,13 @@ export const apiCoreAction = async (
     if (response.status === 401) {
       dispatch(unauthorized)
       return { status: 401 }
-    } else {
+    }
+    if (response.status > 199 && response.status < 300) {
       dispatch(success(actionNameObj.SUCCESS, response.data))
       return response
     }
+    dispatch(fail(actionNameObj.FAILURE, response.data))
+    return response
   } catch (e) {
     console.log(e)
     dispatch(fail(actionNameObj.FAILURE, e))

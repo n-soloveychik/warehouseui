@@ -22,6 +22,12 @@ import {
   setItemCountInStockAction,
   itemsMultipleUpdateStatusAction,
 } from './modules/itemActions'
+import {
+  getClaimsOrdersAction,
+  selectClaimsOrdersCurrentAction,
+  getClaimsAction,
+  closeClaimAction,
+} from './modules/claimAction'
 
 export const warehouseActions = {
   orders: {
@@ -33,8 +39,8 @@ export const warehouseActions = {
     get: (dispatch, orderId) => getInvoicesByOrderAction(dispatch, orderId),
   },
   uriParams: {
-    set: (dispatch, order_num, invoice_id) => {
-      setCurrentOrderInvoiceAction(dispatch, order_num, invoice_id)
+    set: (dispatch, order_id, invoice_id) => {
+      setCurrentOrderInvoiceAction(dispatch, order_id, invoice_id)
     },
   },
   item: {
@@ -50,6 +56,20 @@ export const warehouseActions = {
   items: {
     setMultipleFullInStocks: (dispatch, itemIds) =>
       itemsMultipleUpdateStatusAction(dispatch, itemIds),
+  },
+}
+
+export const claimAction = {
+  claimsOrders: {
+    get: async (dispatch) => getClaimsOrdersAction(dispatch),
+    selectCurrent: (dispatch, orderId) =>
+      selectClaimsOrdersCurrentAction(dispatch, orderId),
+  },
+  claims: {
+    get: async (dispatch, orderId) => getClaimsAction(dispatch, orderId),
+  },
+  claim: {
+    close: async (dispatch, claimId) => closeClaimAction(dispatch, claimId),
   },
 }
 

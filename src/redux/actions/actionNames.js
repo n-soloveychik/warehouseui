@@ -4,12 +4,18 @@ const api = (method, name) => ({
   SUCCESS: `API_${method}_${name}_SUCCESS`,
 })
 
-export const SELECT_CURRENT_ORDER = 'SELECT_CURRENT_ORDER'
-export const SELECT_CURRENT_INVOICE = 'SELECT_CURRENT_INVOICE'
-
 export const API = {
-  ORDERS: {
-    GET: api('GET', 'ORDERS'),
+  AVAILABLE_ORDERS: {
+    GET: api('GET', 'AVAILABLE_ORDERS'),
+  },
+  CLAIMS_ORDERS: {
+    GET: api('GET', 'CLAIMS_ORDERS'),
+  },
+  CLAIMS: {
+    GET: api('GET', 'CLAIMS'),
+  },
+  CLAIM: {
+    CLOSE: api('CLOSE', 'CLAIM'),
   },
   ITEMS: {
     GET: api('GET', 'ITEMS'),
@@ -63,6 +69,21 @@ export const APP = {
   },
   ITEM: {
     SET_NEW_COUNT_IN_STOCK: 'APP_ITEM_SET_NEW_COUNT_IN_STOCK',
+  },
+  INVOICE: {
+    CURRENT: {
+      SELECT: 'APP_INVOICE_CURRENT_SELECT',
+    },
+  },
+  AVAILABLE_ORDER: {
+    CURRENT: {
+      SELECT: 'APP_AVAILABLE_ORDER_CURRENT_SELECT',
+    },
+  },
+  CLAIMS_ORDERS: {
+    CURRENT: {
+      SELECT: 'APP_CLAIMS_ORDERS_CURRENT_SELECT',
+    },
   },
 }
 

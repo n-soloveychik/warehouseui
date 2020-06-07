@@ -23,19 +23,19 @@ const Lists = (props) => (
         handleItemClick={props.selectOrder}
         currentItem={props.currentOrder}
         keyToRender='order_num'
-        keyDetectCurrent='order_num'
+        keyDetectCurrent='order_id'
       ></CList>
     </Grid>
     {props.currentOrder &&
       props.orders &&
-      props.orders.find((order) => order.order_num === props.currentOrder) && (
+      props.orders.find((order) => order.order_id === props.currentOrder) && (
         <Grid className={classes.column} item xs={6}>
           <CList
             title='Ведомость'
             loading={props.loading}
             items={
               props.orders.find(
-                (order) => order.order_num === props.currentOrder
+                (order) => order.order_id === props.currentOrder
               ).invoices || []
             }
             handleItemClick={props.selectInvoice}

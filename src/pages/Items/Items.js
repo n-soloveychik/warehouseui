@@ -4,9 +4,7 @@ import Lists from '@/components/Lists/Lists'
 import CheckItemsTable from '@/pages/Items/CheckItemsTable/CheckItemsTable'
 import CHeader from '@/components/CHeader/CHeader'
 import classes from './Items.module.scss'
-import { IconButton, SwipeableDrawer } from '@material-ui/core'
-import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos'
-import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos'
+import { SwipeableDrawer } from '@material-ui/core'
 import { warehouseActions } from '@/redux/actions/actions'
 import ContextMenu from './ContextMenu/ContextMenu'
 import { isMobileOnly } from 'react-device-detect'
@@ -20,10 +18,10 @@ class Items extends Component {
   }
 
   async componentDidMount() {
-    const order_num = this.props.match.params.order
+    const order_id = this.props.match.params.order
     const invoice_id = this.props.match.params.invoice
-    if (order_num && invoice_id) {
-      await this.props.setCurrentParams(order_num, invoice_id)
+    if (order_id && invoice_id) {
+      await this.props.setCurrentParams(order_id, invoice_id)
     } else {
       await this.props.getOrders()
     }
@@ -120,6 +118,10 @@ class Items extends Component {
       name: 'Конструктор комплектовочных ведомостей',
       link: '/constructor/invoices',
     },
+    {
+      name: `Все претензии`,
+      link: `/claims`,
+    },
   ]
 
   render() {
@@ -142,13 +144,6 @@ class Items extends Component {
         ) : (
           <>
             <CheckItemsTable contextMenuButtonClick={this.openContextMenu} />
-            <IconButton
-              style={{ position: 'fixed' }}
-              className={classes.IconButton}
-              onClick={this.toggleSidebar}
-            >
-              <ArrowForwardIosIcon />
-            </IconButton>
           </>
         )}
         <SwipeableDrawer
@@ -161,13 +156,6 @@ class Items extends Component {
           PaperProps={{ className: isMobileOnly ? classes.Side__paper : '' }}
         >
           <Lists></Lists>
-          <IconButton
-            onClick={this.toggleSidebar}
-            style={{ position: 'absolute' }}
-            className={classes['Side-IconButton']}
-          >
-            <ArrowBackIosIcon></ArrowBackIosIcon>
-          </IconButton>
         </SwipeableDrawer>
         <ContextMenu
           open={!!this.state.menuAnchorEl}
@@ -186,7 +174,7 @@ function mapStateToProps(state) {
   return {
     currentOrder: state.warehouse.currentOrder,
     currentOrderId: state.warehouse.orders.find(
-      (order) => order.order_num === state.warehouse.currentOrder
+      (order) => order.order_id === state.warehouse.currentOrder
     )?.order_id,
     currentInvoice: state.warehouse.currentInvoice,
     currentInvoiceCode: state.warehouse.invoices.find(
@@ -208,8 +196,8 @@ function mapDispatchToProps(dispatch) {
       warehouseActions.invoices.get(dispatch, orderId),
     showError: (title, text) =>
       warehouseActions.errorActions.showError(dispatch, title, text),
-    setCurrentParams: (order_num, invoice_id) =>
-      warehouseActions.uriParams.set(dispatch, order_num, invoice_id),
+    setCurrentParams: (order_id, invoice_id) =>
+      warehouseActions.uriParams.set(dispatch, order_id, invoice_id),
   }
 }
 

@@ -1,18 +1,18 @@
 import { apiCoreAction } from './apiCoreAction'
-import { SELECT_CURRENT_INVOICE, API } from '../actionNames'
+import { API, APP } from '../actionNames'
 import { REQUEST } from '@/api'
 
 export const getInvoicesByOrderAction = async (dispatch, orderId) => {
   await apiCoreAction(
     dispatch,
     API.INVOICES.GET,
-    REQUEST.getInvoicesAndItemsByOrder.bind(null, orderId),
+    REQUEST.getInvoicesAndItemsByOrder.bind(null, orderId)
   )
 }
 
 export const selectInvoiceAction = async (dispatch, invoice) => {
   dispatch({
-    type: SELECT_CURRENT_INVOICE,
+    type: APP.INVOICE.CURRENT.SELECT,
     invoice: invoice.invoice_id,
   })
   dispatch({
