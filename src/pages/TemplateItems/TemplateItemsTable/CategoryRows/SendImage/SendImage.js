@@ -56,7 +56,7 @@ class SendImage extends Component {
     if (response.status > 199 && response.status < 300) {
       const serverName = response.data[0]
       this.props.uploadImage({
-        itemId: this.props.item.item_id,
+        itemId: this.props.itemId,
         invoiceId: this.props.invoiceId,
         image: serverName,
       })
