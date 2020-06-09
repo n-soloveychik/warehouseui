@@ -7,23 +7,15 @@ import { REQUEST } from '@/api'
 import { warehouseActions } from '@/redux/actions/actions'
 
 class ItemClaims extends Component {
-  state = {
-    claims: [],
-  }
-
   componentDidMount = async () => {
     await this.setCurrentParams()
   }
 
   setCurrentParams = async (toSet = false) => {
-    const { order, invoice, item } = this.props.match.params
+    const { order, invoice } = this.props.match.params
     if (!this.props.invoices?.length || toSet) {
-      await this.props.setCurrentParams(order, invoice)
+      await this.props.setCurrentParams(+order, +invoice)
     }
-    const claims = this.props.invoices
-      .find((inv) => inv.invoice_id === +invoice)
-      ?.items?.find((i) => i.item_id === +item)?.claims
-    this.setState({ claims })
   }
 
   goBack = () => {
@@ -49,6 +41,10 @@ class ItemClaims extends Component {
   ]
 
   render() {
+    const claims = this.props.claims(
+      this.props.match.params.invoice,
+      this.props.match.params.item
+    )
     return (
       <div className='page'>
         <CHeader
@@ -56,9 +52,9 @@ class ItemClaims extends Component {
           text='Назад'
           onTextClick={this.goBack}
         ></CHeader>
-        {!!this.state.claims?.length && (
+        {!!claims.length && (
           <Container maxWidth='sm'>
-            {this.state.claims?.map((claim, index) => (
+            {claims?.map((claim, index) => (
               <CardClaim
                 key={index}
                 closeClaim={this.closeClaim}
@@ -75,6 +71,10 @@ class ItemClaims extends Component {
 function mapStateToProps(state) {
   return {
     invoices: state.warehouse.invoices,
+    claims: (invoice_id, item_id) =>
+      state.warehouse.invoices
+        ?.find((inv) => inv.invoice_id === +invoice_id)
+        ?.items?.find((i) => i.item_id === +item_id)?.claims ?? [],
   }
 }
 
