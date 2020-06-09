@@ -50,6 +50,10 @@ export const URI = {
           `${HOST_NAME}/v1/template/items?filter[category_id]=${categoryId}`,
         UPDATE_IMAGE: (itemId) =>
           `${HOST_NAME}/v1/template/item/${itemId}/image`,
+        UPDATE_LOT: (invoiceId, itemId) =>
+          `${HOST_NAME}/v1/template/invoice/${invoiceId}/item/${itemId}/lot`,
+        UPDATE_COUNT: (invoiceId, itemId) =>
+          `${HOST_NAME}/v1/template/invoice/${invoiceId}/item/${itemId}/count`,
       },
     },
   },

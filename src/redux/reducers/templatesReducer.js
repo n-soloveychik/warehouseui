@@ -86,7 +86,7 @@ const callUpdateItemField = (state, { invoiceId, itemId, field, value }) => {
   if (state.currentInvoiceId !== invoiceId) return state
   const newState = { ...state }
   const itemIndex = newState.itemsOfCurrentInvoice.findIndex(
-    (item) => item.item_id === itemId,
+    (item) => item.item_id === itemId
   )
   if (!~itemIndex) return state
   newState.itemsOfCurrentInvoice[itemIndex] = {
@@ -98,31 +98,28 @@ const callUpdateItemField = (state, { invoiceId, itemId, field, value }) => {
   return newState
 }
 
-const successUpdateItemField = (state, { invoiceId, itemId, field, value }) => {
+const successUpdateItemField = (state, { invoiceId, itemId, field, item }) => {
   if (state.currentInvoiceId !== invoiceId) return state
   const newState = { ...state }
   const itemIndex = newState.itemsOfCurrentInvoice.findIndex(
-    (item) => item.item_id === itemId,
+    (item) => item.item_id === itemId
   )
   if (!~itemIndex) return state
   newState.itemsOfCurrentInvoice[itemIndex] = {
     ...newState.itemsOfCurrentInvoice[itemIndex],
   }
-  const item = newState.itemsOfCurrentInvoice[itemIndex]
-  item[field] = item[`new_${field}`] || value
-  delete item[`new_${field}`]
-  delete item[`${field}_loading`]
+  newState.itemsOfCurrentInvoice[itemIndex] = item
   return newState
 }
 
 const failureUpdateItemField = (
   state,
-  { invoiceId, itemId, field, oldValue },
+  { invoiceId, itemId, field, oldValue }
 ) => {
   if (state.currentInvoiceId !== invoiceId) return state
   const newState = { ...state }
   const itemIndex = newState.itemsOfCurrentInvoice.findIndex(
-    (item) => item.item_id === itemId,
+    (item) => item.item_id === itemId
   )
   if (!~itemIndex) return state
   newState.itemsOfCurrentInvoice[itemIndex] = {
@@ -156,7 +153,7 @@ const obj = {
     const newCategory = !!action.data.find(
       (item) =>
         item.category === newState.newCategory.category ||
-        item.categoryId === newState.newCategory.categoryId,
+        item.categoryId === newState.newCategory.categoryId
     )
       ? {}
       : newState.newCategory.categoryId
@@ -169,15 +166,15 @@ const obj = {
   [API.TEMPLATES.ITEMS.ADD_TO_INVOICE]: (state) => state,
   [API.TEMPLATES.ITEMS.UPDATE_FIELD.CALL]: (
     state,
-    { invoiceId, itemId, field, value },
+    { invoiceId, itemId, field, value }
   ) => callUpdateItemField(state, { invoiceId, itemId, field, value }),
   [API.TEMPLATES.ITEMS.UPDATE_FIELD.SUCCESS]: (
     state,
-    { invoiceId, itemId, field, value },
-  ) => successUpdateItemField(state, { invoiceId, itemId, field, value }),
+    { invoiceId, itemId, field, item }
+  ) => successUpdateItemField(state, { invoiceId, itemId, field, item }),
   [API.TEMPLATES.ITEMS.UPDATE_FIELD.FAILURE]: (
     state,
-    { invoiceId, itemId, field, oldValue },
+    { invoiceId, itemId, field, oldValue }
   ) => failureUpdateItemField(state, { invoiceId, itemId, field, oldValue }),
   [TEMPLATES.INVOICE_PAGE_SHOW_ADD_INVOICE]: (state) => ({
     ...state,

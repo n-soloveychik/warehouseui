@@ -6,7 +6,7 @@ export const getInvoiceTemplatesAction = async (dispatch) => {
   await apiCoreAction(
     dispatch,
     API.TEMPLATES.INVOICES.GET,
-    REQUEST.getTemplateInvoices,
+    REQUEST.getTemplateInvoices
   )
 }
 
@@ -15,7 +15,7 @@ export const createInvoiceTemplateAction = async (dispatch, invoice) => {
     dispatch,
     API.TEMPLATES.INVOICES.CREATE,
     REQUEST.createTemplateInvoice,
-    invoice,
+    invoice
   )
   if (response.status > 399) {
     console.log(response)
@@ -29,7 +29,7 @@ export const createInvoiceTemplateAction = async (dispatch, invoice) => {
   await apiCoreAction(
     dispatch,
     API.TEMPLATES.INVOICES.GET,
-    REQUEST.getTemplateInvoices,
+    REQUEST.getTemplateInvoices
   )
 }
 
@@ -38,7 +38,7 @@ export const getItemsByInvoiceAction = async (dispatch, invoiceId) => {
     dispatch,
     API.TEMPLATES.ITEMS.GET_BY_INVOICE,
     REQUEST.getTemplateItems,
-    invoiceId,
+    invoiceId
   )
 }
 
@@ -46,7 +46,7 @@ export const getCategoriesAction = async (dispatch) => {
   await apiCoreAction(
     dispatch,
     API.TEMPLATES.CATEGORIES.GET,
-    REQUEST.getItemCategories,
+    REQUEST.getItemCategories
   )
 }
 
@@ -55,7 +55,7 @@ export const createCategoryAction = async (dispatch, categoryName) => {
     dispatch,
     API.TEMPLATES.CATEGORIES.CREATE,
     REQUEST.template.category.create,
-    categoryName,
+    categoryName
   )
 }
 
@@ -64,13 +64,13 @@ export const createItemAction = async (dispatch, item) => {
     dispatch,
     API.TEMPLATES.ITEMS.CREATE,
     REQUEST.createTemplateItem(item),
-    item,
+    item
   )
 }
 
 export const updateItemImageAction = async (
   dispatch,
-  { itemId, image, invoiceId },
+  { itemId, image, invoiceId }
 ) => {
   const response = await REQUEST.updateTemplateItemImage(itemId, {
     image: image,
@@ -92,7 +92,7 @@ export const updateItemImageAction = async (
 
 export const updateFieldAction = async (
   dispatch,
-  { field, itemId, invoiceId, newValue },
+  { field, itemId, invoiceId, newValue }
 ) => {
   dispatch({
     type: API.TEMPLATES.ITEMS.UPDATE_FIELD.CALL,
@@ -101,16 +101,12 @@ export const updateFieldAction = async (
     field,
     value: newValue,
   })
-  const response = await new Promise((resolve) => {
-    setTimeout(
-      () =>
-        resolve({
-          status: 500,
-          data: { message: 'Не реализовано на сервере' },
-        }),
-      1000,
-    )
-  })
+  const response = await REQUEST.updateTemplateItemField(
+    field,
+    invoiceId,
+    itemId,
+    { [field]: newValue }
+  )
   if (response.status === 401) {
     dispatch({ type: ROUTER.UNAUTHORIZED })
     return
@@ -121,7 +117,7 @@ export const updateFieldAction = async (
       invoiceId,
       itemId,
       field,
-      value: newValue,
+      item: response.data,
     })
     return
   }

@@ -3,7 +3,6 @@ import { connect } from 'react-redux'
 import { Typography, IconButton, ClickAwayListener } from '@material-ui/core'
 import InputText from '@/components/InputText/InputText'
 import InputNumber from '@/components/InputNumber/InputNumber'
-import InputFloat from '@/components/InputFloat/InputFloat'
 import ClearIcon from '@material-ui/icons/Clear'
 import DoneIcon from '@material-ui/icons/Done'
 import Loading from '@/components/Loading/Loading'
@@ -11,7 +10,7 @@ import './EditShow.scss'
 import { templateActions } from '@/redux/actions/actions'
 
 const typeComponent = {
-  string: (ready, notReady, defaultValue, { minLength, maxLength, title }) => (
+  lot: (ready, notReady, defaultValue, { minLength, maxLength, title }) => (
     <InputText
       label={title}
       ready={ready}
@@ -21,18 +20,8 @@ const typeComponent = {
       defaultValue={defaultValue}
     />
   ),
-  number: (ready, notReady, defaultValue, { min, max, title }) => (
+  count: (ready, notReady, defaultValue, { min, max, title }) => (
     <InputNumber
-      ready={ready}
-      notReady={notReady}
-      min={min}
-      max={max}
-      label={title}
-      defaultValue={defaultValue}
-    />
-  ),
-  float: (ready, notReady, defaultValue, { min, max, title }) => (
-    <InputFloat
       ready={ready}
       notReady={notReady}
       min={min}
@@ -50,7 +39,14 @@ const EditShow = ({ item, cell, save, invoiceId }) => {
   const [disabledButton, setDisabledButton] = useState(true)
   const [value, setValue] = useState(defaultValue)
 
+  const editable = !!typeComponent[cell.name]
+
   const isLoading = item[`${cell.name}_loading`] && item[`new_${cell.name}`]
+
+  const handlePlainTextClick = () => {
+    if (!editable) return
+    else setEdit(true)
+  }
 
   const ready = (newValue) => {
     setDisabledButton(false)
@@ -75,7 +71,9 @@ const EditShow = ({ item, cell, save, invoiceId }) => {
   return edit && !isLoading ? (
     <ClickAwayListener onClickAway={close}>
       <div style={{ minWidth: 150 }}>
-        {typeComponent[cell.type](ready, notReady, defaultValue, cell)}
+        {typeComponent[cell.name]
+          ? typeComponent[cell.name](ready, notReady, defaultValue, cell)
+          : ''}
         <div style={{ display: 'flex', justifyContent: 'center' }}>
           <IconButton onClick={close}>
             <ClearIcon />
@@ -96,7 +94,10 @@ const EditShow = ({ item, cell, save, invoiceId }) => {
       className={isLoading ? 'EditShow__loading' : ''}
     >
       {isLoading && <Loading />}
-      <Typography onClick={() => setEdit(true)} style={{ cursor: 'pointer' }}>
+      <Typography
+        onClick={() => handlePlainTextClick()}
+        style={{ cursor: editable ? 'pointer' : 'default' }}
+      >
         {item[`new_${cell.name}`] || item[cell.name]}
       </Typography>
     </div>

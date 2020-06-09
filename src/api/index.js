@@ -39,4 +39,11 @@ export const REQUEST = {
     HTTPS.delete(URI.V1.TEMPLATE.INVOICES.REMOVE_ITEM(invoiceId, itemId)),
   updateTemplateItemImage: async (itemId, image) =>
     HTTPS.put(URI.V1.TEMPLATE.ITEMS.UPDATE_IMAGE(itemId), image),
+  updateTemplateItemField: async (field, invoiceId, itemId, data) =>
+    ({
+      lot: () =>
+        HTTPS.put(URI.V1.TEMPLATE.ITEMS.UPDATE_LOT(invoiceId, itemId), data),
+      count: () =>
+        HTTPS.put(URI.V1.TEMPLATE.ITEMS.UPDATE_COUNT(invoiceId, itemId), data),
+    }[field]()),
 }
