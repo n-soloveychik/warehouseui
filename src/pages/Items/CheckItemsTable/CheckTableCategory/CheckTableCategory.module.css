@@ -1,0 +1,26 @@
+.single-cell {
+  background-color: #e0cca2;
+  text-align: center;
+}
+
+.loading {
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+.status--await-delivery {
+  background-color: #ffffff20;
+}
+
+.status--in-stock {
+  background-color: #00ff0020;
+}
+
+.status--claim {
+  background-color: #ff000020;
+}
+
+.table_row td {
+  cursor: pointer;
+}
+/*# sourceMappingURL=CheckTableCategory.module.css.map */

@@ -10,6 +10,16 @@ import {
 import { checkItemsGetter } from '@/redux/getters/itemsGetters'
 import CheckTableCategory from './CheckTableCategory/CheckTableCategory'
 
+const style = {
+  th: {
+    textAlign: 'center',
+    position: 'sticky',
+    top: 0,
+    backgroundColor: 'white',
+    zIndex: 3,
+  },
+}
+
 const CTable = (props) => {
   return (
     <>
@@ -23,15 +33,15 @@ const CTable = (props) => {
           }}
         >
           <TableRow>
-            <TableCell style={{ textAlign: 'center' }}>Место</TableCell>
-            <TableCell style={{ textAlign: 'center' }}>Артикул</TableCell>
-            <TableCell style={{ textAlign: 'center' }}>Изображение</TableCell>
-            <TableCell style={{ textAlign: 'center' }}>Размер</TableCell>
-            <TableCell style={{ textAlign: 'center' }}>Поступило</TableCell>
-            <TableCell style={{ textAlign: 'center' }}>Масса</TableCell>
-            <TableCell style={{ textAlign: 'center' }}>Отгружено</TableCell>
-            <TableCell></TableCell>
-            <TableCell></TableCell>
+            <TableCell style={style.th}>Место</TableCell>
+            <TableCell style={style.th}>Артикул</TableCell>
+            <TableCell style={style.th}>Изображение</TableCell>
+            <TableCell style={style.th}>Размер</TableCell>
+            <TableCell style={style.th}>Поступило</TableCell>
+            <TableCell style={style.th}>Масса</TableCell>
+            <TableCell style={style.th}>Отгружено</TableCell>
+            <TableCell style={style.th}></TableCell>
+            <TableCell style={style.th}></TableCell>
           </TableRow>
         </TableHead>
         <TableBody>

@@ -44,9 +44,15 @@ const CheckTableCategory = (props) => {
   }
 
   const titleRow = (
-    <TableRow key={props.category.category} style={{ position: 'sticky' }}>
+    <TableRow key={props.category.category}>
       <TableCell
-        style={{ padding: 0, textAlign: 'center' }}
+        style={{
+          padding: 0,
+          textAlign: 'center',
+          position: 'sticky',
+          top: 35,
+          zIndex: 3,
+        }}
         className={classes['single-cell']}
         colSpan='9'
       >
@@ -65,7 +71,11 @@ const CheckTableCategory = (props) => {
           <TableCell
             onClick={(e) => clickMultipleUpdateStatusHandler(e, lot)}
             rowSpan={lot.items.length}
-            style={{ textAlign: 'center', background: 'white', opacity: 1 }}
+            style={{
+              textAlign: 'center',
+              background: 'white',
+              opacity: 1,
+            }}
           >
             {lot.name}
           </TableCell>

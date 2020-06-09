@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "AAAA,AAAA,YAAY,CAAC;EACX,gBAAgB,EAAE,OAAO;EACzB,UAAU,EAAE,MAAM;CACnB;;AAED,AAAA,QAAQ,CAAC;EACP,OAAO,EAAE,GAAG;EACZ,cAAc,EAAE,IAAI;CACrB;;AAGE,AAAD,uBAAiB,CAAC;EAChB,gBAAgB,EAAE,SAAS;CAC5B;;AACA,AAAD,iBAAW,CAAC;EACV,gBAAgB,EAAE,SAAS;CAC5B;;AACA,AAAD,cAAQ,CAAC;EACP,gBAAgB,EAAE,SAAS;CAC5B;;AAGH,AACE,UADQ,CACR,EAAE,CAAC;EACD,MAAM,EAAE,OAAO;CAChB",
+    "sources": [
+        "CheckTableCategory.module.scss"
+    ],
+    "names": [],
+    "file": "CheckTableCategory.module.css"
+}
