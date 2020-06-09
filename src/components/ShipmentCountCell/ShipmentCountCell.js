@@ -29,11 +29,16 @@ const ComingCountCell = (props) => {
     props.item.new_count_shipment !== undefined
       ? props.item.new_count_shipment >= props.item.count_in_stock
       : props.item.count_shipment >= props.item.count_in_stock
+
   const disabledDecrease =
     props.item.new_count_shipment !== undefined
       ? props.item.new_count_shipment === 0 ||
         props.item.new_count_shipment === 0
       : props.item.count_shipment === 0 || props.item.count_shipment === 0
+
+  const setAll = () =>
+    props.setItemNewCountShipment(props.item.item_id, props.item.count_in_stock)
+
   return (
     <div className={config().mainContainerClass}>
       <div className={classes.row}>
@@ -52,7 +57,10 @@ const ComingCountCell = (props) => {
         <Typography
           style={{ whiteSpace: 'nowrap' }}
           variant={config().typographyVariant}
-        >{`${count_shipment} / ${props.item.count_in_stock}`}</Typography>
+        >
+          {`${count_shipment} / `}{' '}
+          <span onClick={() => setAll()}>{props.item.count_in_stock}</span>
+        </Typography>
         <IconButton
           onClick={() =>
             props.setItemNewCountShipment(
