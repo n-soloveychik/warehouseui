@@ -19,6 +19,7 @@ const style = {
     position: 'relative',
     display: 'block',
     objectFit: 'contain',
+    width: '100%',
   },
 }
 
