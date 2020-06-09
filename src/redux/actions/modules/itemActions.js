@@ -83,3 +83,30 @@ export const setItemCountInStockAction = async (
     })
   }
 }
+export const setItemNewCountShipmentAction = (dispatch, itemId, value) => {
+  dispatch({ type: APP.ITEM.SET_NEW_COUNT_SHIPMENT, itemId, value })
+}
+
+export const setItemCountShipmentAction = async (
+  dispatch,
+  itemId,
+  count_shipment
+) => {
+  const response = await apiCoreAction(
+    dispatch,
+    API.ITEM.COUNT_SHIPMENT.SET,
+    REQUEST.setItemCountShipment.bind(null, itemId),
+    { count_shipment }
+  )
+  if (response.status === 401) {
+    dispatch({ type: ROUTER.UNAUTHORIZED })
+    return
+  }
+  if (response.status !== 200) {
+    dispatch({
+      type: ERROR.OPEN,
+      title: response.status,
+      text: response.data?.message,
+    })
+  }
+}

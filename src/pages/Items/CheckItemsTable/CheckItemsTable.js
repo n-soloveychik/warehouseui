@@ -27,9 +27,9 @@ const CTable = (props) => {
             <TableCell style={{ textAlign: 'center' }}>Артикул</TableCell>
             <TableCell style={{ textAlign: 'center' }}>Изображение</TableCell>
             <TableCell style={{ textAlign: 'center' }}>Размер</TableCell>
-            <TableCell style={{ textAlign: 'center' }}>Кол-во</TableCell>
+            <TableCell style={{ textAlign: 'center' }}>Поступило</TableCell>
             <TableCell style={{ textAlign: 'center' }}>Масса</TableCell>
-            <TableCell style={{ textAlign: 'center' }}>Примечание</TableCell>
+            <TableCell style={{ textAlign: 'center' }}>Отгружено</TableCell>
             <TableCell></TableCell>
             <TableCell></TableCell>
           </TableRow>

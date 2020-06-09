@@ -77,7 +77,7 @@ const failureMultipleUpdateItemsStatus = (state, itemIds) => {
   return newState
 }
 
-const successUpdateCountInStockAndStatus = (state, updateditem) => {
+const updateItem = (state, updateditem) => {
   const newState = { ...state }
   const items = newState.invoices.find(
     (invoice) => invoice.invoice_id === newState.currentInvoice
@@ -101,8 +101,28 @@ const setItemNewCountInStock = (state, itemId, value) => {
   if (!~itemIndex) return state
   const item = items[itemIndex]
   item.new_count_in_stock = value
+  delete item.new_count_shipment
   if (item.new_count_in_stock > item.count) item.new_count_in_stock = item.count
-  if (item.new_count_in_stock < 0) item.new_count_in_stock = 0
+  if (item.new_count_in_stock < item.count_shipment)
+    item.new_count_in_stock = item.count_shipment
+  items[itemIndex] = { ...items[itemIndex] }
+  return newState
+}
+
+const setItemNewCountShipment = (state, itemId, value) => {
+  const newState = { ...state }
+  const items = newState.invoices.find(
+    (invoice) => invoice.invoice_id === newState.currentInvoice
+  )?.items
+  if (!items) return state
+  const itemIndex = items.findIndex((item) => item.item_id === itemId)
+  if (!~itemIndex) return state
+  const item = items[itemIndex]
+  item.new_count_shipment = value
+  delete item.new_count_in_stock
+  if (item.new_count_shipment > item.count_in_stock)
+    item.new_count_shipment = item.count_in_stock
+  if (item.new_count_shipment < 0) item.new_count_shipment = 0
   items[itemIndex] = { ...items[itemIndex] }
   return newState
 }
@@ -145,8 +165,11 @@ const obj = {
     return newState
   },
   [API.ITEM.COUNT_IN_STOCK.SET.SUCCESS]: (state, { data }) =>
-    successUpdateCountInStockAndStatus(state, data),
+    updateItem(state, data),
   [API.ITEM.COUNT_IN_STOCK.SET.FAILURE]: (state) => state,
+  [API.ITEM.COUNT_SHIPMENT.SET.SUCCESS]: (state, { data }) =>
+    updateItem(state, data),
+  [API.ITEM.COUNT_SHIPMENT.SET.FAILURE]: (state) => state,
   [API.ITEMS.MULTIPLE_SET_FULL_IN_STOCK.CALL]: (state, { itemIds }) =>
     callMultipleUpdateItemsStatus(state, itemIds, 2),
   [API.ITEMS.MULTIPLE_SET_FULL_IN_STOCK.SUCCESS]: (state, { resultItems }) =>
@@ -167,6 +190,8 @@ const obj = {
   },
   [APP.ITEM.SET_NEW_COUNT_IN_STOCK]: (state, { itemId, value }) =>
     setItemNewCountInStock(state, itemId, value),
+  [APP.ITEM.SET_NEW_COUNT_SHIPMENT]: (state, { itemId, value }) =>
+    setItemNewCountShipment(state, itemId, value),
   DEFAULT: (state) => ({ ...state }),
 }
 

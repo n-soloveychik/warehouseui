@@ -7,12 +7,14 @@ import {
   CardMedia,
   IconButton,
   Badge,
+  Typography,
 } from '@material-ui/core'
 import classes from './CheckItemsCard.module.scss'
 import ReportProblemIcon from '@material-ui/icons/ReportProblem'
 import { warehouseActions } from '@/redux/actions/actions'
 import { itemStatusColors } from '@/configs/itemStatusColors'
-import CountCell from '@/components/CountCell/CountCell'
+import ComingCountCell from '@/components/ComingCountCell/ComingCountCell'
+import ShipmentCountCell from '@/components/ShipmentCountCell/ShipmentCountCell'
 
 const style = {
   card: {
@@ -61,8 +63,11 @@ const CheckItemsCard = (props) => {
         className={classes.image}
         image={props.item.image}
       />
-      <CardActions>
-        <CountCell item={props.item} />
+      <CardActions style={{ flexDirection: 'column' }}>
+        <Typography>Поступило</Typography>
+        <ComingCountCell item={props.item} />
+        <Typography>Отгружено</Typography>
+        <ShipmentCountCell item={props.item} />
       </CardActions>
     </Card>
   )

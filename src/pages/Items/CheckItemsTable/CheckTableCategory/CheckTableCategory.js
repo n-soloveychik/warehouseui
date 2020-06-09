@@ -10,8 +10,9 @@ import {
 import ReportProblemIcon from '@material-ui/icons/ReportProblem'
 import classes from './CheckTableCategory.module.scss'
 import { warehouseActions } from '@/redux/actions/actions'
-import CountCell from '../../../../components/CountCell/CountCell'
+import ComingCountCell from '../../../../components/ComingCountCell/ComingCountCell'
 import { itemStatusColors } from '@/configs/itemStatusColors'
+import ShipmentCountCell from '@/components/ShipmentCountCell/ShipmentCountCell'
 
 const style = {
   statusColor: itemStatusColors,
@@ -95,7 +96,7 @@ const CheckTableCategory = (props) => {
           {item.size}
         </TableCell>
         <TableCell className={itemClass(item)} style={{ textAlign: 'center' }}>
-          <CountCell item={item} />
+          <ComingCountCell item={item} />
         </TableCell>
         <TableCell
           onClick={(e) => clickUpdateStatusHandler(e, item)}
@@ -108,7 +109,7 @@ const CheckTableCategory = (props) => {
           onClick={(e) => clickUpdateStatusHandler(e, item)}
           className={itemClass(item)}
         >
-          <Typography variant={'caption'}>{item.description}</Typography>
+          <ShipmentCountCell item={item} />
         </TableCell>
         <TableCell
           onClick={(e) => clickUpdateStatusHandler(e, item)}

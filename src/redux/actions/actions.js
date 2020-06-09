@@ -21,6 +21,8 @@ import {
   setItemNewCountInStockAction,
   setItemCountInStockAction,
   itemsMultipleUpdateStatusAction,
+  setItemCountShipmentAction,
+  setItemNewCountShipmentAction,
 } from './modules/itemActions'
 import {
   getClaimsOrdersAction,
@@ -51,6 +53,14 @@ export const warehouseActions = {
     newCountInStock: {
       set: (dispatch, itemId, newCountInStock) =>
         setItemNewCountInStockAction(dispatch, itemId, newCountInStock),
+    },
+    countShipment: {
+      set: (dispatch, itemId, countShipment) =>
+        setItemCountShipmentAction(dispatch, itemId, countShipment),
+    },
+    newCountShipment: {
+      set: (dispatch, itemId, newCountShipment) =>
+        setItemNewCountShipmentAction(dispatch, itemId, newCountShipment),
     },
   },
   items: {

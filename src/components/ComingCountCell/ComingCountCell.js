@@ -5,7 +5,7 @@ import AddIcon from '@material-ui/icons/Add'
 import RemoveIcon from '@material-ui/icons/Remove'
 import DoneIcon from '@material-ui/icons/Done'
 import ClearIcon from '@material-ui/icons/Clear'
-import classes from './CountCell.module.scss'
+import classes from './ComingCountCell.module.scss'
 import { warehouseActions } from '@/redux/actions/actions'
 import { isMobileOnly } from 'react-device-detect'
 
@@ -13,7 +13,7 @@ const config = () => {
   if (isMobileOnly)
     return {
       mainContainerClass: `${classes.row} ${classes['row--main']}`,
-      typographyVariant: 'h4',
+      typographyVariant: 'h5',
     }
   return {
     mainContainerClass: classes.column,
@@ -21,7 +21,7 @@ const config = () => {
   }
 }
 
-const CountCell = (props) => {
+const ComingCountCell = (props) => {
   const count_in_stock =
     props.item.new_count_in_stock ?? props.item.count_in_stock
 
@@ -31,9 +31,10 @@ const CountCell = (props) => {
       : props.item.count_in_stock >= props.item.count
   const disabledDecrease =
     props.item.new_count_in_stock !== undefined
-      ? props.item.new_count_in_stock === 0 ||
-        props.item.new_count_in_stock === 0
-      : props.item.count_in_stock === 0 || props.item.count_in_stock === 0
+      ? props.item.new_count_in_stock <= props.item.count_shipment ||
+        props.item.new_count_in_stock <= props.item.count_shipment
+      : props.item.count_in_stock <= props.item.count_shipment ||
+        props.item.count_in_stock <= props.item.count_shipment
   return (
     <div className={config().mainContainerClass}>
       <div className={classes.row}>
@@ -66,7 +67,7 @@ const CountCell = (props) => {
           <AddIcon />
         </IconButton>
       </div>
-      <div>
+      <div className={classes.row}>
         <IconButton
           color='primary'
           disabled={
@@ -114,4 +115,4 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-export default connect(null, mapDispatchToProps)(CountCell)
+export default connect(null, mapDispatchToProps)(ComingCountCell)

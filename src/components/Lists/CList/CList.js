@@ -16,6 +16,9 @@ const statusColors = {
   4: {
     backgroundColor: '#00ff0020',
   },
+  5: {
+    backgroundColor: '#10101024',
+  },
 }
 
 const CList = (props) => {

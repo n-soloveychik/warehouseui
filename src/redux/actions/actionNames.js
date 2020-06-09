@@ -27,6 +27,9 @@ export const API = {
     COUNT_IN_STOCK: {
       SET: api('SET', 'ITEM_COUNT_IN_STOCK'),
     },
+    COUNT_SHIPMENT: {
+      SET: api('SET', 'ITEM_COUNT_SHIPMENT'),
+    },
   },
   INVOICES: {
     GET: api('GET', 'INVOICES'),
@@ -69,6 +72,7 @@ export const APP = {
   },
   ITEM: {
     SET_NEW_COUNT_IN_STOCK: 'APP_ITEM_SET_NEW_COUNT_IN_STOCK',
+    SET_NEW_COUNT_SHIPMENT: 'APP_ITEM_SET_NEW_COUNT_SHIPMENT',
   },
   INVOICE: {
     CURRENT: {

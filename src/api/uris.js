@@ -24,6 +24,9 @@ export const URI = {
       COUNT_IN_STOCK: {
         SET: (itemId) => `${HOST_NAME}/v1/item/${itemId}/count-in-stock`,
       },
+      COUNT_SHIPMENT: {
+        SET: (itemId) => `${HOST_NAME}/v1/item/${itemId}/count-shipment`,
+      },
       CLAIM: {
         CREATE: (itemId) => `${HOST_NAME}/v1/item/${itemId}/claim`,
         CLOSE: (claimId) => `${HOST_NAME}/v1/claim/${claimId}`,
