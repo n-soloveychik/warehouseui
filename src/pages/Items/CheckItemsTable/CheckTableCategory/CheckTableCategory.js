@@ -115,10 +115,7 @@ const CheckTableCategory = (props) => {
         >
           {item.weight}
         </TableCell>
-        <TableCell
-          onClick={(e) => clickUpdateStatusHandler(e, item)}
-          className={itemClass(item)}
-        >
+        <TableCell className={itemClass(item)}>
           <ShipmentCountCell item={item} />
         </TableCell>
         <TableCell
