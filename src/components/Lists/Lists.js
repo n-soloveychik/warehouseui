@@ -6,6 +6,8 @@ import { Grid } from "@material-ui/core";
 import { warehouseActions } from "@/redux/actions/actions";
 import { isMobileOnly } from "react-device-detect";
 import OrdersList from "./OrdersList/OrdersList";
+import OrderSearch from "./OrderSearch/OrderSearch";
+import { foundOrdersGetter } from "@/redux/getters/ordersGetters";
 
 const Lists = (props) => (
   <Grid
@@ -16,9 +18,9 @@ const Lists = (props) => (
     ].join(" ")}
     spacing={3}
   >
+    <OrderSearch />
     <Grid className={classes.column} item xs={6}>
       <OrdersList
-        title={"Заказ"}
         loading={props.loading}
         items={props.orders}
         handleItemClick={props.selectOrder}
@@ -50,11 +52,10 @@ const Lists = (props) => (
 );
 
 function mapStateToProps(state) {
-  state = state.warehouse;
   return {
-    orders: state.orders,
-    currentOrder: state.currentOrder,
-    currentInvoice: state.currentInvoice,
+    orders: foundOrdersGetter(state),
+    currentOrder: state.warehouse.currentOrder,
+    currentInvoice: state.warehouse.currentInvoice,
   };
 }
 

@@ -1,12 +1,16 @@
-import { TEMPLATES, ERROR } from './actionNames'
-import { getOrdersAction, selectOrderAction } from './modules/orderActions'
-import { REQUEST } from '@/api/index'
-import { login, checkToken } from './modules/loginAction'
+import { TEMPLATES, ERROR } from "./actionNames";
+import {
+  getOrdersAction,
+  selectOrderAction,
+  searchSet,
+} from "./modules/orderActions";
+import { REQUEST } from "@/api/index";
+import { login, checkToken } from "./modules/loginAction";
 import {
   getInvoicesByOrderAction,
   selectInvoiceAction,
-} from './modules/invoiceAction'
-import { setCurrentOrderInvoiceAction } from './modules/appAction'
+} from "./modules/invoiceAction";
+import { setCurrentOrderInvoiceAction } from "./modules/appAction";
 import {
   getInvoiceTemplatesAction,
   createInvoiceTemplateAction,
@@ -16,25 +20,26 @@ import {
   createItemAction,
   updateItemImageAction,
   updateFieldAction,
-} from './modules/templateAction'
+} from "./modules/templateAction";
 import {
   setItemNewCountInStockAction,
   setItemCountInStockAction,
   itemsMultipleUpdateStatusAction,
   setItemCountShipmentAction,
   setItemNewCountShipmentAction,
-} from './modules/itemActions'
+} from "./modules/itemActions";
 import {
   getClaimsOrdersAction,
   selectClaimsOrdersCurrentAction,
   getClaimsAction,
   closeClaimAction,
-} from './modules/claimAction'
+} from "./modules/claimAction";
 
 export const warehouseActions = {
   orders: {
     get: (dispatch) => getOrdersAction(dispatch),
     select: async (dispatch, order) => selectOrderAction(dispatch, order),
+    setSearch: (dispatch, searchStr) => searchSet(dispatch, searchStr),
   },
   invoices: {
     select: (dispatch, invoice) => selectInvoiceAction(dispatch, invoice),
@@ -42,7 +47,7 @@ export const warehouseActions = {
   },
   uriParams: {
     set: (dispatch, order_id, invoice_id) => {
-      setCurrentOrderInvoiceAction(dispatch, order_id, invoice_id)
+      setCurrentOrderInvoiceAction(dispatch, order_id, invoice_id);
     },
   },
   item: {
@@ -67,7 +72,7 @@ export const warehouseActions = {
     setMultipleFullInStocks: (dispatch, itemIds) =>
       itemsMultipleUpdateStatusAction(dispatch, itemIds),
   },
-}
+};
 
 export const claimAction = {
   claimsOrders: {
@@ -81,7 +86,7 @@ export const claimAction = {
   claim: {
     close: async (dispatch, claimId) => closeClaimAction(dispatch, claimId),
   },
-}
+};
 
 export const templateActions = {
   invoices: {
@@ -112,19 +117,19 @@ export const templateActions = {
   },
   itemPage: {
     setCurrentInvoice: (dispatch, invoiceId) => {
-      dispatch({ type: TEMPLATES.ITEM_PAGE_SET_CURRENT_INVOICE, invoiceId })
+      dispatch({ type: TEMPLATES.ITEM_PAGE_SET_CURRENT_INVOICE, invoiceId });
     },
     showCategoryCreate: (dispatch) => {
-      dispatch({ type: TEMPLATES.ITEM_PAGE_SHOW_CATEGORY_CREATE })
+      dispatch({ type: TEMPLATES.ITEM_PAGE_SHOW_CATEGORY_CREATE });
     },
     hideCategoryCreate: (dispatch) => {
-      dispatch({ type: TEMPLATES.ITEM_PAGE_HIDE_CATEGORY_CREATE })
+      dispatch({ type: TEMPLATES.ITEM_PAGE_HIDE_CATEGORY_CREATE });
     },
     showCategorySelect: (dispatch) => {
-      dispatch({ type: TEMPLATES.ITEM_PAGE_SHOW_CATEGORY_SELECT })
+      dispatch({ type: TEMPLATES.ITEM_PAGE_SHOW_CATEGORY_SELECT });
     },
     hideCategorySelect: (dispatch) => {
-      dispatch({ type: TEMPLATES.ITEM_PAGE_HIDE_CATEGORY_SELECT })
+      dispatch({ type: TEMPLATES.ITEM_PAGE_HIDE_CATEGORY_SELECT });
     },
   },
   categories: {
@@ -134,20 +139,20 @@ export const templateActions = {
   },
   newCategory: {
     add: (dispatch, category) => {
-      dispatch({ type: TEMPLATES.ITEM_PAGE_ADD_NEW_CATEGORY, category })
-      dispatch({ type: TEMPLATES.ITEM_PAGE_HIDE_CATEGORY_SELECT })
-      dispatch({ type: TEMPLATES.ITEM_PAGE_HIDE_CATEGORY_CREATE })
+      dispatch({ type: TEMPLATES.ITEM_PAGE_ADD_NEW_CATEGORY, category });
+      dispatch({ type: TEMPLATES.ITEM_PAGE_HIDE_CATEGORY_SELECT });
+      dispatch({ type: TEMPLATES.ITEM_PAGE_HIDE_CATEGORY_CREATE });
     },
   },
-}
+};
 
 export const errorActions = {
   showError: (dispatch, title, text) =>
     dispatch({ type: ERROR.OPEN, title, text }),
   hideError: (dispatch) => dispatch({ type: ERROR.CLOSE }),
-}
+};
 
 export const loginActions = {
   login: (dispatch, requestData) => login(dispatch, REQUEST.login, requestData),
   checkToken: (dispatch) => checkToken(dispatch, REQUEST.checkToken),
-}
+};
