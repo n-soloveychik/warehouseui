@@ -49,9 +49,13 @@ const CheckItemsCard = (props) => {
         style={{ ...style.title }}
         action={
           <>
-            <IconButton onClick={(e) => props.openTransfer(props.item.item_id)}>
-              <TransferWithinAStationIcon />
-            </IconButton>
+            {props.item.count > props.item.count_in_stock && (
+              <IconButton
+                onClick={(e) => props.openTransfer(props.item.item_id)}
+              >
+                <TransferWithinAStationIcon />
+              </IconButton>
+            )}
             <IconButton
               onClick={(e) =>
                 props.contextMenuButtonClick(props.item, e.target)

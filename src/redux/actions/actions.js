@@ -35,7 +35,10 @@ import {
   getClaimsAction,
   closeClaimAction,
 } from "./modules/claimAction";
-import { getAvailableTransferAction } from "./modules/transferAction";
+import {
+  getAvailableTransferAction,
+  supplementItemAction,
+} from "./modules/transferAction";
 
 export const warehouseActions = {
   orders: {
@@ -158,6 +161,8 @@ export const templateActions = {
 export const transferActions = {
   getAvailable: (dispatch, item_id) =>
     getAvailableTransferAction(dispatch, item_id),
+  supplement: (dispatch, item_id, transferAvailable) =>
+    supplementItemAction(dispatch, item_id, transferAvailable),
 };
 
 export const errorActions = {

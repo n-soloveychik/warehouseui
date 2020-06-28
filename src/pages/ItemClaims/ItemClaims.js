@@ -20,8 +20,8 @@ class ItemClaims extends Component {
   };
 
   goBack = () => {
-    const params = this.props.match.params;
-    this.props.history.push(`/order/${params.order}/invoice/${params.invoice}`);
+    const { order, invoice } = this.props.match.params;
+    this.props.history.push(`/order/${order}/invoice/${invoice}`);
   };
 
   closeClaim = async (claimId) => {
@@ -43,7 +43,7 @@ class ItemClaims extends Component {
           menuItems={this.menuItems}
           text="Назад"
           onTextClick={this.goBack}
-        ></CHeader>
+        />
         {!!claims.length && (
           <Container maxWidth="sm">
             {claims?.map((claim, index) => (

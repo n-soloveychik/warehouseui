@@ -5,6 +5,7 @@ const initialState = {
   transferAvailable: [],
   supplement: [],
   loading: false,
+  supplementLoading: false,
 };
 
 const setCurrentItem = (state, item) => {
@@ -67,9 +68,15 @@ const obj = {
     return successGetAvailable(state, data);
   },
   [API.ITEM.TRANSFER.GET_AVAILABLE.FAILURE]: (state, data) => {},
-  [API.ITEM.TRANSFER.DO.CALL]: (state, data) => {},
-  [API.ITEM.TRANSFER.DO.SUCCESS]: (state, data) => {},
-  [API.ITEM.TRANSFER.DO.FAILURE]: (state, data) => {},
+  [API.ITEM.TRANSFER.DO.CALL]: (state, data) => ({
+    ...state,
+    supplementLoading: true,
+  }),
+  [API.ITEM.TRANSFER.DO.SUCCESS]: (state) => initialState,
+  [API.ITEM.TRANSFER.DO.FAILURE]: (state, data) => ({
+    ...state,
+    supplementLoading: false,
+  }),
   [TRANSFER.TRANSFER]: (state, data) => doTransfer(state, data),
   [TRANSFER.RESET]: (state) => resetTransfer(state),
 };
