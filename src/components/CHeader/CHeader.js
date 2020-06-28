@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState } from "react";
 import {
   AppBar,
   Toolbar,
@@ -8,30 +8,39 @@ import {
   SwipeableDrawer,
   List,
   ListItem,
-} from '@material-ui/core'
-import { Link } from 'react-router-dom'
-import MenuOpenIcon from '@material-ui/icons/MenuOpen'
-import { isMobileOnly } from 'react-device-detect'
+} from "@material-ui/core";
+import { Link } from "react-router-dom";
+import MenuOpenIcon from "@material-ui/icons/MenuOpen";
+import { isMobileOnly } from "react-device-detect";
 
 const CHeader = (props) => {
-  const [opened, setOpened] = useState(false)
+  const [opened, setOpened] = useState(false);
   const menuItems = props.menuItems?.map((item, index) => (
     <ListItem key={index} component={Link} to={item.link}>
       {item.name}
     </ListItem>
-  ))
-  const text = isMobileOnly && props.mobileText ? props.mobileText : props.text
+  ));
+  const text = isMobileOnly && props.mobileText ? props.mobileText : props.text;
   return (
-    <AppBar position='fixed'>
-      <Toolbar style={{ display: 'flex', justifyContent: 'space-between' }}>
-        <Button onClick={props.onTextClick} style={{ color: 'white' }}>
-          <Typography variant='h6'>{text}</Typography>
+    <AppBar position="fixed">
+      <Toolbar style={{ display: "flex", justifyContent: "space-between" }}>
+        <Button onClick={props.onTextClick} style={{ color: "white" }}>
+          <Typography
+            style={{
+              whiteSpace: "nowrap",
+              maxWidth: "calc(100vw - 64px)",
+              overflow: "hidden",
+            }}
+            variant="h6"
+          >
+            {text}
+          </Typography>
         </Button>
-        <IconButton onClick={() => setOpened(true)} style={{ color: 'white' }}>
+        <IconButton onClick={() => setOpened(true)} style={{ color: "white" }}>
           <MenuOpenIcon />
         </IconButton>
         <SwipeableDrawer
-          anchor='right'
+          anchor="right"
           onOpen={() => setOpened(true)}
           open={opened}
           onClose={() => setOpened(false)}
@@ -40,7 +49,7 @@ const CHeader = (props) => {
         </SwipeableDrawer>
       </Toolbar>
     </AppBar>
-  )
-}
+  );
+};
 
-export default CHeader
+export default CHeader;
