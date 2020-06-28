@@ -1,0 +1,21 @@
+.panel {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 48px;
+  padding: 0 10px;
+  background-color: #fff;
+  box-shadow: 0 0 3px grey;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.panel-payload {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 400px;
+  max-width: calc(100vw - 16px);
+}

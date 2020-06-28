@@ -1,9 +1,9 @@
-const HOST_NAME = 'https://warehouseapi.iopk.in'
+const HOST_NAME = "https://warehouseapi.iopk.in";
 
 export const URI = {
   V1: {
-    LOGIN: HOST_NAME + '/v1/auth/login',
-    CHECK_TOKEN: HOST_NAME + '/v1/auth/check',
+    LOGIN: HOST_NAME + "/v1/auth/login",
+    CHECK_TOKEN: HOST_NAME + "/v1/auth/check",
     ORDER: {
       AVAILABLE: (warehouseId) =>
         `${HOST_NAME}/v1/warehouse/${warehouseId}/order/available`,
@@ -19,6 +19,10 @@ export const URI = {
       SET_MULTIPLE: {
         FULL_IN_STOCK: `${HOST_NAME}/v1/items/status-in-stock`,
       },
+      CATEGORY: {
+        SET_SHIPMENT: ({ invoice_id, category_id }) =>
+          `${HOST_NAME}/v1/invoice/${invoice_id}/category/${category_id}/shipment`,
+      },
     },
     ITEM: {
       COUNT_IN_STOCK: {
@@ -30,6 +34,11 @@ export const URI = {
       CLAIM: {
         CREATE: (itemId) => `${HOST_NAME}/v1/item/${itemId}/claim`,
         CLOSE: (claimId) => `${HOST_NAME}/v1/claim/${claimId}`,
+      },
+      TRANSFER: {
+        GET_AVAILABLE: (item_id) =>
+          `${HOST_NAME}/v1/item/${item_id}/transfer-available`,
+        SUPPLEMENT: (item_id) => `${HOST_NAME}/v1/item/${item_id}/supplement`,
       },
     },
     PHOTOS: {
@@ -60,4 +69,4 @@ export const URI = {
       },
     },
   },
-}
+};

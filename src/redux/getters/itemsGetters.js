@@ -1,60 +1,61 @@
 export const checkItemsGetter = (state) => {
-  state = state.warehouse
+  state = state.warehouse;
   const items =
     state.invoices?.length && state.currentInvoice
       ? state.invoices.find(
-          (invoice) => invoice.invoice_id === state.currentInvoice,
+          (invoice) => invoice.invoice_id === state.currentInvoice
         )?.items
-      : null
+      : null;
   if (!items || !(items instanceof Array)) {
-    return []
+    return [];
   }
   const groupedItems = items.reduce((acc, cur) => {
-    const category = acc.find((obj) => obj.category === cur.category)
+    const category = acc.find((obj) => obj.category === cur.category);
     if (category) {
-      category.lots.push(cur)
-      return acc
+      category.lots.push(cur);
+      return acc;
     }
     acc.push({
       category: cur.category,
+      category_id: cur.category_id,
       lots: [cur],
-    })
-    return acc
-  }, [])
+    });
+    return acc;
+  }, []);
   Object.keys(groupedItems).forEach(
     (key) =>
       (groupedItems[key].lots = groupedItems[key].lots.reduce((acc, cur) => {
-        const lot = acc.find((obj) => obj.name === cur.lot)
+        const lot = acc.find((obj) => obj.name === cur.lot);
         if (lot) {
-          lot.items.push(cur)
-          return acc
+          lot.items.push(cur);
+          return acc;
         }
-        acc.push({ name: cur.lot, items: [cur] })
-        return acc
-      }, [])),
-  )
-  return groupedItems
-}
+        acc.push({ name: cur.lot, items: [cur] });
+        return acc;
+      }, []))
+  );
+  return groupedItems;
+};
 
 export const templateItemsGetter = (items, categories) => {
   const groupedItems = items.reduce((acc, cur) => {
-    const category = acc.find((obj) => obj.category_id === cur.category_id)
+    const category = acc.find((obj) => obj.category_id === cur.category_id);
     if (category) {
-      category.items.push(cur)
-      return acc
+      category.items.push(cur);
+      return acc;
     }
     acc.push({
       category: cur.category,
       category_id: cur.category_id,
       items: [cur],
-    })
-    return acc
-  }, [])
+    });
+    return acc;
+  }, []);
   groupedItems.forEach(
     (category) =>
       (category.category_name = categories.find(
-        (c) => c.category_id === category.category_id,
-      )?.category_name),
-  )
-  return groupedItems
-}
+        (c) => c.category_id === category.category_id
+      )?.category_name)
+  );
+  return groupedItems;
+};

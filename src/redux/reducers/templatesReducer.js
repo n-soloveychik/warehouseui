@@ -1,75 +1,75 @@
-import { API, TEMPLATES } from '../actions/actionNames'
+import { API, TEMPLATES } from "../actions/actionNames";
 
 const initialState = {
   cells: [
     {
-      title: 'Место',
-      name: 'lot',
-      type: 'string',
+      title: "Место",
+      name: "lot",
+      type: "string",
       required: true,
-      default: '',
+      default: "",
       minLength: 1,
       maxLength: 100,
-      style: { whiteSpace: 'nowrap', textAlign: 'center' },
+      style: { whiteSpace: "nowrap", textAlign: "center" },
     },
     {
-      title: 'Артикул',
-      name: 'item_num',
-      type: 'string',
+      title: "Артикул",
+      name: "item_num",
+      type: "string",
       required: true,
-      default: '',
+      default: "",
       minLength: 0,
       maxLength: 100,
-      style: { textAlign: 'center' },
+      style: { textAlign: "center" },
     },
     {
-      title: 'Изображение',
-      name: 'image',
-      type: 'image',
+      title: "Изображение",
+      name: "image",
+      type: "image",
       required: true,
-      default: '',
+      default: "",
       style: {},
     },
     {
-      title: 'Размер',
-      name: 'size',
-      type: 'string',
+      title: "Размер",
+      name: "size",
+      type: "string",
       required: true,
-      default: '',
+      default: "",
       minLength: 0,
       maxLength: 100,
-      style: { textAlign: 'center' },
+      style: { textAlign: "center" },
     },
     {
-      title: 'Кол-во',
-      name: 'count',
-      type: 'number',
+      title: "Кол-во",
+      name: "count",
+      type: "number",
       required: true,
       default: 0,
       min: 1,
       max: 10000,
-      style: { textAlign: 'center' },
+      style: { textAlign: "center" },
     },
     {
-      title: 'Масса',
-      name: 'weight',
-      type: 'float',
+      title: "Масса",
+      name: "weight",
+      type: "float",
       required: true,
       default: 0,
       min: 0.001,
       max: 10000,
-      style: { textAlign: 'center' },
+      style: { textAlign: "center" },
       output: (float) => Math.round(parseFloat(float) * 1000) / 1000,
     },
     {
-      title: 'Примечание',
-      name: 'description',
-      type: 'string',
+      title: "Примечание",
+      name: "description",
+      type: "string",
       required: false,
-      default: '',
+      default: "",
       minLength: 0,
       maxLength: 256,
-      style: { fontSize: 12, maxWidth: 200, textAlign: 'center' },
+      style: { fontSize: 12, maxWidth: 200, textAlign: "center" },
     },
   ],
   invoices: [],
@@ -80,56 +80,56 @@ const initialState = {
   newCategory: {},
   itemPageShowCategoryCreate: false,
   itemPageShowCategorySelect: false,
-}
+};
 
 const callUpdateItemField = (state, { invoiceId, itemId, field, value }) => {
-  if (state.currentInvoiceId !== invoiceId) return state
-  const newState = { ...state }
+  if (state.currentInvoiceId !== invoiceId) return state;
+  const newState = { ...state };
   const itemIndex = newState.itemsOfCurrentInvoice.findIndex(
     (item) => item.item_id === itemId
-  )
-  if (!~itemIndex) return state
+  );
+  if (!~itemIndex) return state;
   newState.itemsOfCurrentInvoice[itemIndex] = {
     ...newState.itemsOfCurrentInvoice[itemIndex],
-  }
-  const item = newState.itemsOfCurrentInvoice[itemIndex]
-  item[`new_${field}`] = value
-  item[`${field}_loading`] = true
-  return newState
-}
+  };
+  const item = newState.itemsOfCurrentInvoice[itemIndex];
+  item[`new_${field}`] = value;
+  item[`${field}_loading`] = true;
+  return newState;
+};
 
 const successUpdateItemField = (state, { invoiceId, itemId, field, item }) => {
-  if (state.currentInvoiceId !== invoiceId) return state
-  const newState = { ...state }
+  if (state.currentInvoiceId !== invoiceId) return state;
+  const newState = { ...state };
   const itemIndex = newState.itemsOfCurrentInvoice.findIndex(
     (item) => item.item_id === itemId
-  )
-  if (!~itemIndex) return state
+  );
+  if (!~itemIndex) return state;
   newState.itemsOfCurrentInvoice[itemIndex] = {
     ...newState.itemsOfCurrentInvoice[itemIndex],
-  }
-  newState.itemsOfCurrentInvoice[itemIndex] = item
-  return newState
-}
+  };
+  newState.itemsOfCurrentInvoice[itemIndex] = item;
+  return newState;
+};
 
 const failureUpdateItemField = (
   state,
   { invoiceId, itemId, field, oldValue }
 ) => {
-  if (state.currentInvoiceId !== invoiceId) return state
-  const newState = { ...state }
+  if (state.currentInvoiceId !== invoiceId) return state;
+  const newState = { ...state };
   const itemIndex = newState.itemsOfCurrentInvoice.findIndex(
     (item) => item.item_id === itemId
-  )
-  if (!~itemIndex) return state
+  );
+  if (!~itemIndex) return state;
   newState.itemsOfCurrentInvoice[itemIndex] = {
     ...newState.itemsOfCurrentInvoice[itemIndex],
-  }
-  const item = newState.itemsOfCurrentInvoice[itemIndex]
-  delete item[`new_${field}`]
-  delete item[`${field}_loading`]
-  return newState
-}
+  };
+  const item = newState.itemsOfCurrentInvoice[itemIndex];
+  delete item[`new_${field}`];
+  delete item[`${field}_loading`];
+  return newState;
+};
 
 const obj = {
   [API.TEMPLATES.INVOICES.GET.SUCCESS]: (state, { data }) => ({
@@ -149,17 +149,17 @@ const obj = {
     newCategory: data || {},
   }),
   [API.TEMPLATES.ITEMS.GET_BY_INVOICE.SUCCESS]: (state, action) => {
-    const newState = state
+    const newState = state;
     const newCategory = !!action.data.find(
       (item) =>
         item.category === newState.newCategory.category ||
         item.categoryId === newState.newCategory.categoryId
     )
       ? {}
-      : newState.newCategory.categoryId
-    newState.itemsOfCurrentInvoice = [...action.data]
-    newState.newCategory = newCategory || {}
-    return { ...newState }
+      : newState.newCategory.categoryId;
+    newState.itemsOfCurrentInvoice = [...action.data];
+    newState.newCategory = newCategory || {};
+    return { ...newState };
   },
   [API.TEMPLATES.ITEMS.GET_BY_CATEGORY.SUCCESS]: (state) => state,
   [API.TEMPLATES.ITEMS.CREATE.SUCCESS]: (state) => state,
@@ -188,12 +188,12 @@ const obj = {
     const itemsOfCurrentInvoice =
       +action.invoiceId === state.currentInvoiceId
         ? state.itemsOfCurrentInvoice
-        : []
+        : [];
     return {
       ...state,
       currentInvoiceId: +action.invoiceId,
       itemsOfCurrentInvoice,
-    }
+    };
   },
   [TEMPLATES.ITEM_PAGE_SHOW_CATEGORY_CREATE]: (state) => ({
     ...state,
@@ -219,9 +219,8 @@ const obj = {
     ...state,
     itemsOfCurrentInvoice: [],
   }),
-  DEFAULT: (state) => state,
-}
+};
 
 export default (state = initialState, action) => {
-  return obj[action.type] ? obj[action.type](state, action) : obj.DEFAULT(state)
-}
+  return obj[action.type] ? obj[action.type](state, action) : state;
+};

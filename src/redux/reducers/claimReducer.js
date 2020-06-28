@@ -1,25 +1,25 @@
-import { API, APP } from '@/redux/actions/actionNames'
+import { API, APP } from "@/redux/actions/actionNames";
 
 const initialState = {
   orders: [],
   currentOrder: null,
   claims: [],
-}
+};
 
 const successCloseClaim = (state, data) => {
-  const newState = { ...state }
-  newState.claims = { ...newState.claims }
+  const newState = { ...state };
+  newState.claims = { ...newState.claims };
   const claimIndex = newState.claims[data.invoice_code].findIndex(
     (claim) => claim.claim_id === data.claim_id
-  )
+  );
   if (~claimIndex) {
     newState.claims[data.invoice_code][claimIndex] = {
       ...newState.claims[data.invoice_code][claimIndex],
       closed: true,
-    }
+    };
   }
-  return newState
-}
+  return newState;
+};
 
 const obj = {
   [API.CLAIMS_ORDERS.GET.CALL]: (state) => state,
@@ -39,9 +39,8 @@ const obj = {
   [API.CLAIM.CLOSE.SUCCESS]: (state, { data }) =>
     successCloseClaim(state, data),
   [API.CLAIM.CLOSE.FAILURE]: (state) => state,
-  DEFAULT: (state) => state,
-}
+};
 
 export default (state = initialState, action) => {
-  return obj[action.type] ? obj[action.type](state, action) : obj.DEFAULT(state)
-}
+  return obj[action.type] ? obj[action.type](state, action) : state;
+};

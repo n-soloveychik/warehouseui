@@ -1,113 +1,100 @@
-import React, { Component, createRef } from 'react'
-import { connect } from 'react-redux'
-import CHeader from '@/components/CHeader/CHeader'
+import React, { Component, createRef } from "react";
+import { connect } from "react-redux";
+import CHeader from "@/components/CHeader/CHeader";
 import {
   SwipeableDrawer,
   Typography,
   List,
   ListItem,
   Badge,
-} from '@material-ui/core'
-import { claimAction } from '@/redux/actions/actions'
-import CardClaim from '@/components/CardClaim/CardClaim'
-import classes from './OrderClaims.module.scss'
-import { isMobileOnly } from 'react-device-detect'
+} from "@material-ui/core";
+import { claimAction } from "@/redux/actions/actions";
+import CardClaim from "@/components/CardClaim/CardClaim";
+import classes from "./OrderClaims.module.scss";
+import { isMobileOnly } from "react-device-detect";
+import { menuRoutesConfig } from "@/configs/menuRoutes";
 
 const style = {
   list: {
-    overflow: 'auto',
-    maxHeight: '90vh',
-    padding: '30px 30px 0',
+    overflow: "auto",
+    maxHeight: "90vh",
+    padding: "30px 30px 0",
   },
   badge: {
     left: 15,
   },
-}
+};
 
 class OrderClaims extends Component {
   state = {
     sidebarOpened: false,
     pageEl: createRef(),
-  }
+  };
 
   componentDidMount = async () => {
-    await this.props.getClaimsOrders()
-  }
+    await this.props.getClaimsOrders();
+  };
 
   componentDidUpdate = async () => {
-    const currentOrder = this.props.match.params.order
+    const currentOrder = this.props.match.params.order;
     if (currentOrder && !this.props.currentOrder) {
-      this.props.selectCurrentOrder(+currentOrder)
-      await this.props.getClaims(currentOrder)
-      this.setURLParams()
-      return
+      this.props.selectCurrentOrder(+currentOrder);
+      await this.props.getClaims(currentOrder);
+      this.setURLParams();
+      return;
     }
-    this.setURLParams()
-  }
+    this.setURLParams();
+  };
 
   setURLParams() {
     if (
       // eslint-disable-next-line
       this.props.match.params.order == this.props.currentOrder
     ) {
-      return
+      return;
     }
     let path = this.props.currentOrder
       ? `/claims/order/${this.props.currentOrder}`
-      : '/claims'
-    this.props.history.push(path)
+      : "/claims";
+    this.props.history.push(path);
   }
 
   openSidebar = () => {
-    this.setState({ sidebarOpened: true })
-    this.props.getClaimsOrders()
-  }
+    this.setState({ sidebarOpened: true });
+    this.props.getClaimsOrders();
+  };
 
   closeSidebar = () => {
-    this.setState({ sidebarOpened: false })
-  }
-
-  menuItems = [
-    {
-      name: 'Заказы',
-      link: '/',
-    },
-    {
-      name: 'Конструктор заказов',
-      link: '/constructor/orders',
-    },
-    {
-      name: 'Конструктор комплектовочных ведомостей',
-      link: '/constructor/invoices',
-    },
-  ]
+    this.setState({ sidebarOpened: false });
+  };
+  menuItems = menuRoutesConfig.filter((route) => route.link !== "/");
 
   handleListItemClick = (order) => {
-    this.props.selectCurrentOrder(+order.order_id)
-    this.props.getClaims(order.order_id)
-    this.closeSidebar()
+    this.props.selectCurrentOrder(+order.order_id);
+    this.props.getClaims(order.order_id);
+    this.closeSidebar();
     // eslint-disable-next-line
-    this.state.pageEl.current.scrollTop = 0
-  }
+    this.state.pageEl.current.scrollTop = 0;
+  };
 
   render() {
     const currentOrderNum = this.props.orders?.find(
       (order) => order.order_id === this.props.currentOrder
-    )?.order_num
+    )?.order_num;
     return (
-      <div className='page' ref={this.state.pageEl}>
+      <div className="page" ref={this.state.pageEl}>
         <CHeader
-          text={currentOrderNum || 'Заказы'}
+          text={currentOrderNum || "Заказы"}
           onTextClick={this.openSidebar}
           menuItems={this.menuItems}
         />
         {Object.keys(this.props.claims).map((key, index) => (
           <div key={`${key}-${index}`}>
             <Typography
-              className={`${classes['invoice-title']} ${
-                isMobileOnly ? classes['invoice-title--mobile'] : ''
+              className={`${classes["invoice-title"]} ${
+                isMobileOnly ? classes["invoice-title--mobile"] : ""
               }`}
-              variant='h5'
+              variant="h5"
             >
               {key}
             </Typography>
@@ -134,13 +121,13 @@ class OrderClaims extends Component {
                 className={`${
                   order.order_id === this.props.currentOrder
                     ? classes.currentItem
-                    : ''
+                    : ""
                 } ${classes.item}`}
               >
                 {order.order_num}
                 <Badge
                   style={style.badge}
-                  color='secondary'
+                  color="secondary"
                   badgeContent={order.count_claims}
                 />
               </ListItem>
@@ -148,7 +135,7 @@ class OrderClaims extends Component {
           </List>
         </SwipeableDrawer>
       </div>
-    )
+    );
   }
 }
 
@@ -157,7 +144,7 @@ function mapStateToProps(state) {
     orders: state.claim.orders,
     currentOrder: state.claim.currentOrder,
     claims: state.claim.claims,
-  }
+  };
 }
 
 function mapDispatchToProps(dispatch) {
@@ -167,7 +154,7 @@ function mapDispatchToProps(dispatch) {
       claimAction.claimsOrders.selectCurrent(dispatch, +orderId),
     getClaims: async (orderId) => claimAction.claims.get(dispatch, orderId),
     closeClaim: async (claimId) => claimAction.claim.close(dispatch, claimId),
-  }
+  };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(OrderClaims)
+export default connect(mapStateToProps, mapDispatchToProps)(OrderClaims);

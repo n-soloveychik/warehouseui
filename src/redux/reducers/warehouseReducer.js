@@ -129,6 +129,22 @@ const setItemNewCountShipment = (state, itemId, value) => {
   return newState;
 };
 
+const setCategoryItemsShipment = (
+  state,
+  { category_id, invoice_id, items }
+) => {
+  const newState = { ...state };
+  const invoice = newState.invoices.find(
+    (invoice) => invoice.invoice_id === invoice_id
+  );
+  invoice.items = invoice.items.map(
+    (item) =>
+      items.find((responsedItem) => responsedItem.item_id === item.item_id) ||
+      item
+  );
+  return newState;
+};
+
 const obj = {
   [APP.AVAILABLE_ORDER.CURRENT.SELECT]: (state, { order }) =>
     selectOrder(state, order),
@@ -170,6 +186,8 @@ const obj = {
     item.statusId = data.statusId;
     return newState;
   },
+  [API.ITEMS.CATEGORY.SET_SHIPMENT.SUCCESS]: (state, { data }) =>
+    setCategoryItemsShipment(state, data),
   [API.ITEM.COUNT_IN_STOCK.SET.SUCCESS]: (state, { data }) =>
     updateItem(state, data),
   [API.ITEM.COUNT_IN_STOCK.SET.FAILURE]: (state) => state,
@@ -198,11 +216,8 @@ const obj = {
     setItemNewCountInStock(state, itemId, value),
   [APP.ITEM.SET_NEW_COUNT_SHIPMENT]: (state, { itemId, value }) =>
     setItemNewCountShipment(state, itemId, value),
-  DEFAULT: (state) => ({ ...state }),
 };
 
 export default function (state = initialState, action) {
-  return obj[action.type]
-    ? obj[action.type](state, action)
-    : obj.DEFAULT(state);
+  return obj[action.type] ? obj[action.type](state, action) : state;
 }

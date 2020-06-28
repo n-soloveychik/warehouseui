@@ -1,34 +1,34 @@
-import React from 'react'
-import { connect } from 'react-redux'
+import React from "react";
+import { connect } from "react-redux";
 import {
   Table,
   TableBody,
   TableCell,
   TableHead,
   TableRow,
-} from '@material-ui/core'
-import { checkItemsGetter } from '@/redux/getters/itemsGetters'
-import CheckTableCategory from './CheckTableCategory/CheckTableCategory'
+} from "@material-ui/core";
+import { checkItemsGetter } from "@/redux/getters/itemsGetters";
+import CheckTableCategory from "./CheckTableCategory/CheckTableCategory";
 
 const style = {
   th: {
-    textAlign: 'center',
-    position: 'sticky',
+    textAlign: "center",
+    position: "sticky",
     top: 0,
-    backgroundColor: 'white',
+    backgroundColor: "white",
     zIndex: 3,
   },
-}
+};
 
 const CTable = (props) => {
   return (
     <>
-      <Table style={{ height: 'auto' }} size='small'>
+      <Table style={{ height: "auto" }} size="small">
         <TableHead
           style={{
-            position: 'sticky',
+            position: "sticky",
             top: 0,
-            backgroundColor: 'white',
+            backgroundColor: "white",
             zIndex: 1,
           }}
         >
@@ -47,6 +47,7 @@ const CTable = (props) => {
         <TableBody>
           {props.table?.map((category, index) => (
             <CheckTableCategory
+              openTransfer={props.openTransfer}
               contextMenuButtonClick={props.contextMenuButtonClick}
               category={category}
               key={index}
@@ -55,17 +56,17 @@ const CTable = (props) => {
         </TableBody>
       </Table>
     </>
-  )
-}
+  );
+};
 
 function mapStateToProps(state) {
   return {
     table: checkItemsGetter(state),
-  }
+  };
 }
 
 function mapDispatchToProps(dispatch) {
-  return {}
+  return {};
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CTable)
+export default connect(mapStateToProps, mapDispatchToProps)(CTable);

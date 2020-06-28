@@ -1,38 +1,31 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import CHeader from '@/components/CHeader/CHeader'
-import TemplateItemsTable from './TemplateItemsTable/TemplateItemsTable'
-import { templateActions } from '@/redux/actions/actions'
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import CHeader from "@/components/CHeader/CHeader";
+import TemplateItemsTable from "./TemplateItemsTable/TemplateItemsTable";
+import { templateActions } from "@/redux/actions/actions";
+import { menuRoutesConfig } from "@/configs/menuRoutes";
 
 class TemplateItems extends Component {
   componentDidMount = async () => {
-    const invoiceId = this.props.match.params.invoice
+    const invoiceId = this.props.match.params.invoice;
     if (!this.props.currentInvoice(invoiceId)) {
-      await this.props.getInvoices()
+      await this.props.getInvoices();
     }
-    await this.props.getCategories()
-    await this.props.setCurrentInvoice(invoiceId)
-    await this.props.getItems(invoiceId)
-  }
+    await this.props.getCategories();
+    await this.props.setCurrentInvoice(invoiceId);
+    await this.props.getItems(invoiceId);
+  };
 
   goBack = () => {
-    this.props.history.push('/constructor/invoices')
-  }
-
-  menuItems = [
-    {
-      name: 'Заказы',
-      link: '/',
-    },
-    {
-      name: 'Конструктор заказов',
-      link: '/constructor/orders',
-    },
-  ]
+    this.props.history.push("/constructor/invoices");
+  };
+  menuItems = menuRoutesConfig.filter(
+    (route) => route.link !== "/constructor/invoices"
+  );
 
   render() {
     return (
-      <div className='page'>
+      <div className="page">
         <CHeader
           menuItems={this.menuItems}
           text={
@@ -43,7 +36,7 @@ class TemplateItems extends Component {
         />
         <TemplateItemsTable invoiceId={this.props.match.params.invoice} />
       </div>
-    )
+    );
   }
 }
 
@@ -51,9 +44,9 @@ function mapStateToProps(state) {
   return {
     currentInvoice: (invoiceId) =>
       state.templates.invoices.find(
-        (invoice) => invoice.invoice_id === +invoiceId,
+        (invoice) => invoice.invoice_id === +invoiceId
       ),
-  }
+  };
 }
 
 function mapDispatchToProps(dispatch) {
@@ -64,7 +57,7 @@ function mapDispatchToProps(dispatch) {
       templateActions.items.getByInvoice(dispatch, invoiceId),
     getCategories: () => templateActions.categories.get(dispatch),
     getInvoices: () => templateActions.invoices.get(dispatch),
-  }
+  };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(TemplateItems)
+export default connect(mapStateToProps, mapDispatchToProps)(TemplateItems);

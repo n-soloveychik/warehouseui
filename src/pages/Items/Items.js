@@ -1,45 +1,46 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import Lists from '@/components/Lists/Lists'
-import CheckItemsTable from '@/pages/Items/CheckItemsTable/CheckItemsTable'
-import CHeader from '@/components/CHeader/CHeader'
-import classes from './Items.module.scss'
-import { SwipeableDrawer } from '@material-ui/core'
-import { warehouseActions } from '@/redux/actions/actions'
-import ContextMenu from './ContextMenu/ContextMenu'
-import { isMobileOnly } from 'react-device-detect'
-import CheckItemsCard from './CheckItemsCards/CheckItemsCards'
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import Lists from "@/components/Lists/Lists";
+import CheckItemsTable from "@/pages/Items/CheckItemsTable/CheckItemsTable";
+import CHeader from "@/components/CHeader/CHeader";
+import classes from "./Items.module.scss";
+import { SwipeableDrawer } from "@material-ui/core";
+import { warehouseActions } from "@/redux/actions/actions";
+import ContextMenu from "./ContextMenu/ContextMenu";
+import { isMobileOnly } from "react-device-detect";
+import CheckItemsCard from "./CheckItemsCards/CheckItemsCards";
+import { menuRoutesConfig } from "@/configs/menuRoutes";
 
 class Items extends Component {
   state = {
     sideOpened: false,
     menuAnchorEl: null,
     menuItem: null,
-  }
+  };
 
   async componentDidMount() {
-    const order_id = this.props.match.params.order
-    const invoice_id = this.props.match.params.invoice
+    const order_id = this.props.match.params.order;
+    const invoice_id = this.props.match.params.invoice;
     if (order_id && invoice_id) {
-      await this.props.setCurrentParams(order_id, invoice_id)
+      await this.props.setCurrentParams(order_id, invoice_id);
     } else {
-      await this.props.getOrders()
+      await this.props.getOrders();
     }
     if (
       (!this.props.currentOrder || !this.props.currentInvoice) &&
       this.props.currentOrder
     ) {
-      this.openSidebar()
+      this.openSidebar();
     }
   }
 
   componentDidUpdate(prevProps) {
-    this.setURLParams()
+    this.setURLParams();
     if (
       this.props.currentInvoice &&
       prevProps.currentInvoice !== this.props.currentInvoice
     ) {
-      this.closeSidebar()
+      this.closeSidebar();
     }
   }
 
@@ -50,89 +51,88 @@ class Items extends Component {
       // eslint-disable-next-line
       this.props.match.params.invoice == this.props.currentInvoice
     ) {
-      return
+      return;
     }
     let path = this.props.currentOrder
       ? `/order/${this.props.currentOrder}/`
-      : '/'
+      : "/";
     path +=
       this.props.currentOrder && this.props.currentInvoice
         ? `invoice/${this.props.currentInvoice}`
-        : ''
-    this.props.history.push(path)
+        : "";
+    this.props.history.push(path);
   }
 
   toggleSidebar = async () => {
     this.setState({
       sideOpened: !this.state.sideOpened,
-    })
+    });
     if (!this.state.sideOpened) {
-      await this.props.getOrders()
+      await this.props.getOrders();
     }
-  }
+  };
 
   openSidebar = async () => {
     this.setState({
       sideOpened: true,
-    })
-    await this.props.getOrders()
-  }
+    });
+    await this.props.getOrders();
+  };
 
   closeSidebar = () => {
     this.setState({
       sideOpened: false,
-    })
-  }
+    });
+  };
 
   openContextMenu = (item, element) => {
     this.setState({
       menuAnchorEl: element,
       menuItem: item,
-    })
-  }
+    });
+  };
 
   openCreateClaim = (itemId) => {
     this.props.history.push(
       `${this.props.location.pathname}/item/${itemId}/new-claim`
-    )
-  }
+    );
+  };
 
   openClaims = (itemId) => {
     this.props.history.push(
       `${this.props.location.pathname}/item/${itemId}/claims`
-    )
-  }
+    );
+  };
+
+  openTransfer = (itemId) => {
+    this.props.history.push(
+      `${this.props.location.pathname}/item/${itemId}/transfer`
+    );
+  };
 
   closeContextMenu = () => {
     this.setState({
       menuAnchorEl: null,
-    })
-  }
+    });
+  };
 
   menuItems = [
-    {
-      name: 'Конструктор заказов',
-      link: '/constructor/orders',
-    },
-    {
-      name: 'Конструктор комплектовочных ведомостей',
-      link: '/constructor/invoices',
-    },
+    ...menuRoutesConfig.filter((route) => route.link !== "/"),
     {
       name: `Все претензии`,
       link: `/claims`,
     },
-  ]
+  ];
 
   render() {
     const headerText = this.props.currentInvoice
       ? `${this.props.currentOrderNum} / ${this.props.currentInvoiceCode}`
-      : 'Открыть комплектовочную ведомость'
+      : "Открыть комплектовочную ведомость";
     const mobileHeaderText = this.props.currentInvoice
       ? `${this.props.currentOrderNum} / ${this.props.currentInvoiceCode}`
-      : 'Ведомость'
+      : "Ведомость";
     return (
-      <div className='page'>
+      <div className="page">
         <CHeader
           menuItems={this.menuItems}
           text={headerText}
@@ -140,20 +140,26 @@ class Items extends Component {
           onTextClick={this.openSidebar}
         ></CHeader>
         {isMobileOnly ? (
-          <CheckItemsCard contextMenuButtonClick={this.openContextMenu} />
+          <CheckItemsCard
+            openTransfer={this.openTransfer}
+            contextMenuButtonClick={this.openContextMenu}
+          />
         ) : (
           <>
-            <CheckItemsTable contextMenuButtonClick={this.openContextMenu} />
+            <CheckItemsTable
+              openTransfer={this.openTransfer}
+              contextMenuButtonClick={this.openContextMenu}
+            />
           </>
         )}
         <SwipeableDrawer
           onOpen={this.openSidebar}
           onClose={this.closeSidebar}
           className={`${classes.Side} ${
-            isMobileOnly && classes['Side--mobile']
+            isMobileOnly && classes["Side--mobile"]
           }`}
           open={this.state.sideOpened}
-          PaperProps={{ className: isMobileOnly ? classes.Side__paper : '' }}
+          PaperProps={{ className: isMobileOnly ? classes.Side__paper : "" }}
         >
           <Lists></Lists>
         </SwipeableDrawer>
@@ -166,7 +172,7 @@ class Items extends Component {
           openClaims={this.openClaims}
         />
       </div>
-    )
+    );
   }
 }
 
@@ -186,7 +192,7 @@ function mapStateToProps(state) {
       ),
     isInvoice: (invoice) =>
       !!state.warehouse.invoices.find((invoice) => invoice.invoice === invoice),
-  }
+  };
 }
 
 function mapDispatchToProps(dispatch) {
@@ -198,7 +204,7 @@ function mapDispatchToProps(dispatch) {
       warehouseActions.errorActions.showError(dispatch, title, text),
     setCurrentParams: (order_id, invoice_id) =>
       warehouseActions.uriParams.set(dispatch, +order_id, +invoice_id),
-  }
+  };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Items)
+export default connect(mapStateToProps, mapDispatchToProps)(Items);

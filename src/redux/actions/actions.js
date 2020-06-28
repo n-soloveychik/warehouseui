@@ -2,7 +2,7 @@ import { TEMPLATES, ERROR } from "./actionNames";
 import {
   getOrdersAction,
   selectOrderAction,
-  searchSet,
+  searchSetAction,
 } from "./modules/orderActions";
 import { REQUEST } from "@/api/index";
 import { login, checkToken } from "./modules/loginAction";
@@ -27,6 +27,7 @@ import {
   itemsMultipleUpdateStatusAction,
   setItemCountShipmentAction,
   setItemNewCountShipmentAction,
+  itemCategorySetShipmentAction,
 } from "./modules/itemActions";
 import {
   getClaimsOrdersAction,
@@ -34,12 +35,13 @@ import {
   getClaimsAction,
   closeClaimAction,
 } from "./modules/claimAction";
+import { getAvailableTransferAction } from "./modules/transferAction";
 
 export const warehouseActions = {
   orders: {
     get: (dispatch) => getOrdersAction(dispatch),
     select: async (dispatch, order) => selectOrderAction(dispatch, order),
-    setSearch: (dispatch, searchStr) => searchSet(dispatch, searchStr),
+    setSearch: (dispatch, searchStr) => searchSetAction(dispatch, searchStr),
   },
   invoices: {
     select: (dispatch, invoice) => selectInvoiceAction(dispatch, invoice),
@@ -71,6 +73,13 @@ export const warehouseActions = {
   items: {
     setMultipleFullInStocks: (dispatch, itemIds) =>
       itemsMultipleUpdateStatusAction(dispatch, itemIds),
+    category: {
+      setShipment: async (dispatch, { invoice_id, category_id }) =>
+        await itemCategorySetShipmentAction(dispatch, {
+          invoice_id,
+          category_id,
+        }),
+    },
   },
 };
 
@@ -144,6 +153,11 @@ export const templateActions = {
       dispatch({ type: TEMPLATES.ITEM_PAGE_HIDE_CATEGORY_CREATE });
     },
   },
+};
+
+export const transferActions = {
+  getAvailable: (dispatch, item_id) =>
+    getAvailableTransferAction(dispatch, item_id),
 };
 
 export const errorActions = {

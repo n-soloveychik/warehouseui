@@ -19,7 +19,7 @@ export const selectOrderAction = async (dispatch, order) => {
   await getInvoicesByOrderAction(dispatch, order.order_id);
 };
 
-export const searchSet = (dispatch, searchStr) => {
+export const searchSetAction = (dispatch, searchStr) => {
   dispatch({
     type: APP.ORDER.SEARCH.SET,
     searchStr,

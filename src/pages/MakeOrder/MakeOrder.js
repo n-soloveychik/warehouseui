@@ -1,5 +1,5 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
+import React, { Component } from "react";
+import { connect } from "react-redux";
 import {
   TextField,
   Button,
@@ -8,12 +8,13 @@ import {
   TableRow,
   TableCell,
   TableHead,
-} from '@material-ui/core'
-import Autocomplete from '@material-ui/lab/Autocomplete'
-import { REQUEST } from '@/api'
-import { errorActions } from '@/redux/actions/actions'
-import { ROUTER } from '@/redux/actions/actionNames'
-import CHeader from '@/components/CHeader/CHeader'
+} from "@material-ui/core";
+import Autocomplete from "@material-ui/lab/Autocomplete";
+import { REQUEST } from "@/api";
+import { errorActions } from "@/redux/actions/actions";
+import { ROUTER } from "@/redux/actions/actionNames";
+import CHeader from "@/components/CHeader/CHeader";
+import { menuRoutesConfig } from "@/configs/menuRoutes";
 
 class MakeOrder extends Component {
   state = {
@@ -21,115 +22,108 @@ class MakeOrder extends Component {
     newInvoice: null,
     newInvoiceCount: 0,
     invoicesInOrder: [],
-    name: '',
-  }
+    name: "",
+  };
 
   componentDidMount = async () => {
-    await this.getInvoices()
-  }
+    await this.getInvoices();
+  };
 
   getInvoices = async () => {
-    const response = await REQUEST.getTemplateInvoices()
+    const response = await REQUEST.getTemplateInvoices();
     if (response.status === 401) {
-      this.props.unauthorized()
-      return
+      this.props.unauthorized();
+      return;
     }
     if (response.status !== 200) {
-      this.props.showError(response.status, response.data.message)
-      return
+      this.props.showError(response.status, response.data.message);
+      return;
     }
     this.setState({
       invoices: response.data,
-    })
-  }
+    });
+  };
 
   changeNewInvoice = (event, newInvoice) => {
-    const newState = { ...this.state, newInvoice }
+    const newState = { ...this.state, newInvoice };
     if (!newInvoice) {
-      newState.newInvoiceCount = 0
+      newState.newInvoiceCount = 0;
     }
     if (newState.newInvoiceCount === 0 && newInvoice) {
-      newState.newInvoiceCount = 1
+      newState.newInvoiceCount = 1;
     }
-    this.setState(newState)
-  }
+    this.setState(newState);
+  };
 
   addInvoice = () => {
-    const newState = { ...this.state }
+    const newState = { ...this.state };
     newState.invoicesInOrder.push({
       ...newState.newInvoice,
       count: newState.newInvoiceCount,
-    })
-    newState.newInvoice = null
-    newState.newInvoiceCount = 0
-    newState.inputValue = ''
+    });
+    newState.newInvoice = null;
+    newState.newInvoiceCount = 0;
+    newState.inputValue = "";
     newState.invoices = newState.invoices.filter(
       (invoice) =>
         !this.state.invoicesInOrder.find(
-          (inv) => inv.invoice_code === invoice.invoice_code,
-        ),
-    )
-    this.setState(newState)
-  }
+          (inv) => inv.invoice_code === invoice.invoice_code
+        )
+    );
+    this.setState(newState);
+  };
 
   editInvoice = (index, value) => {
-    const newState = { ...this.state }
-    newState.invoicesInOrder[index].count += value
-    this.setState(newState)
-  }
+    const newState = { ...this.state };
+    newState.invoicesInOrder[index].count += value;
+    this.setState(newState);
+  };
 
   removeInvoice = async (index) => {
-    const newState = { ...this.state }
+    const newState = { ...this.state };
     newState.invoicesInOrder = newState.invoicesInOrder.filter(
-      (inv, i) => i !== index,
-    )
-    this.setState(newState)
-    await this.getInvoices()
-  }
+      (inv, i) => i !== index
+    );
+    this.setState(newState);
+    await this.getInvoices();
+  };
 
   makeOrder = async () => {
     const requestData = {
       invoices: this.state.invoicesInOrder,
       order_num: this.state.name,
-    }
-    const response = await REQUEST.createOrder(requestData)
+    };
+    const response = await REQUEST.createOrder(requestData);
     if (response.status === 401) {
-      this.props.unauthorized()
-      return
+      this.props.unauthorized();
+      return;
     }
     if (response.status < 200 || response.status > 299) {
-      this.props.showError(response.status, response.data.message)
-      return
+      this.props.showError(response.status, response.data.message);
+      return;
     }
     this.setState({
       invoices: [],
       newInvoice: null,
       newInvoiceCount: 0,
       invoicesInOrder: [],
-      name: '',
-    })
-  }
+      name: "",
+    });
+  };
 
-  menuItems = [
-    {
-      name: 'Заказы',
-      link: '/',
-    },
-    {
-      name: 'Конструктор комплектовочных ведомостей',
-      link: '/constructor/invoices',
-    },
-  ]
+  menuItems = menuRoutesConfig.filter(
+    (route) => route.link !== "/constructor/orders"
+  );
 
   render() {
     return (
       <div
-        className='page'
+        className="page"
         style={{
           padding: 20,
           paddingTop: 70,
           paddingBottom: 64,
-          overflow: 'auto',
+          overflow: "auto",
         }}
       >
         <CHeader menuItems={this.menuItems} />
@@ -137,13 +131,13 @@ class MakeOrder extends Component {
           <div
             style={{
               marginBottom: 50,
-              position: 'relative',
-              display: 'flex',
-              justifyContent: 'center',
+              position: "relative",
+              display: "flex",
+              justifyContent: "center",
             }}
           >
             <TextField
-              label='Номер заказа'
+              label="Номер заказа"
               value={this.state.name}
               onChange={(e) => this.setState({ name: e.target.value })}
               style={{ marginRight: 20 }}
@@ -154,10 +148,10 @@ class MakeOrder extends Component {
               }
               variant={
                 this.state.name.length < 3 || !this.state.invoicesInOrder.length
-                  ? 'text'
-                  : 'contained'
+                  ? "text"
+                  : "contained"
               }
-              color='primary'
+              color="primary"
               onClick={this.makeOrder}
             >
               Создать заказ
@@ -179,7 +173,7 @@ class MakeOrder extends Component {
                   <TableCell>{invoice.invoice_code}</TableCell>
                   <TableCell>
                     <Button
-                      variant='outlined'
+                      variant="outlined"
                       disabled={invoice.count < 2}
                       onClick={() => this.editInvoice(index, -1)}
                     >
@@ -189,7 +183,7 @@ class MakeOrder extends Component {
                   <TableCell>{invoice.count}</TableCell>
                   <TableCell>
                     <Button
-                      variant='outlined'
+                      variant="outlined"
                       disabled={invoice.count > 100}
                       onClick={() => this.editInvoice(index, 1)}
                     >
@@ -213,8 +207,8 @@ class MakeOrder extends Component {
                     renderInput={(params) => (
                       <TextField
                         {...params}
-                        label='Комплектовочная ведомость'
-                        variant='outlined'
+                        label="Комплектовочная ведомость"
+                        variant="outlined"
                       />
                     )}
                   />
@@ -227,8 +221,8 @@ class MakeOrder extends Component {
                         newInvoiceCount: this.state.newInvoiceCount - 1,
                       })
                     }
-                    variant='contained'
-                    color='primary'
+                    variant="contained"
+                    color="primary"
                   >
                     -
                   </Button>
@@ -236,8 +230,8 @@ class MakeOrder extends Component {
                 <TableCell>{this.state.newInvoiceCount}</TableCell>
                 <TableCell>
                   <Button
-                    variant='contained'
-                    color='primary'
+                    variant="contained"
+                    color="primary"
                     disabled={
                       this.state.newInvoiceCount > 99 || !this.state.newInvoice
                     }
@@ -263,19 +257,19 @@ class MakeOrder extends Component {
           </Table>
         </div>
       </div>
-    )
+    );
   }
 }
 
 function mapStateToProps(state) {
-  return {}
+  return {};
 }
 
 function mapDispatchToProps(dispatch) {
   return {
     showError: (title, text) => errorActions.showError(dispatch, title, text),
     unauthorized: () => dispatch({ type: ROUTER.UNAUTHORIZED }),
-  }
+  };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(MakeOrder)
+export default connect(mapStateToProps, mapDispatchToProps)(MakeOrder);

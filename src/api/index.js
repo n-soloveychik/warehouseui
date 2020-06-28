@@ -1,5 +1,5 @@
-import { HTTPS } from './https'
-import { URI } from './uris'
+import { HTTPS } from "./https";
+import { URI } from "./uris";
 
 export const REQUEST = {
   login: async (data) => await HTTPS.post(URI.V1.LOGIN, data),
@@ -15,6 +15,14 @@ export const REQUEST = {
     await HTTPS.put(URI.V1.ITEM.COUNT_IN_STOCK.SET(itemId), data),
   setItemCountShipment: async (itemId, data) =>
     await HTTPS.put(URI.V1.ITEM.COUNT_SHIPMENT.SET(itemId), data),
+  setItemCategoryShipment: async ({ invoice_id, category_id }) =>
+    await HTTPS.put(
+      URI.V1.ITEMS.CATEGORY.SET_SHIPMENT({ invoice_id, category_id })
+    ),
+  getAvailableTransfer: async (item_id) =>
+    await HTTPS.get(URI.V1.ITEM.TRANSFER.GET_AVAILABLE(item_id)),
+  supplementItem: async (item_id, data) =>
+    await HTTPS.post(URI.V1.ITEM.TRANSFER.SUPPLEMENT(item_id), data),
   setMultipleItemsFullInStock: async (data) =>
     await HTTPS.put(URI.V1.ITEMS.SET_MULTIPLE.FULL_IN_STOCK, data),
   insertImage: async (formData) =>
@@ -48,4 +56,4 @@ export const REQUEST = {
       count: () =>
         HTTPS.put(URI.V1.TEMPLATE.ITEMS.UPDATE_COUNT(invoiceId, itemId), data),
     }[field]()),
-}
+};
