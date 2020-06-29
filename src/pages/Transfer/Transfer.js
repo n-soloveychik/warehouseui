@@ -41,7 +41,7 @@ class Transfer extends Component {
             Загрузка данных укомплектовки...
           </Typography>
         )}
-        {!this.props.loading && this.props.transferAvailable.length && (
+        {!this.props.loading && !!this.props.transferAvailable.length && (
           <>
             <Typography
               className={classes.title}
@@ -53,6 +53,21 @@ class Transfer extends Component {
             <AvailableTransfer />
             <BottomPanel goBack={this.goBack} />
           </>
+        )}
+        {!this.props.loading && !this.props.transferAvailable.length && (
+          <Typography
+            variant="h5"
+            style={{
+              fontStyle: "italic",
+              textAlign: "center",
+              top: "50%",
+              transform: "translate(-50%, -50%)",
+              position: "fixed",
+              left: "50%",
+            }}
+          >
+            На складе нет подходящих для доукомплектовки товаров
+          </Typography>
         )}
         {this.props.supplementLoading && (
           <div

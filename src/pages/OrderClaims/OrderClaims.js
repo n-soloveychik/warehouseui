@@ -67,7 +67,7 @@ class OrderClaims extends Component {
   closeSidebar = () => {
     this.setState({ sidebarOpened: false });
   };
-  menuItems = menuRoutesConfig.filter((route) => route.link !== "/");
+  menuItems = menuRoutesConfig;
 
   handleListItemClick = (order) => {
     this.props.selectCurrentOrder(+order.order_id);
