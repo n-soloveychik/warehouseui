@@ -38,6 +38,7 @@ import {
 import {
   getAvailableTransferAction,
   supplementItemAction,
+  getItemTransferHistoryAction,
 } from "./modules/transferAction";
 
 export const warehouseActions = {
@@ -163,6 +164,8 @@ export const transferActions = {
     getAvailableTransferAction(dispatch, item_id),
   supplement: (dispatch, item_id, transferAvailable) =>
     supplementItemAction(dispatch, item_id, transferAvailable),
+  getItemTransferHistory: async (dispatch, item_id) =>
+    await getItemTransferHistoryAction(dispatch, item_id),
 };
 
 export const errorActions = {

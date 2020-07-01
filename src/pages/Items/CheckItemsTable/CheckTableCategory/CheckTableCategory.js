@@ -15,6 +15,7 @@ import { itemStatusColors } from "@/configs/itemStatusColors";
 import ShipmentCountCell from "@/components/ShipmentCountCell/ShipmentCountCell";
 import LocalShippingIcon from "@material-ui/icons/LocalShipping";
 import TransferWithinAStationIcon from "@material-ui/icons/TransferWithinAStation";
+import HistoryIcon from "@material-ui/icons/History";
 
 const style = {
   statusColor: itemStatusColors,
@@ -117,8 +118,16 @@ const CheckTableCategory = (props) => {
         <TableCell
           onClick={(e) => clickUpdateStatusHandler(e, item)}
           className={itemClass(item)}
-          style={{ textAlign: "center" }}
+          style={{ textAlign: "center", position: "relative" }}
         >
+          {!!item.has_transfer && (
+            <IconButton
+              onClick={() => props.openHistoryTransfer(item.item_id)}
+              style={{ position: "absolute", left: 0, top: 0 }}
+            >
+              <HistoryIcon />
+            </IconButton>
+          )}
           <img
             style={{ width: 100, height: 100, objectFit: "contain" }}
             alt="продукт"

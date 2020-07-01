@@ -11,6 +11,7 @@ import { connect } from "react-redux";
 import PrivateRoute from "./PrivateRoute";
 import MakeOrder from "@/pages/MakeOrder/MakeOrder";
 import Transfer from "@/pages/Transfer/Transfer";
+import HistoryTransfer from "@/pages/HistoryTransfer/HistoryTransfer";
 
 const Routes = ({ authorized }) => {
   return (
@@ -30,6 +31,11 @@ const Routes = ({ authorized }) => {
         exact
         path="/order/:order/invoice/:invoice/item/:item/transfer"
         component={Transfer}
+      />
+      <PrivateRoute
+        exact
+        path="/order/:order/invoice/:invoice/item/:item/transfer-history"
+        component={HistoryTransfer}
       />
       <PrivateRoute
         exact

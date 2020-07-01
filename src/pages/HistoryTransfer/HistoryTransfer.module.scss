@@ -1,0 +1,19 @@
+.loading {
+  top: 50%;
+  transform: translateY(-50%);
+  position: relative;
+  text-align: center;
+  animation: loading 1s ease-in-out infinite;
+}
+
+@keyframes loading {
+  0% {
+    color: black;
+  }
+  50% {
+    color: rgb(192, 192, 192);
+  }
+  100% {
+    color: black;
+  }
+}

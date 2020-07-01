@@ -19,6 +19,8 @@ export const REQUEST = {
     await HTTPS.put(
       URI.V1.ITEMS.CATEGORY.SET_SHIPMENT({ invoice_id, category_id })
     ),
+  getItemTransferHistory: async (item_id) =>
+    await HTTPS.get(URI.V1.ITEM.TRANSFER_HISTORY(item_id)),
   getAvailableTransfer: async (item_id) =>
     await HTTPS.get(URI.V1.ITEM.TRANSFER.GET_AVAILABLE(item_id)),
   supplementItem: async (item_id, data) =>

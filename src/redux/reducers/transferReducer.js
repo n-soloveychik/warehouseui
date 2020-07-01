@@ -6,6 +6,8 @@ const initialState = {
   supplement: [],
   loading: false,
   supplementLoading: false,
+  historyTransfer: [],
+  historyLoading: false,
 };
 
 const setCurrentItem = (state, item) => {
@@ -77,8 +79,23 @@ const obj = {
     ...state,
     supplementLoading: false,
   }),
+  [API.ITEM.TRANSFER.GET_HISTORY.CALL]: (state) => ({
+    ...state,
+    historyLoading: true,
+  }),
+  [API.ITEM.TRANSFER.GET_HISTORY.SUCCESS]: (state, data) => ({
+    ...state,
+    historyLoading: false,
+    historyTransfer: data?.transfer_history,
+    currentItem: data?.item,
+  }),
+  [API.ITEM.TRANSFER.GET_HISTORY.FAILURE]: (state) => ({
+    ...state,
+    historyLoading: false,
+  }),
   [TRANSFER.TRANSFER]: (state, data) => doTransfer(state, data),
   [TRANSFER.RESET]: (state) => resetTransfer(state),
+  [TRANSFER.RESET_ALL]: () => ({ ...initialState }),
 };
 
 export default (state = initialState, action) => {

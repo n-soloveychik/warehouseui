@@ -25,6 +25,8 @@ export const URI = {
       },
     },
     ITEM: {
+      TRANSFER_HISTORY: (item_id) =>
+        `${HOST_NAME}/v1/item/${item_id}/transfer-history`,
       COUNT_IN_STOCK: {
         SET: (itemId) => `${HOST_NAME}/v1/item/${itemId}/count-in-stock`,
       },

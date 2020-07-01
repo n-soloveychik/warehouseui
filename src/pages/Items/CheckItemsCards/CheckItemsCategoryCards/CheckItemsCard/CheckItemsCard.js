@@ -16,6 +16,7 @@ import { itemStatusColors } from "@/configs/itemStatusColors";
 import ComingCountCell from "@/components/ComingCountCell/ComingCountCell";
 import ShipmentCountCell from "@/components/ShipmentCountCell/ShipmentCountCell";
 import TransferWithinAStationIcon from "@material-ui/icons/TransferWithinAStation";
+import HistoryIcon from "@material-ui/icons/History";
 
 const style = {
   card: {
@@ -81,6 +82,14 @@ const CheckItemsCard = (props) => {
         image={props.item.image}
       />
       <CardActions style={{ flexDirection: "column" }}>
+        {!!props.item.has_transfer && (
+          <IconButton
+            onClick={() => props.openHistoryTransfer(props.item.item_id)}
+            style={{ position: "relative", left: 0, top: 0 }}
+          >
+            <HistoryIcon />
+          </IconButton>
+        )}
         <Typography>Поступило</Typography>
         <ComingCountCell item={props.item} />
         <Typography>Отгружено</Typography>

@@ -65,3 +65,22 @@ export const supplementItemAction = async (
   }
   return true;
 };
+
+export const getItemTransferHistoryAction = async (dispatch, item_id) => {
+  const response = await apiCoreAction(
+    dispatch,
+    API.ITEM.TRANSFER.GET_HISTORY,
+    REQUEST.getItemTransferHistory,
+    item_id
+  );
+  if (response.status === 401) {
+    dispatch({ type: ROUTER.UNAUTHORIZED });
+  }
+  if (response.status !== 200) {
+    dispatch({
+      type: ERROR.OPEN,
+      title: response.status,
+      text: response.data?.message,
+    });
+  }
+};

@@ -1,0 +1,44 @@
+.item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+.countBlock {
+  margin: 0 30px;
+  position: relative;
+}
+.arrow {
+  position: relative;
+  top: 5px;
+}
+.textPart {
+  white-space: nowrap;
+}
+.count {
+  position: absolute;
+  top: -5px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+@media (max-width: 780px) {
+  .item {
+    flex-direction: column;
+    margin-bottom: 60px;
+  }
+  .textPart {
+    text-align: center;
+  }
+  .text {
+    margin: 0 16px;
+  }
+  .arrow {
+    transform: rotate(90deg) translateX(-5px);
+  }
+  .count {
+    top: 7px;
+    left: 40px;
+  }
+}

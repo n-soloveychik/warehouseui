@@ -47,6 +47,7 @@ const CTable = (props) => {
         <TableBody>
           {props.table?.map((category, index) => (
             <CheckTableCategory
+              openHistoryTransfer={props.openHistoryTransfer}
               openTransfer={props.openTransfer}
               contextMenuButtonClick={props.contextMenuButtonClick}
               category={category}

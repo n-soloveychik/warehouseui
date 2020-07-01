@@ -35,7 +35,8 @@ export const API = {
     },
     TRANSFER: {
       GET_AVAILABLE: api("GET_AVAILABLE", "ITEM_TRANSFER"),
-      DO: api("DO_TRANSFER", "ITEM_TRANSFER"),
+      DO: api("DO", "ITEM_TRANSFER"),
+      GET_HISTORY: api("GET_HISTORY", "ITEM_TRANSFER"),
     },
   },
   INVOICES: {
@@ -76,6 +77,7 @@ export const TRANSFER = {
   SET_CURRENT_ITEM: "TRANSFER_SET_CURRENT_ITEM",
   TRANSFER: "TRANSFER_TO_TRANSFER",
   RESET: "TRANSFER_RESET",
+  RESET_ALL: "TRANSFER_RESET_ALL",
 };
 
 export const APP = {

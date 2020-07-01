@@ -110,6 +110,12 @@ class Items extends Component {
     );
   };
 
+  openHistoryTransfer = (itemId) => {
+    this.props.history.push(
+      `${this.props.location.pathname}/item/${itemId}/transfer-history`
+    );
+  };
+
   closeContextMenu = () => {
     this.setState({
       menuAnchorEl: null,
@@ -141,12 +147,14 @@ class Items extends Component {
         ></CHeader>
         {isMobileOnly ? (
           <CheckItemsCard
+            openHistoryTransfer={this.openHistoryTransfer}
             openTransfer={this.openTransfer}
             contextMenuButtonClick={this.openContextMenu}
           />
         ) : (
           <>
             <CheckItemsTable
+              openHistoryTransfer={this.openHistoryTransfer}
               openTransfer={this.openTransfer}
               contextMenuButtonClick={this.openContextMenu}
             />

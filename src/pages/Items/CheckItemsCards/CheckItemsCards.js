@@ -10,6 +10,7 @@ const CheckItemsCard = (props) => {
       {props.categories.map((category) => (
         <CheckItemsCategoryCards
           openTransfer={props.openTransfer}
+          openHistoryTransfer={props.openHistoryTransfer}
           contextMenuButtonClick={props.contextMenuButtonClick}
           key={category.category}
           category={category}

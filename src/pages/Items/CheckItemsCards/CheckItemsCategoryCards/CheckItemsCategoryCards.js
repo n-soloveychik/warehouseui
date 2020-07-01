@@ -59,6 +59,7 @@ const CheckItemsCategoryCards = (props) => {
           </Typography>
           {lot.items.map((item) => (
             <CheckItemsCard
+              openHistoryTransfer={props.openHistoryTransfer}
               openTransfer={props.openTransfer}
               contextMenuButtonClick={props.contextMenuButtonClick}
               key={`${item.item_id}-${item.item_num}`}
