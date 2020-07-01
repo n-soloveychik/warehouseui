@@ -41,7 +41,7 @@ class HistoryTransfer extends Component {
             >
               {`История трансферов  ${!!order_num && order_num + " /"} ${
                 !!invoice_code && invoice_code + " /"
-              } ${!!item_num && item_num + " /"}`}
+              } ${!!item_num && item_num}`}
             </Typography>
             {this.props.historyTransfer.map((item, index) => (
               <HistoryTransferItem key={index} item={item} />
