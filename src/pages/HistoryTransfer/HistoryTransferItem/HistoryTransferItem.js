@@ -15,26 +15,32 @@ const style = {
       : {},
 };
 
-const HistoryTransferItem = ({ item }) => {
+const HistoryTransferItem = ({ item, current }) => {
   return (
     <div className={classes.item}>
-      <Typography style={style.text} className={classes.text}>
+      <Typography
+        style={{
+          ...style.text,
+          backgroundColor: current === "from" && "#3f51b54d",
+        }}
+        className={classes.text}
+      >
         <span className={classes.textPart}>{`${item.from_order_num} / `}</span>
-        <span
-          className={classes.textPart}
-        >{` ${item.from_invoice_code} / `}</span>
-        <span className={classes.textPart}>{` ${item.from_item_id}`}</span>
+        <span className={classes.textPart}>{` ${item.from_invoice_code}`}</span>
       </Typography>
       <div className={classes.countBlock}>
         <ArrowRightAltIcon fontSize="large" className={classes.arrow} />
         <Typography className={classes.count}>{item.count}</Typography>
       </div>
-      <Typography style={style.text} className={classes.text}>
+      <Typography
+        style={{
+          ...style.text,
+          backgroundColor: current === "to" && "#3f51b54d",
+        }}
+        className={classes.text}
+      >
         <span className={classes.textPart}>{`${item.to_order_num} / `}</span>
-        <span
-          className={classes.textPart}
-        >{` ${item.to_invoice_code} / `}</span>
-        <span className={classes.textPart}>{` ${item.to_item_id}`}</span>
+        <span className={classes.textPart}>{` ${item.to_invoice_code}`}</span>
       </Typography>
     </div>
   );
