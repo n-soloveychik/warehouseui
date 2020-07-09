@@ -21,5 +21,4 @@ jobs:
             - run: echo "${{ secrets.key }}" > "$HOME/.ssh/key"
             - run: chmod 600 "$HOME/.ssh/key"
 
-            - run: ssh -i $HOME/.ssh/key -o StrictHostKeyChecking=no ubuntu@iopk.in
-            - run: echo "OK" > "$HOME/11111111111"
+            - run: ssh -i $HOME/.ssh/key -o StrictHostKeyChecking=no ubuntu@iopk.in 'cd /home/ubuntu/projects/warehouseui && yarn install && yarn build'
