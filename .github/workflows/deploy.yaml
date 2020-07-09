@@ -12,14 +12,9 @@ jobs:
             matrix:
                 node-version: [12.x]
         steps:
-            - uses: actions/checkout@v2
-            - uses: actions/setup-node@v1
-              with:
-                node-version: ${{ matrix.node-version }}
             - run: set -eu
             - run: mkdir "$HOME/.ssh"
             - run: echo "${{ secrets.key }}" > "$HOME/.ssh/key"
             - run: chmod 600 "$HOME/.ssh/key"
 
-            - run: ssh -i $HOME/.ssh/key -o StrictHostKeyChecking=no
-            - run: echo "OK" > "$HOME/11111111111"
+            - run: ssh -i $HOME/.ssh/key -o StrictHostKeyChecking=no ubuntu@iopk.in 'cd /home/ubuntu/projects/warehouseui && git pull origin master && yarn install && yarn build'
