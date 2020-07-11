@@ -17,15 +17,15 @@ jobs:
               with:
                 node-version: ${{ matrix.node-version }}
 
-            - name: "Setup Key"
-              run: set -eu
-              run: mkdir "$HOME/.ssh"
-              run: echo "${{ secrets.key }}" > "$HOME/.ssh/key"
-              run: chmod 600 "$HOME/.ssh/key"
+            #- name: "Setup Key"
+            - run: set -eu
+            - run: mkdir "$HOME/.ssh"
+            - run: echo "${{ secrets.key }}" > "$HOME/.ssh/key"
+            - run: chmod 600 "$HOME/.ssh/key"
 
-            - name: "Build"
-              run: npm ci
-              run: npm run build
+            #- name: "Build"
+            - run: npm ci
+            - run: npm run build
             
-            - name: "Deploy"
-              run: cd build && rsync -e "ssh -i $HOME/.ssh/key -o StrictHostKeyChecking=no" --archive --compress --delete . ubuntu@iopk.in:/home/ubuntu/projects/warehouseui/build
+            #- name: "Deploy"
+            - run: cd build && rsync -e "ssh -i $HOME/.ssh/key -o StrictHostKeyChecking=no" --archive --compress --delete . ubuntu@iopk.in:/home/ubuntu/projects/warehouseui/build
