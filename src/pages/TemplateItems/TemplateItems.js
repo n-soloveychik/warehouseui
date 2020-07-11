@@ -4,6 +4,8 @@ import CHeader from "@/components/CHeader/CHeader";
 import TemplateItemsTable from "./TemplateItemsTable/TemplateItemsTable";
 import { templateActions } from "@/redux/actions/actions";
 import { menuRoutesConfig } from "@/configs/menuRoutes";
+import ChangeCategoryModal from "./ChangeCategoryModal/ChangeCategoryModal";
+import { Menu, MenuItem } from "@material-ui/core";
 
 class TemplateItems extends Component {
   componentDidMount = async () => {
@@ -14,6 +16,54 @@ class TemplateItems extends Component {
     await this.props.getCategories();
     await this.props.setCurrentInvoice(invoiceId);
     await this.props.getItems(invoiceId);
+  };
+
+  state = {
+    itemActionsMenuAnchor: null,
+    itemActionsMenuOpen: false,
+    itemActionsMenuCurrentItem: null,
+    changeCategoryModalOpen: false,
+    changeCategoryModalCurrentItem: null,
+  };
+
+  openItemActionsMenu = (anchor, item) => {
+    this.setState({
+      itemActionsMenuAnchor: anchor,
+      itemActionsMenuOpen: true,
+      itemActionsMenuCurrentItem: item,
+    });
+  };
+  closeItemActionsMenu = () => {
+    this.setState({
+      itemActionsMenuAnchor: null,
+      itemActionsMenuOpen: false,
+      itemActionsMenuCurrentItem: null,
+    });
+  };
+
+  openChangeCategoryModal = (item) => {
+    this.props.getCategories();
+    this.setState({
+      changeCategoryModalOpen: true,
+      changeCategoryModalCurrentItem: item,
+    });
+  };
+  closeChangeCategoryModal = () => {
+    this.setState({
+      changeCategoryModalOpen: false,
+      changeCategoryModalCurrentItem: null,
+    });
+  };
+
+  handleSuccessChangingcategory = () => {
+    const invoiceId = this.props.match.params.invoice;
+    this.props.getItems(invoiceId);
+    this.closeChangeCategoryModal();
+  };
+
+  handleMenuItemChangeCategoryClick = () => {
+    this.openChangeCategoryModal(this.state.itemActionsMenuCurrentItem);
+    this.closeItemActionsMenu();
   };
 
   goBack = () => {
@@ -34,7 +84,27 @@ class TemplateItems extends Component {
           }
           onTextClick={this.goBack}
         />
-        <TemplateItemsTable invoiceId={this.props.match.params.invoice} />
+        <TemplateItemsTable
+          openItemActions={this.openItemActionsMenu}
+          invoiceId={this.props.match.params.invoice}
+        />
+        {this.state.changeCategoryModalOpen && (
+          <ChangeCategoryModal
+            open={this.state.changeCategoryModalOpen}
+            item={this.state.changeCategoryModalCurrentItem}
+            onClose={this.closeChangeCategoryModal}
+            onSuccess={this.handleSuccessChangingcategory}
+          />
+        )}
+        <Menu
+          anchorEl={this.state.itemActionsMenuAnchor}
+          open={this.state.itemActionsMenuOpen}
+          onClose={this.closeItemActionsMenu}
+        >
+          <MenuItem onClick={this.handleMenuItemChangeCategoryClick}>
+            Изменить категорию
+          </MenuItem>
+        </Menu>
       </div>
     );
   }
