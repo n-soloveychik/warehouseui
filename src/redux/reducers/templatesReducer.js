@@ -77,6 +77,7 @@ const initialState = {
   currentInvoiceId: null,
   itemsOfCurrentInvoice: [],
   categories: [],
+  categoriesLoading: false,
   newCategory: {},
   itemPageShowCategoryCreate: false,
   itemPageShowCategorySelect: false,
@@ -140,9 +141,18 @@ const obj = {
     ...state,
     invoicePageShowAddInvoice: false,
   }),
+  [API.TEMPLATES.CATEGORIES.GET.CALL]: (state) => ({
+    ...state,
+    categoriesLoading: true,
+  }),
   [API.TEMPLATES.CATEGORIES.GET.SUCCESS]: (state, { data }) => ({
     ...state,
     categories: data,
+    categoriesLoading: false,
+  }),
+  [API.TEMPLATES.CATEGORIES.GET.FAILURE]: (state) => ({
+    ...state,
+    categoriesLoading: false,
   }),
   [API.TEMPLATES.CATEGORIES.CREATE.SUCCESS]: (state, { data }) => ({
     ...state,

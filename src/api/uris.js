@@ -69,6 +69,10 @@ export const URI = {
         UPDATE_COUNT: (invoiceId, itemId) =>
           `${HOST_NAME}/v1/template/invoice/${invoiceId}/item/${itemId}/count`,
       },
+      ITEM: {
+        UPDATE_CATEGORY: (itemId, categoryId) =>
+          `${HOST_NAME}/v1/template/item/${itemId}/category/${categoryId}`,
+      },
     },
   },
 };
