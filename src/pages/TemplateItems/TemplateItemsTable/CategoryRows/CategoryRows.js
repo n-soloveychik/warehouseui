@@ -24,6 +24,7 @@ const CategoryRows = (props) => {
       {props.category.items &&
         props.category.items.map((item, itemIndex) => (
           <CategoryRow
+            invoiceId={props.invoiceId}
             key={`${item.item_num}-${itemIndex}`}
             openItemActions={props.openItemActions}
             item={item}

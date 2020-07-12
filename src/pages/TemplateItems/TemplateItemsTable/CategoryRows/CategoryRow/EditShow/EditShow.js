@@ -1,13 +1,13 @@
-import React, { useState } from 'react'
-import { connect } from 'react-redux'
-import { Typography, IconButton, ClickAwayListener } from '@material-ui/core'
-import InputText from '@/components/InputText/InputText'
-import InputNumber from '@/components/InputNumber/InputNumber'
-import ClearIcon from '@material-ui/icons/Clear'
-import DoneIcon from '@material-ui/icons/Done'
-import Loading from '@/components/Loading/Loading'
-import './EditShow.scss'
-import { templateActions } from '@/redux/actions/actions'
+import React, { useState } from "react";
+import { connect } from "react-redux";
+import { Typography, IconButton, ClickAwayListener } from "@material-ui/core";
+import InputText from "@/components/InputText/InputText";
+import InputNumber from "@/components/InputNumber/InputNumber";
+import ClearIcon from "@material-ui/icons/Clear";
+import DoneIcon from "@material-ui/icons/Done";
+import Loading from "@/components/Loading/Loading";
+import "./EditShow.scss";
+import { templateActions } from "@/redux/actions/actions";
 
 const typeComponent = {
   lot: (ready, notReady, defaultValue, { minLength, maxLength, title }) => (
@@ -30,58 +30,58 @@ const typeComponent = {
       defaultValue={defaultValue}
     />
   ),
-}
+};
 
 const EditShow = ({ item, cell, save, invoiceId }) => {
-  const defaultValue = item[cell.name]
+  const defaultValue = item[cell.name];
 
-  const [edit, setEdit] = useState(false)
-  const [disabledButton, setDisabledButton] = useState(true)
-  const [value, setValue] = useState(defaultValue)
+  const [edit, setEdit] = useState(false);
+  const [disabledButton, setDisabledButton] = useState(true);
+  const [value, setValue] = useState(defaultValue);
 
-  const editable = !!typeComponent[cell.name]
+  const editable = !!typeComponent[cell.name];
 
-  const isLoading = item[`${cell.name}_loading`] && item[`new_${cell.name}`]
+  const isLoading = item[`${cell.name}_loading`] && item[`new_${cell.name}`];
 
   const handlePlainTextClick = () => {
-    if (!editable) return
-    else setEdit(true)
-  }
+    if (!editable) return;
+    else setEdit(true);
+  };
 
   const ready = (newValue) => {
-    setDisabledButton(false)
-    setValue(newValue)
-  }
+    setDisabledButton(false);
+    setValue(newValue);
+  };
   const notReady = (newValue) => {
-    setDisabledButton(true)
-    setValue(newValue)
-  }
+    setDisabledButton(true);
+    setValue(newValue);
+  };
 
   const close = () => {
-    setEdit(false)
-    setDisabledButton(true)
-    setValue(defaultValue)
-  }
+    setEdit(false);
+    setDisabledButton(true);
+    setValue(defaultValue);
+  };
 
   const submit = async () => {
-    save(invoiceId, item.item_id, cell.name, value)
-    setEdit(false)
-  }
+    save(invoiceId, item.item_id, cell.name, value);
+    setEdit(false);
+  };
 
   return edit && !isLoading ? (
     <ClickAwayListener onClickAway={close}>
       <div style={{ minWidth: 150 }}>
         {typeComponent[cell.name]
           ? typeComponent[cell.name](ready, notReady, defaultValue, cell)
-          : ''}
-        <div style={{ display: 'flex', justifyContent: 'center' }}>
+          : ""}
+        <div style={{ display: "flex", justifyContent: "center" }}>
           <IconButton onClick={close}>
             <ClearIcon />
           </IconButton>
           <IconButton
             onClick={submit}
             disabled={disabledButton}
-            color='primary'
+            color="primary"
           >
             <DoneIcon />
           </IconButton>
@@ -90,22 +90,22 @@ const EditShow = ({ item, cell, save, invoiceId }) => {
     </ClickAwayListener>
   ) : (
     <div
-      style={{ position: 'relative' }}
-      className={isLoading ? 'EditShow__loading' : ''}
+      style={{ position: "relative" }}
+      className={isLoading ? "EditShow__loading" : ""}
     >
       {isLoading && <Loading />}
       <Typography
         onClick={() => handlePlainTextClick()}
-        style={{ cursor: editable ? 'pointer' : 'default' }}
+        style={{ cursor: editable ? "pointer" : "default" }}
       >
         {item[`new_${cell.name}`] || item[cell.name]}
       </Typography>
     </div>
-  )
-}
+  );
+};
 
 function mapStateToProps(state) {
-  return {}
+  return {};
 }
 
 function mapDispatchToProps(dispatch) {
@@ -117,7 +117,7 @@ function mapDispatchToProps(dispatch) {
         field,
         newValue: value,
       }),
-  }
+  };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(EditShow)
+export default connect(mapStateToProps, mapDispatchToProps)(EditShow);
