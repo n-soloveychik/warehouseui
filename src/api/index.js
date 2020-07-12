@@ -57,6 +57,7 @@ export const REQUEST = {
         HTTPS.put(URI.V1.TEMPLATE.ITEMS.UPDATE_LOT(invoiceId, itemId), data),
       count: () =>
         HTTPS.put(URI.V1.TEMPLATE.ITEMS.UPDATE_COUNT(invoiceId, itemId), data),
+      size: () => HTTPS.put(URI.V1.TEMPLATE.ITEMS.UPDATE_SIZE(itemId), data),
     }[field]()),
   updateTemplateItemCategory: async (itemId, categoryId) =>
     HTTPS.put(URI.V1.TEMPLATE.ITEM.UPDATE_CATEGORY(itemId, categoryId)),

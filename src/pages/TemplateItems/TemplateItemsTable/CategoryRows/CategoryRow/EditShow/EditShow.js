@@ -20,6 +20,16 @@ const typeComponent = {
       defaultValue={defaultValue}
     />
   ),
+  size: (ready, notReady, defaultValue, { minLength, maxLength, title }) => (
+    <InputText
+      label={title}
+      ready={ready}
+      notReady={notReady}
+      minLength={minLength}
+      maxLength={maxLength}
+      defaultValue={defaultValue}
+    />
+  ),
   count: (ready, notReady, defaultValue, { min, max, title }) => (
     <InputNumber
       ready={ready}

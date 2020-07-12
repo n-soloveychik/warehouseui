@@ -100,6 +100,7 @@ const callUpdateItemField = (state, { invoiceId, itemId, field, value }) => {
 };
 
 const successUpdateItemField = (state, { invoiceId, itemId, field, item }) => {
+  item = item ? item : {};
   if (state.currentInvoiceId !== invoiceId) return state;
   const newState = { ...state };
   const itemIndex = newState.itemsOfCurrentInvoice.findIndex(
@@ -109,7 +110,11 @@ const successUpdateItemField = (state, { invoiceId, itemId, field, item }) => {
   newState.itemsOfCurrentInvoice[itemIndex] = {
     ...newState.itemsOfCurrentInvoice[itemIndex],
   };
-  newState.itemsOfCurrentInvoice[itemIndex] = item;
+  newState.itemsOfCurrentInvoice[itemIndex] = {
+    ...newState.itemsOfCurrentInvoice[itemIndex],
+    ...item,
+    [`${field}_loading`]: false,
+  };
   return newState;
 };
 
