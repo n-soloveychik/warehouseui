@@ -11,6 +11,7 @@ export const URI = {
       CLAIMS: (order_id) => `${HOST_NAME}/v1/order/${order_id}/claims`,
       ALL: (warehouseId) =>
         `${HOST_NAME}/v1/warehouse/${warehouseId}/orders-with-claims`,
+      DELETE: (order_id) => `${HOST_NAME}/v1/order/${order_id}`,
     },
     INVOICES: {
       GET: (orderId) => `${HOST_NAME}/v1/order/${orderId}/invoices`,

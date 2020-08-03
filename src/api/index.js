@@ -7,6 +7,8 @@ export const REQUEST = {
   getAvailableOrders: async () => await HTTPS.get(URI.V1.ORDER.AVAILABLE(1)),
   getClaimsOrders: async () => await HTTPS.get(URI.V1.ORDER.ALL(1)),
   createOrder: async (order) => await HTTPS.post(URI.V1.ORDER.CREATE, order),
+  deleteOrder: async (order_id) =>
+    await HTTPS.delete(URI.V1.ORDER.DELETE(order_id)),
   getOrderClaims: async (order_id) =>
     await HTTPS.get(URI.V1.ORDER.CLAIMS(order_id)),
   getInvoicesAndItemsByOrder: async (orderId) =>

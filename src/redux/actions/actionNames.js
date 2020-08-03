@@ -8,6 +8,9 @@ export const API = {
   AVAILABLE_ORDERS: {
     GET: api("GET", "AVAILABLE_ORDERS"),
   },
+  ORDER: {
+    DELETE: api("DELETE", "AVAILABLE_ORDERS"),
+  },
   CLAIMS_ORDERS: {
     GET: api("GET", "CLAIMS_ORDERS"),
   },

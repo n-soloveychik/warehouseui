@@ -1,5 +1,5 @@
 import { apiCoreAction } from "./apiCoreAction";
-import { API, APP } from "../actionNames";
+import { API, APP, ERROR, ROUTER } from "../actionNames";
 import { REQUEST } from "@/api";
 import { getInvoicesByOrderAction } from "./invoiceAction";
 
@@ -24,4 +24,23 @@ export const searchSetAction = (dispatch, searchStr) => {
     type: APP.ORDER.SEARCH.SET,
     searchStr,
   });
+};
+
+export const deleteOrderAction = async (dispatch, order_id) => {
+  const response = await REQUEST.deleteOrder(order_id);
+  if (response.status === 200) {
+    await getOrdersAction(dispatch);
+    return;
+  }
+  if (response.status === 401) {
+    dispatch({ type: ROUTER.UNAUTHORIZED });
+    return;
+  }
+  if (response.status !== 200) {
+    dispatch({
+      type: ERROR.OPEN,
+      title: response.status,
+      text: response.data?.message,
+    });
+  }
 };

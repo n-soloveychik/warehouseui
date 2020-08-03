@@ -3,6 +3,7 @@ import {
   getOrdersAction,
   selectOrderAction,
   searchSetAction,
+  deleteOrderAction,
 } from "./modules/orderActions";
 import { REQUEST } from "@/api/index";
 import { login, checkToken } from "./modules/loginAction";
@@ -46,6 +47,9 @@ export const warehouseActions = {
     get: (dispatch) => getOrdersAction(dispatch),
     select: async (dispatch, order) => selectOrderAction(dispatch, order),
     setSearch: (dispatch, searchStr) => searchSetAction(dispatch, searchStr),
+  },
+  order: {
+    delete: (dispatch, order_id) => deleteOrderAction(dispatch, order_id),
   },
   invoices: {
     select: (dispatch, invoice) => selectInvoiceAction(dispatch, invoice),

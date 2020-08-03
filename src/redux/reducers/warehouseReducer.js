@@ -167,6 +167,9 @@ const obj = {
     isCallingGetOrders: false,
     orders: data,
   }),
+  [API.ORDER.DELETE.CALL]: (state) => state,
+  [API.ORDER.DELETE.SUCCESS]: (state) => state,
+  [API.ORDER.DELETE.FAILURE]: (state) => state,
   [API.INVOICES.GET.SUCCESS]: (state, { data }) => ({
     ...state,
     invoices: data,

@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { List, ListItem, Typography, Badge } from "@material-ui/core";
 import classes from "./OrdersList.module.scss";
 import { isMobileOnly } from "react-device-detect";
 import orderInvoiceColors from "@/configs/orderInvoiceColors";
+import OrderContextMenu from "./OrderContextMenu/OrderContextMenu";
 
 const statusColors = {
   ...orderInvoiceColors,
@@ -23,6 +24,20 @@ const OrdersList = (props) => {
     },
   };
 
+  const [opened, setOpened] = useState(false);
+  const [anchor, setAnchor] = useState(null);
+  const [contextOrder, setContextOrder] = useState(null);
+
+  const openContextMenu = (e, order) => {
+    e.preventDefault();
+    setContextOrder(order);
+    setAnchor(e.nativeEvent.target);
+    setOpened(true);
+  };
+  const closeContextMenu = () => {
+    setOpened(false);
+  };
+
   const makeList = (item, index) => {
     const className = [classes.item];
     if (
@@ -36,7 +51,8 @@ const OrdersList = (props) => {
     }
     return (
       <ListItem
-        onClick={() => props.handleItemClick(item)}
+        onClick={(e) => props.handleItemClick(item)}
+        onContextMenu={(e) => openContextMenu(e, item)}
         className={className.join(" ")}
         key={index}
         style={{ ...statusColors[item.status_id], paddingRight: 30 }}
@@ -78,6 +94,12 @@ const OrdersList = (props) => {
         {"Отгружено / Частично отгружено"}
       </Typography>
       <List className={classes.paper}>{shipmentItems}</List>
+      <OrderContextMenu
+        onClose={closeContextMenu}
+        anchor={anchor}
+        opened={opened}
+        order={contextOrder}
+      />
     </>
   );
 };
