@@ -1,5 +1,5 @@
-import { HTTPS } from "./https";
-import { URI } from "./uris";
+import { HTTPS } from './https'
+import { URI } from './uris'
 
 export const REQUEST = {
   login: async (data) => await HTTPS.post(URI.V1.LOGIN, data),
@@ -35,6 +35,8 @@ export const REQUEST = {
     HTTPS.post(URI.V1.ITEM.CLAIM.CREATE(itemId), data),
   closeClaim: async (claimId) => HTTPS.delete(URI.V1.ITEM.CLAIM.CLOSE(claimId)),
   getTemplateInvoices: async () => HTTPS.get(URI.V1.TEMPLATE.INVOICES.GET),
+  getTemplateMountingTypes: async () =>
+    HTTPS.get(URI.V1.TEMPLATE.MOUNTING_TYPES.GET),
   createTemplateInvoice: async (invoice) =>
     HTTPS.post(URI.V1.TEMPLATE.INVOICES.CREATE, invoice),
   getTemplateItems: async (invoiceId) =>
@@ -63,4 +65,4 @@ export const REQUEST = {
     }[field]()),
   updateTemplateItemCategory: async (itemId, categoryId) =>
     HTTPS.put(URI.V1.TEMPLATE.ITEM.UPDATE_CATEGORY(itemId, categoryId)),
-};
+}

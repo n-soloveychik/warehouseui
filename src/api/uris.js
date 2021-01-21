@@ -1,9 +1,9 @@
-const HOST_NAME = "https://warehouseapi.iopk.in";
+const HOST_NAME = 'https://warehouseapi.iopk.in'
 
 export const URI = {
   V1: {
-    LOGIN: HOST_NAME + "/v1/auth/login",
-    CHECK_TOKEN: HOST_NAME + "/v1/auth/check",
+    LOGIN: HOST_NAME + '/v1/auth/login',
+    CHECK_TOKEN: HOST_NAME + '/v1/auth/check',
     ORDER: {
       AVAILABLE: (warehouseId) =>
         `${HOST_NAME}/v1/warehouse/${warehouseId}/order/available`,
@@ -48,6 +48,9 @@ export const URI = {
       INSERT: `${HOST_NAME}/v1/image/insert`,
     },
     TEMPLATE: {
+      MOUNTING_TYPES: {
+        GET: `${HOST_NAME}/v1/template/mounting-types`,
+      },
       INVOICES: {
         GET: `${HOST_NAME}/v1/template/invoices`,
         CREATE: `${HOST_NAME}/v1/template/invoice`,
@@ -77,4 +80,4 @@ export const URI = {
       },
     },
   },
-};
+}
