@@ -15,9 +15,9 @@ export class HTTPS {
     return result
   }
 
-  static async get(uri) {
+  static async get(uri, data) {
     try {
-      return await request(uri, 'GET')
+      return await request(uri, 'GET', data)
     } catch (error) {
       return {
         status: 'GET Request',
@@ -78,7 +78,13 @@ async function request(uri, method = 'GET', data) {
       init.body = data instanceof FormData ? data : JSON.stringify(data)
     }
   }
-  const response = await fetch(uri, init)
+  let resultUri = new URL(uri)
+  if (method === 'GET' && data) {
+    Object.entries(data).forEach(([key, value]) => {
+      resultUri.searchParams.append(key, value)
+    })
+  }
+  const response = await fetch(resultUri.href, init)
   let json = {}
   if (response.headers.get('content-type') === 'application/json') {
     json = await response.json()

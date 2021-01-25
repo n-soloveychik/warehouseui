@@ -15,10 +15,13 @@ import { errorActions } from '@/redux/actions/actions'
 import { ROUTER } from '@/redux/actions/actionNames'
 import CHeader from '@/components/CHeader/CHeader'
 import { menuRoutesConfig } from '@/configs/menuRoutes'
+import _ from 'lodash'
 
 class MakeOrder extends Component {
   state = {
     invoices: [],
+    invoiceSearchParam: '',
+    currentMountingTypes: [],
     mountingTypes: [],
     newMountingType: null,
     newInvoice: null,
@@ -27,13 +30,14 @@ class MakeOrder extends Component {
     name: '',
   }
 
-  componentDidMount = () => {
-    this.getInvoices()
-    this.getMountingTypes()
-  }
+  disableNewMountingType = () =>
+    this.state.mountingTypes.length === 0 || !this.state.newInvoice
 
-  getInvoices = async () => {
-    const response = await REQUEST.getTemplateInvoices()
+  getDebouncedInvoices = _.debounce(async (searchStr) => {
+    if (searchStr.length < 2) {
+      return
+    }
+    const response = await REQUEST.getTemplateInvoices(searchStr)
     if (response.status === 401) {
       this.props.unauthorized()
       return
@@ -45,10 +49,10 @@ class MakeOrder extends Component {
     this.setState({
       invoices: response.data,
     })
-  }
+  }, 400)
 
-  getMountingTypes = async () => {
-    const response = await REQUEST.getTemplateMountingTypes()
+  getMountingTypes = async (invoiceId) => {
+    const response = await REQUEST.getTemplateMountingTypes(invoiceId)
     if (response.status === 401) {
       this.props.unauthorized()
       return
@@ -59,11 +63,29 @@ class MakeOrder extends Component {
     }
     this.setState({
       mountingTypes: response.data,
+      newMountingType: response.data[0] || null,
     })
   }
 
-  changeNewInvoice = (event, newInvoice) => {
+  getmountingTypes = () =>
+    this.newInvoice ? this.currentMountingTypes : this.mountingTypes
+
+  changeNewMountingType = (_, newMountingType) => {
+    const newState = { ...this.state, newMountingType }
+    this.setState(newState)
+  }
+
+  changeNewInvoiceSearch = (event) => {
+    const searchStr = event.target.value
+    this.getDebouncedInvoices(searchStr)
+    this.setState({
+      invoiceSearchParam: searchStr,
+    })
+  }
+
+  changeNewInvoice = (_, newInvoice) => {
     const newState = { ...this.state, newInvoice }
+    this.getMountingTypes(newInvoice.invoice_id)
     if (!newInvoice) {
       newState.newInvoiceCount = 0
     }
@@ -77,9 +99,12 @@ class MakeOrder extends Component {
     const newState = { ...this.state }
     newState.invoicesInOrder.push({
       ...newState.newInvoice,
+      mount_id: newState.newMountingType.id,
+      mount_type: newState.newMountingType.type,
       count: newState.newInvoiceCount,
     })
     newState.newInvoice = null
+    newState.newMountingType = null
     newState.newInvoiceCount = 0
     newState.inputValue = ''
     newState.invoices = newState.invoices.filter(
@@ -103,7 +128,6 @@ class MakeOrder extends Component {
       (inv, i) => i !== index
     )
     this.setState(newState)
-    await this.getInvoices()
   }
 
   makeOrder = async () => {
@@ -196,7 +220,7 @@ class MakeOrder extends Component {
             <TableBody>
               {this.state.invoicesInOrder.map((invoice, index) => (
                 <TableRow key={index}>
-                  <TableCell>{invoice.invoice_code}</TableCell>
+                  <TableCell>{invoice.mount_type}</TableCell>
                   <TableCell>{invoice.invoice_code}</TableCell>
                   <TableCell>
                     <Button
@@ -227,6 +251,7 @@ class MakeOrder extends Component {
               <TableRow>
                 <TableCell>
                   <Autocomplete
+                    disabled={this.disableNewMountingType()}
                     options={this.state.mountingTypes}
                     value={this.state.newMountingType}
                     getOptionLabel={(type) => type.type}
@@ -249,6 +274,8 @@ class MakeOrder extends Component {
                     renderInput={(params) => (
                       <TextField
                         {...params}
+                        onChange={this.changeNewInvoiceSearch}
+                        value={this.state.invoiceSearchParam}
                         label='Комплектовочная ведомость'
                         variant='outlined'
                       />

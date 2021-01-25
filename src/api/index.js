@@ -34,9 +34,10 @@ export const REQUEST = {
   createClaim: async (itemId, data) =>
     HTTPS.post(URI.V1.ITEM.CLAIM.CREATE(itemId), data),
   closeClaim: async (claimId) => HTTPS.delete(URI.V1.ITEM.CLAIM.CLOSE(claimId)),
-  getTemplateInvoices: async () => HTTPS.get(URI.V1.TEMPLATE.INVOICES.GET),
-  getTemplateMountingTypes: async () =>
-    HTTPS.get(URI.V1.TEMPLATE.MOUNTING_TYPES.GET),
+  getTemplateInvoices: async (searchStr) =>
+    HTTPS.get(URI.V1.TEMPLATE.INVOICES.GET, { search: searchStr }),
+  getTemplateMountingTypes: async (invoiceId) =>
+    HTTPS.get(URI.V1.TEMPLATE.MOUNTING_TYPES.GET(invoiceId)),
   createTemplateInvoice: async (invoice) =>
     HTTPS.post(URI.V1.TEMPLATE.INVOICES.CREATE, invoice),
   getTemplateItems: async (invoiceId) =>

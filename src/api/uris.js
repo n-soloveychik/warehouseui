@@ -49,7 +49,8 @@ export const URI = {
     },
     TEMPLATE: {
       MOUNTING_TYPES: {
-        GET: `${HOST_NAME}/v1/template/mounting-types`,
+        GET: (invoiceId) =>
+          `${HOST_NAME}/v1/template/invoice/${invoiceId}/mounting-types`,
       },
       INVOICES: {
         GET: `${HOST_NAME}/v1/template/invoices`,
