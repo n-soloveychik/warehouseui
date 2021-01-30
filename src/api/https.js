@@ -79,7 +79,12 @@ async function request(uri, method = 'GET', data) {
     }
   }
   let resultUri = new URL(uri)
-  if (method === 'GET' && data) {
+  if (
+    method === 'GET' &&
+    data != null &&
+    typeof data === 'object' &&
+    Object.values(data).some((value) => !!value)
+  ) {
     Object.entries(data).forEach(([key, value]) => {
       resultUri.searchParams.append(key, value)
     })
