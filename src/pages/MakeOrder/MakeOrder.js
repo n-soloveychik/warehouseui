@@ -8,6 +8,10 @@ import {
   TableRow,
   TableCell,
   TableHead,
+  Select,
+  MenuItem,
+  FormControl,
+  InputLabel,
 } from '@material-ui/core'
 import Autocomplete from '@material-ui/lab/Autocomplete'
 import { REQUEST } from '@/api'
@@ -16,12 +20,14 @@ import { ROUTER } from '@/redux/actions/actionNames'
 import CHeader from '@/components/CHeader/CHeader'
 import { menuRoutesConfig } from '@/configs/menuRoutes'
 import _ from 'lodash'
+import CircularProgress from '@material-ui/core/CircularProgress'
 
 class MakeOrder extends Component {
   state = {
     invoices: [],
+    loadingInvoices: false,
+    loadingMountingTypes: false,
     invoiceSearchParam: '',
-    currentMountingTypes: [],
     mountingTypes: [],
     newMountingType: null,
     newInvoice: null,
@@ -30,14 +36,21 @@ class MakeOrder extends Component {
     name: '',
   }
 
+  startLoadingInvoices = () => this.setState({ loadingInvoices: true })
+  stopLoadingInvoices = () => this.setState({ loadingInvoices: false })
+  startLoadingMountingTypes = () =>
+    this.setState({ loadingMountingTypes: true })
+  stopLoadingMountingTypes = () =>
+    this.setState({ loadingMountingTypes: false })
+  clearMountingTypes = () =>
+    this.setState({ mountingTypes: [], newMountingType: null })
+
   disableNewMountingType = () =>
     this.state.mountingTypes.length === 0 || !this.state.newInvoice
 
   getDebouncedInvoices = _.debounce(async (searchStr) => {
-    if (searchStr.length < 2) {
-      return
-    }
     const response = await REQUEST.getTemplateInvoices(searchStr)
+    this.stopLoadingInvoices()
     if (response.status === 401) {
       this.props.unauthorized()
       return
@@ -67,30 +80,55 @@ class MakeOrder extends Component {
     })
   }
 
-  getmountingTypes = () =>
-    this.newInvoice ? this.currentMountingTypes : this.mountingTypes
-
-  changeNewMountingType = (_, newMountingType) => {
-    const newState = { ...this.state, newMountingType }
+  changeNewMountingType = (event) => {
+    const newState = {
+      ...this.state,
+      newMountingType: this.state.mountingTypes.find(
+        (type) => Number(type.id) === Number(event.target.value)
+      ),
+    }
     this.setState(newState)
   }
 
   changeNewInvoiceSearch = (event) => {
     const searchStr = event.target.value
-    this.getDebouncedInvoices(searchStr)
+    if (searchStr?.length > 1) {
+      this.startLoadingInvoices()
+      this.getDebouncedInvoices(searchStr)
+    }
     this.setState({
       invoiceSearchParam: searchStr,
     })
   }
 
-  changeNewInvoice = (_, newInvoice) => {
+  changeNewInvoice = async (_, newInvoice) => {
+    await this.clearMountingTypes()
     const newState = { ...this.state, newInvoice }
-    this.getMountingTypes(newInvoice.invoice_id)
     if (!newInvoice) {
       newState.newInvoiceCount = 0
+    } else {
+      this.startLoadingMountingTypes()
+      this.getMountingTypes(newInvoice?.invoice_id)
+      this.stopLoadingMountingTypes()
+      if (newState.newInvoiceCount === 0 && newInvoice) {
+        newState.newInvoiceCount = 1
+      }
     }
-    if (newState.newInvoiceCount === 0 && newInvoice) {
-      newState.newInvoiceCount = 1
+    this.setState(newState)
+  }
+
+  changeInvoiceMountingType = (index, event) => {
+    if (!event.target.value) {
+      return
+    }
+    const newState = _.cloneDeep(this.state)
+    const allTypes = newState.invoicesInOrder[index].mountingTypes
+    const mount_id = Number(event.target.value)
+    const mount_type = allTypes.find((type) => type.id === mount_id).type
+    newState.invoicesInOrder[index] = {
+      ...newState.invoicesInOrder[index],
+      mount_id,
+      mount_type,
     }
     this.setState(newState)
   }
@@ -102,6 +140,7 @@ class MakeOrder extends Component {
       mount_id: newState.newMountingType.id,
       mount_type: newState.newMountingType.type,
       count: newState.newInvoiceCount,
+      mountingTypes: [...newState.mountingTypes],
     })
     newState.newInvoice = null
     newState.newMountingType = null
@@ -220,7 +259,22 @@ class MakeOrder extends Component {
             <TableBody>
               {this.state.invoicesInOrder.map((invoice, index) => (
                 <TableRow key={index}>
-                  <TableCell>{invoice.mount_type}</TableCell>
+                  <TableCell>
+                    <Select
+                      value={invoice.mount_id}
+                      onChange={this.changeInvoiceMountingType.bind(
+                        null,
+                        index
+                      )}
+                      label='Тип монтажа'
+                    >
+                      {invoice.mountingTypes.map((type) => (
+                        <MenuItem key={type.id} value={type.id}>
+                          {type.type}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </TableCell>
                   <TableCell>{invoice.invoice_code}</TableCell>
                   <TableCell>
                     <Button
@@ -250,20 +304,28 @@ class MakeOrder extends Component {
               ))}
               <TableRow>
                 <TableCell>
-                  <Autocomplete
-                    disabled={this.disableNewMountingType()}
-                    options={this.state.mountingTypes}
-                    value={this.state.newMountingType}
-                    getOptionLabel={(type) => type.type}
-                    onChange={this.changeNewMountingType}
-                    renderInput={(params) => (
-                      <TextField
-                        {...params}
-                        label='Тип монтажа'
-                        variant='outlined'
-                      />
-                    )}
-                  />
+                  <FormControl style={{ minWidth: 150 }}>
+                    <InputLabel htmlFor='select-mounting-type'>
+                      Тип монтажа
+                    </InputLabel>
+                    <Select
+                      id='select-mounting-type'
+                      value={
+                        this.state.newMountingType
+                          ? `${this.state.newMountingType?.id}`
+                          : ''
+                      }
+                      onChange={this.changeNewMountingType}
+                      label='Тип монтажа'
+                      disabled={this.disableNewMountingType()}
+                    >
+                      {this.state.mountingTypes?.map((type) => (
+                        <MenuItem key={type.id} value={type.id}>
+                          {type.type}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
                 </TableCell>
                 <TableCell>
                   <Autocomplete
@@ -271,6 +333,13 @@ class MakeOrder extends Component {
                     value={this.state.newInvoice}
                     getOptionLabel={(invoice) => invoice.invoice_code}
                     onChange={this.changeNewInvoice}
+                    noOptionsText={
+                      this.state.invoiceSearchParam?.length < 2
+                        ? 'Введите минимум 2 символа для поиска'
+                        : 'Нет элементов удоблетворящих запросу'
+                    }
+                    loading={this.state.loadingInvoices}
+                    loadingText='Поиск...'
                     renderInput={(params) => (
                       <TextField
                         {...params}
@@ -278,6 +347,17 @@ class MakeOrder extends Component {
                         value={this.state.invoiceSearchParam}
                         label='Комплектовочная ведомость'
                         variant='outlined'
+                        InputProps={{
+                          ...params.InputProps,
+                          endAdornment: (
+                            <>
+                              {this.state.loadingInvoices ? (
+                                <CircularProgress color='inherit' size={20} />
+                              ) : null}
+                              {params.InputProps.endAdornment}
+                            </>
+                          ),
+                        }}
                       />
                     )}
                   />
